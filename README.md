@@ -25,7 +25,7 @@ and most importantly result in skill improvements such as
 - Complience with school and scientific guidelines
 - Endurance
 We decided to create an operating system not only because it is
-difficult but also because we are genuinly curious in learning
+difficult but also because we are genuinely curious in learning
 more about the technologies we treat as "black boxes" but use
 every day.
 We hope that this project inspires technology enthusiasts to
