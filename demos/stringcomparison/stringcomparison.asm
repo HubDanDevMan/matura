@@ -1,4 +1,6 @@
 ;this is a makro that compares two strings
+%include "../firststage.asm"
+
 ;StrCmp pointer1, pointer2
 %makro StrCmp 2
 mov si, %1
@@ -30,7 +32,5 @@ int 0x10
 ret
 
 
-
-
-
+END
 
