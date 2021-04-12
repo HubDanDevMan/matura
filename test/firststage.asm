@@ -5,7 +5,7 @@
 
 mov ax, 0x1000
 mov ss, ax
-mov ax, 0x07e9
+mov ax, 0x07e0
 mov es, ax
 mov bx, 0
 ; es:bx = data buffer (0x7e00)
