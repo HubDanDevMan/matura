@@ -1,4 +1,3 @@
-%include "../firststage.asm"
 
 ;Binary color definitions
 %define BLACK				0b0000
@@ -64,4 +63,4 @@ squareend:
 	
 	ret
 
-END
+END_PADDING
