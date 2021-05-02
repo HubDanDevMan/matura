@@ -1,4 +1,4 @@
-%include 'imports.asm'
+%include '../firststage.asm'
 
 
 
