@@ -3,7 +3,7 @@
 ; Original Author: Daniel Huber
 
 
-[org 0x7c00]		; The BIOS loads this code section to memory location
+[org 0x7c00]			; The BIOS loads this code section to memory location
 					; 0x7c00. The org directive tells the assembler to
 					; produce correctly aligned code when using absolute
 					; addresses or when introducing padding.
@@ -13,7 +13,7 @@
 
 mov ax, 0x1000			; Initialize the stack segment (ss)
 mov ss, ax				; ss can only be loadet through register and not by
-						; immediate value
+					; immediate value
 
 mov ax, 0x07e0			; Initialize extra segment (es) indirectly to point 
 mov es, ax				; to the 512 (0x200) bytes after 0x7c00
@@ -31,50 +31,57 @@ xor bx, bx				; set bx to 0
 
 ; Memory address      ^
 ; 0x8200 ->		| 4. Sector |
-;  		   		|-----------| 
+;			|-----------| 
 ; 0x8000 ->		| 3. Sector |
-;  		   		|-----------| 
+;			|-----------| 
 ; 0x7e00 ->		| 2. Sector | (data buffer start)    <- [ ES:BX ]
-;  		   		|-----------| 
+;			|-----------| 
 ; 0x7c00 ->		|BOOTLOADER | (1. Sector of disk)
-;  		   		|-----------| 
+;			|-----------| 
 ; 0x7a00 ->		|  <EMPTY>  |
-; ...
+; ...		      v
 ; 
-mov si, 3				; Set up retry counter in register
+
+
+mov si, 3					; Set up retry counter in register
 
 boot_retry:
-mov ah, 2 				; BIOS function code READ
-mov al, MAX_SECTORS-1 	; Number of sectors to load into memory
+	mov ah, 2 				; BIOS function code READ
+	mov al, MAX_SECTORS - 1			; Number of sectors to load into memory
 						; MAX_SECTORS is defined in the Makefile and added
 						; at compile time
-xor dh, dh				; Head number 0
-xor ch, ch  	    	; Cylinder 0
-mov cl, 0x02			; Sector number
-int 0x13				; Tells the BIOS to perform the disk operation
 
-jnc __main				; The BIOS sets the Carry Flag (CF) on error
+	xor dh, dh				; Head number 0
+	xor ch, ch				; Cylinder 0
+						; XOR is used because it is faster and the instruction
+						; is encoded in less bytes than mov <REG>, 0
+
+	mov cl, 0x02				; Sector number
+	int 0x13				; Tells the BIOS to perform the disk operation
+
+	jnc __main				; The BIOS sets the Carry Flag (CF) on error
 						; therefore when CF is clear, there was no error
 						; and the OS startup can continue
 						
 ; error handling
-xor ax, ax				; Function code RESET_DISK
-int 0x13				; perform BIOS call
+	xor ax, ax					; Function code RESET_DISK
+	int 0x13					; perform BIOS call
 
-dec si 					; decrement counter
-jnz boot_retry 			; reattempt at least 3 times
+	dec si 						; decrement counter
+	jnz boot_retry 					; reattempt at least 3 time
+							; if 
 
-mov si, booterrmsg		; Print a Errormessage
+mov si, booterrmsg				; Print a Errormessage
 call puts
 
 ; Retrieve Errorcode of last disk operation
-mov ah, 0x01			; Function code STATUS_LAST_OPERATION
-int 0x13				; Perform BIOS call, not only CF is set
+mov ah, 0x01					; Function code STATUS_LAST_OPERATION
+int 0x13					; Perform BIOS call, not only CF is set
 						; but also an errorcode is placed in ax
 						; to find out what error happened, consult
 						; https://en.wikipedia.org/wiki/INT_13H#INT_13h_AH=01h:_Get_Status_of_Last_Drive_Operation
 
-call printReg			; print out the errorcode (ax) to user
+call printReg				; print out the errorcode (ax) to user
 jmp $					; Boot loader will hang here, a shutdown will be needed
 
 
@@ -222,4 +229,3 @@ dw 0xaa55				; Signature word
 
 
 __main:	
-	
