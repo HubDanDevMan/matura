@@ -91,4 +91,4 @@ print_hex_char:
 	ret
 
 stop:
-END
+END_PADDING
