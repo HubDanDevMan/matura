@@ -5,5 +5,14 @@
 ; Nick Gilgen
 ; Moray Yesilgüller
 
-; first stage bootloader
-%include "./bootloader.asm"
+; first stage bootloader loads the sectors into memory
+%include "src/bootsector.asm"
+
+; sets up interrupts, allows for exception handling
+%include "src/interrupts.asm"
+
+
+; endless loop
+jmp $
+; padd out so it aligns with a multiple of 512
+times MAX_SECTORS*512-($-$$) db 0
