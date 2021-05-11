@@ -1,94 +1,182 @@
-%include '../firststage.asm'
+%define BACKSPACE 	times 154 db " "
+;why is this the offset for backspace? 
+;only thing i can think of is the labels for registers only count for some
+;reason this somehow equals 70 spaces
+
+; for some reason the first stage shows up
 
 
+;debug function prints out all registers
 
-;function to print all registers onto a video memory array
-;still needs to be made 32 bit
+main:
+	call get_ip 					;call function without return pushes ip
+	get_ip:
+	pushf 							;flags into stack
 
-main: 				
-	call get_ip 				;only way to push instruction pointer into stack
-	get_ip: 					;by calling a funtion without return
-	pushf 						;pushes flag registers onto stack
 
-	push dx 					;push all registers used for video memory array
-	push cx 					;onto stack
-	push bx
-	push ax
+	mov eax, 0xB00B 				;test register
+	mov ebx, 0xBCDEF123
+	mov ecx, 0xCDEF1234
+	mov edx, 0xDEF12345
 
-	mov cx,0 					;clean registers
-	mov dx, 0
-	mov ch, 0000_1111b 			;video memory array parameters	
-	mov ax, 0x0b800		
+	push ds 						;push changing registers
+	push edx
+	push ecx
+	push ebx
+	push eax
+
+	mov eax, 0
+	mov ebx, 0
+	mov ecx, 0
+	mov edx, 0
+	mov ax, 0x0b800					;video memory parameters
 	mov ds, ax
- 	mov bx, 1440 				;start location
- 	
+	mov bx, 800
 
+
+
+
+;move register to prnt into eax and then move into buffer at edi
+
+	pop eax
+	mov edi, eaxbuff
+	call hex_isolate
+	pop eax
+	mov edi, ebxbuff
+	call hex_isolate
+	pop eax
+	mov edi, ecxbuff
+	call hex_isolate
+	pop eax
+	mov edi, edxbuff
+	call hex_isolate
+	mov eax, cs
+	mov edi, csbuff
+	call hex_isolate
+	mov eax, ss
+	mov edi, ssbuff
+	call hex_isolate
+	pop ax
+	mov edi, dsbuff
+	call hex_isolate
+	mov eax, gs
+	mov edi, gsbuff
+	call hex_isolate
+	mov eax, es
+	mov edi, esbuff
+	call hex_isolate
+	mov eax, fs
+	mov edi, fsbuff
+	call hex_isolate
+	pop ax
+	mov edi, flbuff
+	call hex_isolate
+	pop ax
+	mov edi, ipbuff
+	call hex_isolate
+	call print_buff
+	jmp end
 	
-	pop ax 						;register to print is stored in ax
-	call print_reg_func			;fuction to print
-	pop ax
-	call print_reg_func
-	pop ax
-	call print_reg_func
-	pop ax
-	call print_reg_func
-	mov ax, cs
-	call print_reg_func
-	mov ax, ss
-	call print_reg_func
-	mov ax, ds
-	call print_reg_func
-	mov ax, gs
-	call print_reg_func
-	mov ax, es
-	call print_reg_func
-	mov ax, fs
-	call print_reg_func
-	pop ax
-	call print_reg_func
-	pop ax
-	call print_reg_func
-	
-
-	jmp stop
 
 
-;the print register fuction works by isolating 4 bits into a register and 
-;translating it into hexadecimal it starts from the highest 4 bits and moves
-;down
+;isolates 4 bits from highest to lowest and transform into ascii
 
-print_reg_func:
-	mov cl, 0  						;clean register
-	mov dl, ah 						;take higher 8 bits from ax
-	ror dx, 4 						;rotate the higher 4 bits into dl
-	mov cl, dl 						;store higher 4 bits in cl to print
-	call print_hex_char 			
-	shr dx, 12 						;shift dx by 12 to isolate lower 4 bits
-	mov cl, dl 						;store lower 4 bits for printin
-	call print_hex_char
-	mov dl, al 						;same as before but with lower 8 bits from ax
-	ror dx, 4 
-	mov cl, dl
-	call print_hex_char
+hex_isolate:
+	mov edx, eax
+	shr edx, 24
+	ror dx, 4
+	call hex_buff
 	shr dx, 12
-	mov cl, dl
-	call print_hex_char
-	add bx, 152 					;new line in video memory
-	ret 				
-	
-
-;this fuction translates decimals into hexadecimals in ascii and prints it
-;into video memory
-
-print_hex_char: 		
-	cmp cl, 10  					;if below 10 only add 0x30
-	jl smaller
-	add cl, 7 						;if above 10 also add 7 to gain letters
-	smaller:
-	add cl, 0x30
-	mov [bx],cx 					;move character into video memory
-	add bx, 2
+	call hex_buff
+	mov edx, eax
+	shl edx, 8
+	shr edx, 24
+	ror dx, 4
+	call hex_buff
+	shr dx, 12
+	call hex_buff
+	mov dl, ah
+	ror dx, 4
+	call hex_buff
+	shr dx, 12
+	call hex_buff
+	mov dl, al
+	ror dx, 4
+	call hex_buff
+	shr dx, 12
+	call hex_buff
 	ret
 
-stop:
+;transform to ascii and move into buffer
+hex_buff:
+	mov ch, 0000_1111b
+	mov cl, dl
+	cmp cl, 10
+	jl smaller
+	add cl, 7
+	smaller:
+	add cl, 0x30
+	mov [edi],cl
+	add edi, 2
+	ret
+
+
+print_buff:
+	mov si, prebuff
+	mov bx, 800
+	add si, 2 							;for some reason this fixes the spacing
+	buff_loop: 							;problem
+	mov cx, [si]
+	;mov ch, 0000_1111b 				;makes sure only white gets printed
+	mov [bx], cx
+	add si, 2
+	add bx, 2
+	cmp cx, 0 
+	jne buff_loop
+	ret
+
+
+
+prebuff:
+db "eax:  "  							;for some reason these do not work
+eaxbuff: 								;look into it
+BACKSPACE
+db "ebx:  "
+ebxbuff:
+BACKSPACE
+db "ecx:  "
+ecxbuff:
+BACKSPACE
+db "edx:  "
+edxbuff:
+BACKSPACE
+db "cs:   "
+csbuff:
+BACKSPACE
+db "ss:   "
+ssbuff:
+BACKSPACE
+db "ds:   "
+dsbuff:
+BACKSPACE
+db "gs:   "
+gsbuff:
+BACKSPACE
+db "es:   "
+esbuff:
+BACKSPACE
+db "fs:   "
+fsbuff:
+BACKSPACE
+db "fl:   "
+flbuff:
+BACKSPACE
+db "ip:   "
+ipbuff:
+db "s"
+times 40 db 0 							;does not stop why?
+
+
+
+end:
 END_PADDING
