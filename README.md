@@ -24,6 +24,7 @@ and most importantly result in skill improvements such as
 - Team work and coordination
 - Complience with school and scientific guidelines
 - Endurance
+
 We decided to create an operating system not only because it is
 difficult but also because we are genuinely curious in learning
 more about the technologies we treat as "black boxes" but use
