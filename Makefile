@@ -14,3 +14,7 @@ run: make
 
 clean: $(OF)
 	rm $(OF)
+
+paper:
+	cat chapters/*.md > paper.md
+	pandoc paper.md paper.pdf
