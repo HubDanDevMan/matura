@@ -1,3 +1,10 @@
 # Ignores all the binary files
 *.bin
 
+=======
+# Ignore all binary files
+*.bin
+
+# Ignore local test files 
+/test/*.asm
+!/test/firststage.asm

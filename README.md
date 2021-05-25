@@ -24,6 +24,7 @@ and most importantly result in skill improvements such as
 - Team work and coordination
 - Complience with school and scientific guidelines
 - Endurance
+
 We decided to create an operating system not only because it is
 difficult but also because we are genuinely curious in learning
 more about the technologies we treat as "black boxes" but use
@@ -48,13 +49,38 @@ about operating systems.
 | Arbeitsjournal.md | Weekly student's work log of this project |
 | TODO.md | Upcomming changes that should be made |
 
-### Build ##
+### Requirements
+
+Some external programs are required to build the different components
+of this project from source. 
+
+The building process is automated with `GNU Make` 
+
+In order to build the operating system, the only
+program required is `nasm`. It is cross platform and has been tested
+successfully in this project on Windows, Mac and Linux.
+
+To emulate the OS directly, the `qemu` package is required,
+specifically `qemu-system-x86_64`. It also works on all three major
+platforms, although on Windows a VNC client is required.
+
+For building the paper, `pandoc` is used. It is cross platform, but
+has not been tested yet in the context of this project.
+
+Nasm only works on x86 machines but qemu and pandoc work
+on ARM machines aswell.
+
+
+### Build
+
 To compile, go into the top level directory and type `Make`.
 If you want to run the OS directly in QEMU (virtual machine)
 type `Make run`.
 Cleaning is not really necessary, because there is no use of
 header files in assembly language. There are also no intermediate
 build files.
+You can also build the paper with `make paper` which creates a PDF
+with all the chapters, including images, from scratch.
 
 ### Contribute
 Commits to this repo are currently only accepted if they're from the
