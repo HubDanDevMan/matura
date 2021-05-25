@@ -8,6 +8,7 @@
 - Testprograms from the contract (text based game, clock and keyboard scancode reader)
 - Get some info from the BDA
 - Merge and fix the hardware identificationprograms together
+- Fix drawsquare demo
 
 ##### Far future:
 - keyboard driver
