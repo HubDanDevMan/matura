@@ -17,9 +17,17 @@
 %define YELLOW				0b1110
 %define WHITE				0b1111
 
+
+
+
+
+
+
+
 ;This is a makro that draws squares withing given coordinates
 ;DrawSquare row,column,length,width,color
-%macro DrawSquare 4
+;To use the macro initiate video mode with vga
+%macro DrawSquare 5
 	mov ah, 0x0c
 	mov cx, %1 				;value for start of row
 	mov dx, %2				;value for start of column
@@ -29,8 +37,16 @@
 	call squareDrawLoopStart
 %endmacro
 
-squareDrawLoopStart:   
 
+main: 						;example of how to use
+mov ah, 0
+mov al, 0x12
+int 0x10
+DrawSquare 10, 10, 80, 200, BLUE
+DrawSquare 90,10, 80, 100, RED
+jmp end
+
+squareDrawLoopStart:
 	push bp 
 	mov bp, sp 				;create new stack frame
 	sub sp, 4
@@ -59,8 +75,8 @@ squareend:
 	mov dx,[bp-4]   		
 	
 	add sp, 4 				;destroy stack frame
-	pop bp
-	
+	pop bp	
 	ret
 
+end:
 END_PADDING
