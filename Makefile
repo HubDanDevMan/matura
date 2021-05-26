@@ -5,6 +5,8 @@ IF=kernelmain.asm
 OF=flamingos.bin
 VIRT=qemu-system-x86_64
 VIRTFLAGS=-drive format=raw,media=disk,file=
+DOCS=$(ls chapters/)
+OUTDOC=paper
 
 make: $(SRCDIR)/$(IF)
 	$(AS) $(ASMFLAGS) $(SRCDIR)/$(IF) -o $(OF)
@@ -15,6 +17,7 @@ run: make
 clean: $(OF)
 	rm $(OF)
 
-paper:
-	cat chapters/*.md > paper.md
-	pandoc paper.md paper.pdf
+paper: $(DOCS)
+	cat chapters/*.md > $(OUTDOC).md
+	pandoc $(OUTDOC).md -o $(OUTDOC).pdf
+	rm $(OUTDOC).md
