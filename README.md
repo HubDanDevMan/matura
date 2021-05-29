@@ -37,17 +37,18 @@ about operating systems.
 
 | File or Directory | Content |
 | --- | --- |
-| src/ | Higher level Files such as <br /> - bootloader<br /> - filesystem <br /> - interrupts <br /> - kernelmain |
-| lib/ | Various functions to be used in dynamic linking of programms |
+| src/ | Higher level Files such as <br /> - bootloader<br /> - filesystem <br /> - interrupts <br /> - stringformats <br />- kernelmain <br /> |
+| lib/ | Various functions to be used in dynamic linking of programs |
 | macros/ | Includes various macros to make code more readable <br /> and less repetitive |
 | test/ | Test file with debug functions and build file to quickly test and debug code |
-| demos/ | Finished test programs that fulfill their purpose (e.g. graphics rendering, sound generator) |
+| assets/ | Images and similar files |
+| demos/ | Finished test programs that fulfill their purpose (e.g. graphics rendering, ) |
 | Makefile | File to build source. See [Build](##Build) |
 | README.md | This file |
 | LICENSE | Full license text |
 | Conventions.md | Guide for readable and elegant code |
 | Arbeitsjournal.md | Weekly student's work log of this project |
-| TODO.md | Upcomming changes that should be made |
+| TODO.md | Upcoming changes that should be made |
 
 ### Requirements
 
