@@ -1,4 +1,4 @@
-%define BACKSPACE 	times 154 db " "
+%define BACKSPACE 	 80
 ;why is this the offset for backspace? 
 ;only thing i can think of is the labels for registers only count for some
 ;reason this somehow equals 70 spaces
@@ -14,7 +14,7 @@ main:
 	pushf 							;flags into stack
 
 
-	mov eax, 0xB00B 				;test register
+	mov eax, 0xABCDEF12 				;test register
 	mov ebx, 0xBCDEF123
 	mov ecx, 0xCDEF1234
 	mov edx, 0xDEF12345
@@ -29,9 +29,6 @@ main:
 	mov ebx, 0
 	mov ecx, 0
 	mov edx, 0
-	mov ax, 0x0b800					;video memory parameters
-	mov ds, ax
-	mov bx, 800
 
 
 
@@ -122,16 +119,15 @@ hex_buff:
 
 
 print_buff:
-	mov si, prebuff
-	mov bx, 800
-	add si, 2 							;for some reason this fixes the spacing
+	mov esi, prebuff
+	mov edi, 0xb8000
+	inc esi							;for some reason this fixes the spacing
 	buff_loop: 							;problem
-	mov cx, [si]
-	;mov ch, 0000_1111b 				;makes sure only white gets printed
-	mov [bx], cx
-	add si, 2
-	add bx, 2
-	cmp cx, 0 
+	mov dl, byte [esi]
+	mov byte [edi], dl
+	add edi, 2
+	inc esi
+	cmp byte [esi],0 
 	jne buff_loop
 	ret
 
@@ -139,42 +135,30 @@ print_buff:
 
 prebuff:
 db "eax:  "  							;for some reason these do not work
-eaxbuff: 								;look into it
-BACKSPACE
+eaxbuff: times BACKSPACE-6 db " "								;look into it
 db "ebx:  "
-ebxbuff:
-BACKSPACE
+ebxbuff: times BACKSPACE-6 db " "
 db "ecx:  "
-ecxbuff:
-BACKSPACE
+ecxbuff: times BACKSPACE-6 db " "
 db "edx:  "
-edxbuff:
-BACKSPACE
+edxbuff: times BACKSPACE-6 db " "
 db "cs:   "
-csbuff:
-BACKSPACE
+csbuff: times BACKSPACE-6 db " "
 db "ss:   "
-ssbuff:
-BACKSPACE
+ssbuff: times BACKSPACE-6 db " "
 db "ds:   "
-dsbuff:
-BACKSPACE
+dsbuff: times BACKSPACE-6 db " "
 db "gs:   "
-gsbuff:
-BACKSPACE
+gsbuff: times BACKSPACE-6 db " "
 db "es:   "
-esbuff:
-BACKSPACE
+esbuff: times BACKSPACE-6 db " "
 db "fs:   "
-fsbuff:
-BACKSPACE
+fsbuff: times BACKSPACE-6 db " "
 db "fl:   "
-flbuff:
-BACKSPACE
+flbuff: times BACKSPACE-6 db " "
 db "ip:   "
-ipbuff:
-db "s"
-times 40 db 0 							;does not stop why?
+ipbuff: times BACKSPACE-6 db " "
+db 0 						
 
 
 
