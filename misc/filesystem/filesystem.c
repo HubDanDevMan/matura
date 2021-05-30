@@ -1,38 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "filesystem.h"
 
-
-#define SECTOR_SIZE	512
-#define TOTAL_SECTORS	64	
-#define SUPERBLOCK_SIZE 8 	// Amount of files that can be stored in FS
-
-#define FILE_NAME_LEN	16
-
-
-typedef struct {
-	char fname[FILE_NAME_LEN];	// filename
-	int location;			// start sector
-	int size;			// Size in sectors
-} inode;
-
-
-
-void readSector();
-void writeSector();
-void writeToSuperblock();
-int getInodeNumber(char * filename);
-int getFreeInode(void);
 
 char * disk;
-inode sb_cache[SUPERBLOCK_SIZE];
+inode sb_cache[SECTOR_SIZE];
 int main()
 {
-	// create pseudo disk and ram
+	// create pseudo disk
 	disk = calloc(TOTAL_SECTORS, SECTOR_SIZE);
 
-	// create superblock on disk and superblock cache in memory
-	sb_cache;
 
 
 
@@ -46,8 +24,10 @@ int main()
 			break;
 		}
 		else if (strcmp(cmdBuffer, "ls\n") == 0){
-			for (int i=0; i < SUPERBLOCK_SIZE; i++){ 
-				printf("%s\n",sb_cache[i].fname);
+			for (int i=0; i < SUPERBLOCK_SIZE; i++){
+				if (sb_cache[i].fname[0] != 0){
+					printf("%s",sb_cache[i].fname);
+				}
 			}
 		}
 		else if (strcmp(cmdBuffer, "touch\n") == 0){
