@@ -1,41 +1,33 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
+#include "filesystem.h"
 
-
-#define SECTOR_SIZE	512
-#define TOTAL_SECTORS	64	
-#define SUPERBLOCK_SIZE 8 	// Amount of files that can be stored in FS
-
-#define FILE_NAME_LEN	16
-
-
-typedef struct {
-	char fname[FILE_NAME_LEN];	// filename
-	int location;			// start sector
-	int size;			// Size in sectors
-} inode;
-
-
-
-void readSector();
-void writeSector();
-void writeToSuperblock();
-int getInodeNumber(char * filename);
-int getFreeInode(void);
 
 char * disk;
+
+// These are cached in RAM but a disk representation is present as well
 inode sb_cache[SUPERBLOCK_SIZE];
+char sectBitmap[TOTAL_SECTORS/8];
+
+
 int main()
 {
-	// create pseudo disk and ram
+	// create pseudo disk
 	disk = calloc(TOTAL_SECTORS, SECTOR_SIZE);
 
-	// create superblock on disk and superblock cache in memory
-	sb_cache;
-
-
-
+	// Figure out how to represent the used sectors of the SB in bitmap
+	// The size of the superblock is set to SUPERBLOCK_SIZE*sizeof(inode)
+	const sbSizeInBytes = SUPERBLOCK_SIZE*sizeof(inode); // size in bytes of superblock
+	
+	// Next step is to find the exact number of sectors it takes up
+	unsigned char usedSBSectorsAsBitmap(unsigned char) ceil( (double)sbSizeInBytes/512 ); // <- this can be undefined behavior if we cast doubles to chars but this should be a compile time constant. But the C preprocessor does not allow float arithmetic, thats why this value is defined at runtime
+	// It is important to note that if we only use a char as the usedSBSectorsAsBitmap type the
+	// limit of inodes that can be held in the superblock is limited quite a bit.
+	// But right now we dont want to deal with endiannes issues.
+	
+	
 
 
 	char cmdBuffer[FILE_NAME_LEN];
@@ -46,8 +38,10 @@ int main()
 			break;
 		}
 		else if (strcmp(cmdBuffer, "ls\n") == 0){
-			for (int i=0; i < SUPERBLOCK_SIZE; i++){ 
-				printf("%s\n",sb_cache[i].fname);
+			for (int i=0; i < SUPERBLOCK_SIZE; i++){
+				if (sb_cache[i].fname[0] != 0){
+					printf("%s",sb_cache[i].fname);
+				}
 			}
 		}
 		else if (strcmp(cmdBuffer, "touch\n") == 0){
