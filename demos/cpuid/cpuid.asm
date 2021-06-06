@@ -79,15 +79,15 @@ shr eax, 12
 mov edi, modbuff
 call formatHex
 
-brand:
+brand:								;this segment of code moves the CPU's brand string into the buffer 
 mov edi, brandbuff					
-mov eax, 0x80000002
+mov eax, 0x80000002					;if eax=0x80000002: returns 4 characters in eax, ebx, ecx and edx each
 cpuid
-call brandstr
-mov eax, 0x80000003
+call brandstr						;brandstr moves the content of eax, ebx, ecx and edx into edi
+mov eax, 0x80000003					;if eax=0x80000004: returns next 16 characters in eax, ebx, ecx and edx
 cpuid 
 call brandstr
-mov eax, 0x80000004
+mov eax, 0x80000004					;if eax=0x80000004: returns last 16 characters in eax, ebx, ecx and edx
 cpuid
 call brandstr
 
@@ -102,16 +102,16 @@ mov [edi], eax
 mov [edi+4], ebx
 mov [edi+8], ecx
 mov [edi+12], edx
-add edi, 16
+add edi, 16							;add 16 to edi to allow brandstr to be called again
 ret
 
 
 strbuff:
 db "CPU manufacturer: "
-strmanulength equ $-strbuff
-buffmanu: times LINE_WIDTH-strmanulength db " "
+strmanulength equ $-strbuff							;determines length of string one line above
+buffmanu: times LINE_WIDTH-strmanulength db " "		;subtract given string two lines above from line width
 db "Family: "
-fambuff: times FREE_LINE-3 db " "
+fambuff: times FREE_LINE-3 db " "					;FREE_LINE is 5 characters shorter than LINE_WIDTH - 3 is the length of the string above;
 db "Model: "
 modbuff: times FREE_LINE-2 db " "
 
