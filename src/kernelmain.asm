@@ -26,20 +26,23 @@ jmp skip_includes
 skip_includes:
 
 
-xor eax, eax
-mov es, ax
-mov ds, ax
-
-
-
+mov esi, startupgreet
+call printStringBuf
 
 
 
 jmp $
 
 ;String Buffers
-greets: db "Welcome to FlamingOS!    "
+startupgreet: db "Welcome to FlamingOS!    "
 strbuf: times 65 db " "
+db " _____ _                 _              ___  ____                               "
+db "|  ___| | __ _ _ __ ___ (_)_ __   __ _ / _ \/ ___|                              "
+db "| |_  | |/ _` | '_ ` _ \| | '_ \ / _` | | | \___ \                              "
+db "|  _| | | (_| | | | | | | | | | | (_| | |_| |___) |                             "
+db "|_|   |_|\__,_|_| |_| |_|_|_| |_|\__, |\___/|____/                              "
+db "                                  |___/                                         "
+db "Developed by Nick Gilgen, Daniel Huber and Moray Yesilgueller"
 db 0
 
 

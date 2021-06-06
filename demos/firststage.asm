@@ -1,3 +1,4 @@
+[org 0x7c00]
 %define SECTORS 8
 %define END_PADDING times (512*SECTORS)-($-$$) db 0
 
@@ -12,9 +13,13 @@ mov es, bx
 mov bx, 0x7e00
 int 0x13
 
-jc error
+jc bootError
+mov ax, 0x0000
+mov es, ax
+mov ds, ax
+
 jmp __start
-error:
+bootError:
 	mov ah, 0x0e
 	mov al, 'B'
 	int 0x10
