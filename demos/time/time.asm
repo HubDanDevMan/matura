@@ -9,6 +9,15 @@ clc
 int 0x1a
 
 
+mov al,'U'
+call printL
+mov al, 'T'
+call printL
+mov al, 'C'
+call printL
+mov al, '-'
+call printL
+
 mov ax, cx
 rol eax, 16
 mov ax, dx
@@ -47,6 +56,11 @@ add edi, 2
 ret
 
 
+printL:
+mov ah, 0000_1111b
+mov [edi],ax
+add edi, 2
+ret
 
 end:
 END_PADDING
