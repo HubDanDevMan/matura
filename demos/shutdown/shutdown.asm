@@ -6,12 +6,17 @@
 ; to not shutoff the demo immediatly, there is a delay function that uses
 ; a loop 
 
+; Display message
+mov esi, strbuf
+call printBuff
 
-call delay		; gives a delay of a few seconds 
 
-mov ah, 0x0e
-mov al, "."
-int 0x10
+; Delay loop
+mov ecx, 0xafffffff
+.redo:
+	dec ecx
+	jnz .redo
+
 
 
 ; check if APM supported 
@@ -21,12 +26,11 @@ xor bx, bx		; bx needs to be cleared
 int 0x15 
 jnc noerr
 
-; capital "E" means no APM support 
-mov al, "E"
-err:
-	mov ah, 0x0e
-	int 0x10
-	jmp $
+; no APM support 
+; ERROR:
+mov esi, errmsg
+call printBuff
+jmp $ 			; halt cpu
 
 ; disconnects all devices and shuts the CPU off
 ; this shutdown is only available in post 1995ish bioses
@@ -39,20 +43,21 @@ noerr:
 	mov al, 0x07		; 'Set power state' control word
 	mov bx, 1 		; ALL devices
 	mov cx, 3 		; Power State: OFF
-	int 0x15	
-	mov al, "e"		; lowercase 'e' means Shutdown failed
-	jmp err
+	int 0x15
+
+	; If code below is still executed, despite APM support, shutdown was unsuccessful
+	mov esi, errmsg		; display errormessage
+	call printBuff
+	jmp $			; halt
 
 
 
 
-; busy delay counting down from ecx
 
-delay:
-mov ecx, 0xfffffff
-.redo:
-	dec ecx
-	jnz .redo
-	ret
+
+strbuf: db "The OS will shutdown eventually...                                 ", 0
+errmsg: db "Shutdown was unsuccessful                                          ", 0
+%include "cpuid/printHex.asm"
+
 
 END_PADDING

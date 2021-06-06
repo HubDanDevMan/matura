@@ -72,7 +72,7 @@ main:
 	mov edi, ipbuff
 	call hex_isolate
 	call print_buff
-	jmp end
+	jmp $
 	
 
 
@@ -121,7 +121,6 @@ hex_buff:
 print_buff:
 	mov esi, prebuff
 	mov edi, 0xb8000
-	inc esi							;for some reason this fixes the spacing
 	buff_loop: 							;problem
 	mov dl, byte [esi]
 	mov byte [edi], dl
@@ -154,7 +153,7 @@ db "es:   "
 esbuff: times BACKSPACE-6 db " "
 db "fs:   "
 fsbuff: times BACKSPACE-6 db " "
-db "fl:   "
+db "flags:"
 flbuff: times BACKSPACE-6 db " "
 db "ip:   "
 ipbuff: times BACKSPACE-6 db " "
@@ -162,5 +161,4 @@ db 0
 
 
 
-end:
 END_PADDING
