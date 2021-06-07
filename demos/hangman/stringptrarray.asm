@@ -5,7 +5,8 @@ getRandomString:
 	; random nr is now ax
 	shl ax, 1; multiply by 2 because the pointer is 2 bytes large
 	mov esi, stringarray	; set edi to point to array base
-	add esi, ax		; add stringpointer offset of array to esi
+	and eax, 0x0000FFFF
+	add esi, eax		; add stringpointer offset of array to esi
 	ret
 
 
