@@ -17,8 +17,7 @@ wordlength: resb 1
 health: resb 1
 
 _setup:
-;call getRandomString		;loads random stringaddress from wordlist into esi 
-mov esi, strtest
+call getRandomString		;loads random stringaddress from wordlist into esi 
 mov edx, esi
 call getStringLength
 call draw
@@ -65,8 +64,9 @@ draw:
 gameloop:
 	mov edi, 0xb8000
 	add edi, LINE_WIDTH_LOOP+14
-	mov bl, 5
-	mov [health], bl
+	mov bh, 5
+	mov [health], bh
+	mov bl, 0
 	.loopKey:
 	mov ecx, 0
 	mov bh, 0
@@ -87,20 +87,32 @@ gameloop:
 			mov byte[edi], al
 			sub edi, ecx
 			inc bh
+			inc bl
 			add ecx, 2
 			inc esi
 			jmp .loopcmp
 	
 	.done:
+	cmp bl, [wordlength]
+	je .victory
 	cmp bh, 0
 	je .onestrike
 	jmp .loopKey
 
 	.onestrike:
-	dec bl
-	cmp bl, 0
+	mov bh, [health]
+	dec bh
+	mov [health], bh
+	cmp bh, 0
 	je .gameover
 	jmp .loopKey
+
+	.victory:
+	mov bl, [health] 
+	sub [num], bl
+	mov esi, buffvictory
+	call printBuff
+	ret
 
 	.gameover:
 	mov al, "e"
@@ -121,15 +133,46 @@ db "| |  | |/ ____ \| |\  | |__| | |  | |/ ____ \| |\  |"
 times 80-52 db " "
 db "|_|  |_/_/    \_\_| \_|\_____|_|  |_/_/    \_\_| \_|" 
 times 80-52 db " "
-db " "
-times 79 db " "
+times 80 db " "
 db "Guess: "
 buffRandomString: times 73 db " "
 db 0
 
-strtest db "elephant", 0
+buffvictory:
+db "__      _______ _____ _______ ____  _______     ___ " 
+times 80-52 db " "
+db "\ \    / /_   _/ ____|__   __/ __ \|  __ \ \   / / |"
+times 80-52 db " "
+db " \ \  / /  | || |       | | | |  | | |__) \ \_/ /| |"
+times 80-52 db " "
+db "  \ \/ /   | || |       | | | |  | |  _  / \   / | |"
+times 80-52 db " "
+db "   \  /   _| || |____   | | | |__| | | \ \  | |  |_|"
+times 80-52 db " "
+db "    \/   |_____\_____|  |_|  \____/|_|  \_\ |_|  (_)"
+times 80-52 db " "
+times 3*80 db " "
+db "It took you so many tries: "
+num: db "5"
+db 0
 
+buffdefeat:
+db "__     ______  _    _   _      ____   _____ ______ _ "
+times 80-51 db " "
+db "\ \   / / __ \| |  | | | |    / __ \ / ____|  ____| |"
+times 80-51 db " "
+db " \ \_/ / |  | | |  | | | |   | |  | | (___ | |__  | |"
+times 80-51 db " "
+db "  \   /| |  | | |  | | | |   | |  | |\___ \|  __| | |"
+times 80-51 db " "
+db "   | | | |__| | |__| | | |___| |__| |____) | |____|_|"
+times 80-51 db " "
+db "   |_|  \____/ \____/  |______\____/|_____/|______(_)"
+times 80-51 db " "
+db 0
 
 END_PADDING
-
-
+                                                   
+                                                    
+                                                     
+                                                     
