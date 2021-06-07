@@ -1,12 +1,13 @@
 
 getRandomString:
-
 	call getRandNr
 	; random nr is now ax
-	shl ax, 1; multiply by 2 because the pointer is 2 bytes large
-	mov esi, stringarray	; set edi to point to array base
 	and eax, 0x0000FFFF
-	add esi, eax		; add stringpointer offset of array to esi
+	mov ebx, stringarray
+	shl eax, 1
+	add ebx, eax
+	xor esi, esi
+	mov si, word [ebx]
 	ret
 
 
