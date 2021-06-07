@@ -23,10 +23,10 @@ call draw
 mov esi, buff
 call printBuff
 
-mov cx, 5
+mov bx, 5
+call cmpKey
 
-
-
+halt:
 jmp $
 
 
@@ -43,7 +43,7 @@ getStringLength:
 ;	mov wordlength, cx
 	ret
 
-getkey:
+getKey:
 	xor eax, eax
 	int 0x16
 	ret
@@ -61,6 +61,34 @@ draw:
 	.done:
 	ret
 
+cmpKey:
+	.loopKey
+	cmp cx, 0 
+	je .done
+	dec cx
+	call getKey
+	
+	.loopcmp:
+		cmp byte[esi], 0
+		je .done
+		inc cx
+		cmp byte[esi], al
+		inc esi
+		je .success
+	
+			.success:
+			
+
+			jmp .loopcmp
+	
+	.done
+	cmp edx, 0 
+	je .onestrike
+	
+
+	.onestrike:
+	dec cx
+
 buff:
 db " _    _          _   _  _____ __  __          _   _ " 
 times 80-52 db " "
@@ -76,8 +104,8 @@ db "|_|  |_/_/    \_\_| \_|\_____|_|  |_/_/    \_\_| \_|"
 times 80-52 db " "
 db " "
 times 79 db " "
-db "Your word: "
-buffRandomString: times 69 db " "
+db "Guess: "
+buffRandomString: times 73 db " "
 
 db 0
 
