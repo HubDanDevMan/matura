@@ -16,6 +16,26 @@ mov [edi+4], edx					;next 4 characters
 mov [edi+8], ecx					;last 4 characters
 
 
+brand:								;this segment of code moves the CPU's brand string into the buffer 
+mov edi, brandbuff					
+mov eax, 0x80000002					;if eax=0x80000002: returns 4 characters in eax, ebx, ecx and edx each
+cpuid
+call brandstr						;brandstr moves the content of eax, ebx, ecx and edx into edi
+mov eax, 0x80000003					;if eax=0x80000004: returns next 16 characters in eax, ebx, ecx and edx
+cpuid 
+call brandstr
+mov eax, 0x80000004					;if eax=0x80000004: returns last 16 characters in eax, ebx, ecx and edx
+cpuid
+call brandstr
+
+mov cx, 80						; Because the unused bytes in the registers are set to 0, 
+mov esi, brandbuff					; stringbuffers will block because they print until they
+call clearZeros						; reach a zero. Here we get rid of the remaining 0s.
+
+
+
+
+
 
 mov eax, 0x80000001					
 cpuid								;if eax=0x80000001: returns feature flags about the CPU in EDX and ECX
@@ -29,8 +49,8 @@ mov esi, Longmodeno
 rep movsb							;22 characters are moved from esi to edi
 
 longmodes:							
-mov edi, bufflm						;move a buffer into edi and 
-mov esi, Longmodeyes				;Longmodeyes into esi so that printBuff can print the string
+;mov edi, bufflm							;move a buffer into edi and 
+;mov esi, Longmodeyes						;Longmodeyes into esi so that printBuff can print the string
 
 modelid:
 mov eax, 1 							;cpuid leaf 1
@@ -73,27 +93,16 @@ call formatHex
 
 ExtModel:							;if family ID = 6 or 15 the actual model ID is derived from extended model ID + model 
 mov eax, esi				
-and eax, 0x000f00f0					;clear eax except for extended model ID and model
+and eax, 0x000f00f0						;clear eax except for extended model ID and model
 shl ax, 8
 shr eax, 12
 mov edi, modbuff
 call formatHex
 
-brand:								;this segment of code moves the CPU's brand string into the buffer 
-mov edi, brandbuff					
-mov eax, 0x80000002					;if eax=0x80000002: returns 4 characters in eax, ebx, ecx and edx each
-cpuid
-call brandstr						;brandstr moves the content of eax, ebx, ecx and edx into edi
-mov eax, 0x80000003					;if eax=0x80000004: returns next 16 characters in eax, ebx, ecx and edx
-cpuid 
-call brandstr
-mov eax, 0x80000004					;if eax=0x80000004: returns last 16 characters in eax, ebx, ecx and edx
-cpuid
-call brandstr
 
-halt:
-mov esi, strbuff					;move buffers into esi before printBuff
-call printBuff						;prints the buffers; read printHex.asm for more information
+halt:	
+mov esi, strbuff						;move buffers into esi before printBuff
+call printBuff							;prints the buffers; read printHex.asm for more information
 jmp $								;halt
 
 
@@ -105,11 +114,26 @@ mov [edi+12], edx
 add edi, 16							;add 16 to edi to allow brandstr to be called again
 ret
 
+; cx = number of bytes that should be scanned and set to " " if they are 0 
+; esi = start location of unsanitized buffer
+clearZeros:
+	cmp byte [esi], 0
+	jne .clean
+	mov byte [esi], " " 
+	.clean:
+	inc esi
+	dec cx
+	jnz clearZeros
+	ret
+
 
 strbuff:
 db "CPU manufacturer: "
 strmanulength equ $-strbuff							;determines length of string one line above
 buffmanu: times LINE_WIDTH-strmanulength db " "		;subtract given string two lines above from line width
+Brandbufflen: db "Brand: "
+strbrandlength equ $-Brandbufflen
+brandbuff: times LINE_WIDTH-strbrandlength db 0
 db "Family: "
 fambuff: times FREE_LINE-3 db " "					;FREE_LINE is 5 characters shorter than LINE_WIDTH - 3 is the length of the string above;
 db "Model: "
@@ -119,11 +143,7 @@ Longmodeyes:
 db "Longmode supported"
 strlmlength equ $-Longmodeyes
 bufflm: times LINE_WIDTH-strlmlength db " "
-
-Brandbuff:
-db "Brand: "
-strbrandlength equ $-Brandbuff
-brandbuff: times LINE_WIDTH-strbrandlength db 0
+db 0
 
 Longmodeno:
 db "Longmode not supported"
