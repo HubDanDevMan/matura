@@ -5,26 +5,27 @@
 ;	| |  | |/ ____ \| |\  | |__| | |  | |/ ____ \| |\  |
 ;	|_|  |_/_/    \_\_| \_|\_____|_|  |_/_/    \_\_| \_|
 ;
-jmp _main
+jmp _setup
 
 %include "hangman/stringptrarray.asm"
 %include "hangman/random.asm"
 %include "hangman/wordlist.asm"
 %include "cpuid/printHex.asm"
+%define LINE_WIDTH_LOOP 2*7*80
 
-;resb wordlength
+wordlength: resb 1
+health: resb 1
 
-_main:
-call getRandomString		;loads random stringaddress from wordlist into esi 
-;mov esi, strtest
+_setup:
+;call getRandomString		;loads random stringaddress from wordlist into esi 
+mov esi, strtest
+mov edx, esi
 call getStringLength
-
 call draw
 mov esi, buff
 call printBuff
 
-mov bx, 5
-;call cmpKey
+call gameloop
 
 halt:
 jmp $
@@ -40,7 +41,7 @@ getStringLength:
 	inc cx
 	jmp .loop
 	.done:
-;	mov wordlength, cx
+	mov [wordlength], cl
 	ret
 
 getKey:
@@ -61,33 +62,51 @@ draw:
 	.done:
 	ret
 
-cmpKey:
+gameloop:
+	mov edi, 0xb8000
+	add edi, LINE_WIDTH_LOOP+14
+	mov bl, 5
+	mov [health], bl
 	.loopKey:
-	cmp cx, 0 
-	je .done
-	dec cx
+	mov ecx, 0
+	mov bh, 0
 	call getKey
-	
+	mov esi, edx
+
 	.loopcmp:
 		cmp byte[esi], 0
 		je .done
-		inc cx
 		cmp byte[esi], al
-		inc esi
 		je .success
-	
-			.success:
-			
+		inc esi
+		add ecx, 2
+		jmp .loopcmp
 
+		.success:
+			add edi, ecx
+			mov byte[edi], al
+			sub edi, ecx
+			inc bh
+			add ecx, 2
+			inc esi
 			jmp .loopcmp
 	
 	.done:
-	cmp dx, 0 
+	cmp bh, 0
 	je .onestrike
-	
+	jmp .loopKey
 
 	.onestrike:
-	dec bx
+	dec bl
+	cmp bl, 0
+	je .gameover
+	jmp .loopKey
+
+	.gameover:
+	mov al, "e"
+	mov ah, 0x0e
+	int 0x10
+	ret
 
 buff:
 db " _    _          _   _  _____ __  __          _   _ " 
@@ -106,10 +125,9 @@ db " "
 times 79 db " "
 db "Guess: "
 buffRandomString: times 73 db " "
-
 db 0
 
-strtest db "monkey", 0
+strtest db "elephant", 0
 
 
 END_PADDING
