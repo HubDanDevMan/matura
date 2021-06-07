@@ -15,8 +15,8 @@ jmp _main
 ;resb wordlength
 
 _main:
-;call getRandomString		;loads random stringaddress from wordlist into esi 
-mov esi, strtest
+call getRandomString		;loads random stringaddress from wordlist into esi 
+;mov esi, strtest
 call getStringLength
 
 call draw
@@ -24,7 +24,7 @@ mov esi, buff
 call printBuff
 
 mov bx, 5
-call cmpKey
+;call cmpKey
 
 halt:
 jmp $
@@ -62,7 +62,7 @@ draw:
 	ret
 
 cmpKey:
-	.loopKey
+	.loopKey:
 	cmp cx, 0 
 	je .done
 	dec cx
@@ -81,21 +81,27 @@ cmpKey:
 
 			jmp .loopcmp
 	
-	.done
-	cmp edx, 0 
+	.done:
+	cmp dx, 0 
 	je .onestrike
 	
 
 	.onestrike:
-	dec cx
+	dec bx
 
 buff:
-db " _    _          _   _  _____ __  __          _   _                              " ; times 80-52 db " "
-db "| |  | |   /\   | \ | |/ ____|  \/  |   /\   | \ | |                             " ; times 80-52 db " "
-db "| |__| |  /  \  |  \| | |  __| \  / |  /  \  |  \| |                             " ; times 80-52 db " "
-db "|  __  | / /\ \ | . ` | | |_ | |\/| | / /\ \ | . ` |                             " ; times 80-52 db " "
-db "| |  | |/ ____ \| |\  | |__| | |  | |/ ____ \| |\  |                             " ; times 80-52 db " "
-db "|_|  |_/_/    \_\_| \_|\_____|_|  |_/_/    \_\_| \_|                             " ; times 80-52 db " "
+db " _    _          _   _  _____ __  __          _   _ " 
+times 80-52 db " "
+db "| |  | |   /\   | \ | |/ ____|  \/  |   /\   | \ | |" 
+times 80-52 db " "
+db "| |__| |  /  \  |  \| | |  __| \  / |  /  \  |  \| |" 
+times 80-52 db " "
+db "|  __  | / /\ \ | . ` | | |_ | |\/| | / /\ \ | . ` |" 
+times 80-52 db " "
+db "| |  | |/ ____ \| |\  | |__| | |  | |/ ____ \| |\  |" 
+times 80-52 db " "
+db "|_|  |_/_/    \_\_| \_|\_____|_|  |_/_/    \_\_| \_|" 
+times 80-52 db " "
 db " "
 times 79 db " "
 db "Guess: "

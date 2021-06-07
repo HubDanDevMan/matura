@@ -1,6 +1,7 @@
 
 getRandomString:
-	call getRandomNr
+
+	call getRandNr
 	; random nr is now ax
 	shl ax, 1; multiply by 2 because the pointer is 2 bytes large
 	mov esi, stringarray	; set edi to point to array base
