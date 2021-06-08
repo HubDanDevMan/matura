@@ -7,10 +7,12 @@
 ;
 jmp _setup
 
+%include "hangman/asciiart.asm"
 %include "hangman/stringptrarray.asm"
 %include "hangman/random.asm"
 %include "hangman/wordlist.asm"
 %include "cpuid/printHex.asm"
+%define LINE_WIDTH 80
 %define LINE_WIDTH_LOOP 2*7*80
 
 wordlength: resb 1
@@ -112,64 +114,13 @@ gameloop:
 	sub [num], bl
 	mov esi, buffvictory
 	call printBuff
-	ret
+	jmp $
 
 	.gameover:
-	mov al, "e"
-	mov ah, 0x0e
-	int 0x10
-	ret
+	mov esi, buffdefeat
+	call printBuff
+	jmp $
 
-buff:
-db " _    _          _   _  _____ __  __          _   _ " 
-times 80-52 db " "
-db "| |  | |   /\   | \ | |/ ____|  \/  |   /\   | \ | |" 
-times 80-52 db " "
-db "| |__| |  /  \  |  \| | |  __| \  / |  /  \  |  \| |" 
-times 80-52 db " "
-db "|  __  | / /\ \ | . ` | | |_ | |\/| | / /\ \ | . ` |" 
-times 80-52 db " "
-db "| |  | |/ ____ \| |\  | |__| | |  | |/ ____ \| |\  |" 
-times 80-52 db " "
-db "|_|  |_/_/    \_\_| \_|\_____|_|  |_/_/    \_\_| \_|" 
-times 80-52 db " "
-times 80 db " "
-db "Guess: "
-buffRandomString: times 73 db " "
-db 0
-
-buffvictory:
-db "__      _______ _____ _______ ____  _______     ___ " 
-times 80-52 db " "
-db "\ \    / /_   _/ ____|__   __/ __ \|  __ \ \   / / |"
-times 80-52 db " "
-db " \ \  / /  | || |       | | | |  | | |__) \ \_/ /| |"
-times 80-52 db " "
-db "  \ \/ /   | || |       | | | |  | |  _  / \   / | |"
-times 80-52 db " "
-db "   \  /   _| || |____   | | | |__| | | \ \  | |  |_|"
-times 80-52 db " "
-db "    \/   |_____\_____|  |_|  \____/|_|  \_\ |_|  (_)"
-times 80-52 db " "
-times 3*80 db " "
-db "It took you so many tries: "
-num: db "5"
-db 0
-
-buffdefeat:
-db "__     ______  _    _   _      ____   _____ ______ _ "
-times 80-51 db " "
-db "\ \   / / __ \| |  | | | |    / __ \ / ____|  ____| |"
-times 80-51 db " "
-db " \ \_/ / |  | | |  | | | |   | |  | | (___ | |__  | |"
-times 80-51 db " "
-db "  \   /| |  | | |  | | | |   | |  | |\___ \|  __| | |"
-times 80-51 db " "
-db "   | | | |__| | |__| | | |___| |__| |____) | |____|_|"
-times 80-51 db " "
-db "   |_|  \____/ \____/  |______\____/|_____/|______(_)"
-times 80-51 db " "
-db 0
 
 END_PADDING
                                                    

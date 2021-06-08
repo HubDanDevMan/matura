@@ -1,20 +1,86 @@
+%define LINE_WIDTH 80
+buff:
+db " _    _          _   _  _____ __  __          _   _ " 
+times LINE_WIDTH-52 db " "
+db "| |  | |   /\   | \ | |/ ____|  \/  |   /\   | \ | |" 
+times LINE_WIDTH-52 db " "
+db "| |__| |  /  \  |  \| | |  __| \  / |  /  \  |  \| |" 
+times LINE_WIDTH-52 db " "
+db "|  __  | / /\ \ | . ` | | |_ | |\/| | / /\ \ | . ` |" 
+times LINE_WIDTH-52 db " "
+db "| |  | |/ ____ \| |\  | |__| | |  | |/ ____ \| |\  |" 
+times LINE_WIDTH-52 db " "
+db "|_|  |_/_/    \_\_| \_|\_____|_|  |_/_/    \_\_| \_|" 
+times LINE_WIDTH-52 db " "
+times LINE_WIDTH db " "
+db "Guess: "
+buffRandomString: times 73 db " "
+db 0
 
+buffvictory:
+db "__      _______ _____ _______ ____  _______     ___ " 
+times LINE_WIDTH-52 db " "
+db "\ \    / /_   _/ ____|__   __/ __ \|  __ \ \   / / |"
+times LINE_WIDTH-52 db " "
+db " \ \  / /  | || |       | | | |  | | |__) \ \_/ /| |"
+times LINE_WIDTH-52 db " "
+db "  \ \/ /   | || |       | | | |  | |  _  / \   / | |"
+times LINE_WIDTH-52 db " "
+db "   \  /   _| || |____   | | | |__| | | \ \  | |  |_|"
+times LINE_WIDTH-52 db " "
+db "    \/   |_____\_____|  |_|  \____/|_|  \_\ |_|  (_)"
+times LINE_WIDTH-52 db " "
+times 2*LINE_WIDTH db " "
+db "It took you so many tries: "
+num db "5"
+times LINE_WIDTH-27 db " "
+db 0
 
-
-    ____________
-    |	   	|
-    |	   	|
-    |          ___
-    |         /   \
-    |	      |@ @|
-    |	      \___/
-    |	        | 
-    |	       /|\
-    |	      / | \
-    |		| 
-    |	       / \
-    |	      /   \
-    |        /     \
-    |
-    |
-____|________
+buffdefeat:
+db "__     ______  _    _   _      ____   _____ ______ _ "
+times LINE_WIDTH-53 db " "
+db "\ \   / / __ \| |  | | | |    / __ \ / ____|  ____| |"
+times LINE_WIDTH-53 db " "
+db " \ \_/ / |  | | |  | | | |   | |  | | (___ | |__  | |"
+times LINE_WIDTH-53 db " "
+db "  \   /| |  | | |  | | | |   | |  | |\___ \|  __| | |"
+times LINE_WIDTH-53 db " "
+db "   | | | |__| | |__| | | |___| |__| |____) | |____|_|"
+times LINE_WIDTH-53 db " "
+db "   |_|  \____/ \____/  |______\____/|_____/|______(_)"
+times LINE_WIDTH-53 db " "
+db " ____________       "
+times LINE_WIDTH-20 db " "
+db " |          |       "
+times LINE_WIDTH-20 db " "
+db " |          |       "
+times LINE_WIDTH-20 db " "
+db " |         ___      "
+times LINE_WIDTH-20 db " "
+db " |        /   \     "
+times LINE_WIDTH-20 db " "
+db " |        |x x|     "
+times LINE_WIDTH-20 db " "
+db " |        \___/     "
+times LINE_WIDTH-20 db " "
+db " |          |       "
+times LINE_WIDTH-20 db " "
+db " |         /|\      "
+times LINE_WIDTH-20 db " "
+db " |        / | \     "
+times LINE_WIDTH-20 db " "
+db " |          |       "
+times LINE_WIDTH-20 db " "
+db " |         / \      "
+times LINE_WIDTH-20 db " "
+db " |        /   \     "
+times LINE_WIDTH-20 db " "
+db " |       /     \    "
+times LINE_WIDTH-20 db " "
+db " |                  "
+times LINE_WIDTH-20 db " "
+db " |                  "
+times LINE_WIDTH-20 db " "
+db "_|________          "
+times LINE_WIDTH-20 db " "
+db 0
