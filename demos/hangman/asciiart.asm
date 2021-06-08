@@ -15,6 +15,8 @@ times LINE_WIDTH-52 db " "
 times LINE_WIDTH db " "
 db "Guess: "
 buffRandomString: times 73 db " "
+db "You have used the letters: "
+buffUsedLetters: times 43 db " "
 db 0
 
 buffvictory:
@@ -34,6 +36,78 @@ times 2*LINE_WIDTH db " "
 db "It took you so many tries: "
 num db "5"
 times LINE_WIDTH-27 db " "
+times 16*LINE_WIDTH db " "
+db 0
+
+strike1buff:
+db " ____________       "
+times LINE_WIDTH-20 db " "
+db " |                  "
+times LINE_WIDTH-20 db " "
+db " |                  "
+times LINE_WIDTH-20 db " "
+db " |                  "
+times LINE_WIDTH-20 db " "
+db " |                  "
+times LINE_WIDTH-20 db " "
+db " |                  "
+times LINE_WIDTH-20 db " "
+db " |                  "
+times LINE_WIDTH-20 db " "
+db " |                  "
+times LINE_WIDTH-20 db " "
+db " |                  "
+times LINE_WIDTH-20 db " "
+db " |                  "
+times LINE_WIDTH-20 db " "
+db " |                  "
+times LINE_WIDTH-20 db " "
+db " |                  "
+times LINE_WIDTH-20 db " "
+db " |                  "
+times LINE_WIDTH-20 db " "
+db " |                  "
+times LINE_WIDTH-20 db " "
+db " |                  "
+times LINE_WIDTH-20 db " "
+db " |                  "
+times LINE_WIDTH-20 db " "
+db "_|________          "
+times LINE_WIDTH-20 db " "
+db 0
+
+strike2: 
+db " |          |       "
+times LINE_WIDTH-20 db " "
+db " |          |       "
+times LINE_WIDTH-20 db " "
+db 0
+
+strike3:
+db " |         ___      "
+times LINE_WIDTH-20 db " "
+db " |        /   \     "
+times LINE_WIDTH-20 db " "
+db " |        |@ @|     "
+times LINE_WIDTH-20 db " "
+db " |        \___/     "
+times LINE_WIDTH-20 db " "
+db 0
+strike4:
+db " |          |       "
+times LINE_WIDTH-20 db " "
+db " |         /|\      "
+times LINE_WIDTH-20 db " "
+db " |        / | \     "
+times LINE_WIDTH-20 db " "
+db " |          |       "
+times LINE_WIDTH-20 db " "
+db " |         / \      "
+times LINE_WIDTH-20 db " "
+db " |        /   \     "
+times LINE_WIDTH-20 db " "
+db " |       /     \    "
+times LINE_WIDTH-20 db " "
 db 0
 
 buffdefeat:
@@ -83,4 +157,5 @@ db " |                  "
 times LINE_WIDTH-20 db " "
 db "_|________          "
 times LINE_WIDTH-20 db " "
+times 5*LINE_WIDTH db " "
 db 0
