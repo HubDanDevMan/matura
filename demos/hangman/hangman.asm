@@ -70,13 +70,14 @@ gameloop:
 	add edi, LINE_WIDTH_LOOP+14	;move location of character to be printed 7 lines down and 7 characters to the right
 	mov bh, 5			
 	mov [health], bh		;set health to 5
-	mov bh, 0
+	mov bh, 2
 	mov [letterspace], bh		;set letterspace to 0
 	mov bl, 0
 	.loopKey:
-	mov ecx, 0			
 	mov bh, 0
 	call getKey			;moves keyboard input into al
+;	call printUsedLetters
+	mov ecx, 0			
 	mov esi, edx			;restore original string
 
 	.loopcmp:
@@ -92,6 +93,17 @@ gameloop:
 			add edi, ecx		;move offset to video memory in case the character input is not the first character
 			mov byte[edi], al	;print character to video memory
 			sub edi, ecx		;restores position in video memory
+;			push ebx			
+;			mov ebx, [letterspace]
+;			add edi, ebx
+;			add edi, 2*LINE_WIDTH
+;			add edi, 2*15
+;			mov byte[edi], al
+;			sub edi, 2*LINE_WIDTH
+;			sub edi, 2*15
+;			mov [letterspace], ebx
+;			sub edi, ebx
+;			pop ebx
 			inc bh			;bh>0 if character input was a success at least once
 			inc bl			;counts how many times a word was a success 
 			add ecx, 2		;add offset of 1 character to ecx
@@ -101,17 +113,6 @@ gameloop:
 	.done:
 	cmp bl, [wordlength]			;compares the amount of succesful character inputs to the length of the string
 	je .victory				;if it is equal the player guessed the entire word rigth
-	push ebx
-	add edi, 2*LINE_WIDTH	
-	add edi, 60
-	add edi, [letterspace]
-	mov byte[edi], al
-	sub edi, 2*LINE_WIDTH
-	sub edi, 60
-	sub edi, [letterspace]
-	mov bh, 4
-	add [letterspace], bh
-	pop ebx
 	cmp bh, 0				;checks wether or not the character was successful
 	je .onestrike
 	jmp .loopKey
@@ -137,12 +138,17 @@ gameloop:
 	sub [num], bl				;shows how often the player guessed wrong
 	mov esi, buffvictory			
 	call printBuff				;prints the victory screen
+	mov edi, 0xb8000
+	add edi, 2*9*LINE_WIDTH
+	add edi, 2*14
+	mov esi, edx
+	call printString
 	jmp $
 	
 	.firststrike:
 	mov esi, strike1buff			
 	add edi, LINE_WIDTH_HANGED_MAN
-	call printStrike			;prints the buffer for the first strike 2 lines below the line where the string is displayed
+	call printString			;prints the buffer for the first strike 2 lines below the line where the string is displayed
 	sub edi, LINE_WIDTH_HANGED_MAN
 	jmp .loopKey
 
@@ -150,7 +156,7 @@ gameloop:
 	add edi, LINE_WIDTH_HANGED_MAN
 	add edi, 2*LINE_WIDTH
 	mov esi, strike2
-	call printStrike
+	call printString
 	sub edi, LINE_WIDTH_HANGED_MAN
 	sub edi, 2*LINE_WIDTH
 	jmp .loopKey
@@ -159,26 +165,31 @@ gameloop:
 	add edi, LINE_WIDTH_HANGED_MAN
 	add edi, 2*3*LINE_WIDTH
 	mov esi, strike3
-	call printStrike
+	call printString
 	sub edi, LINE_WIDTH_HANGED_MAN
 	sub edi, 2*3*LINE_WIDTH
 	jmp .loopKey
 
 	.fourthstrike:
 	add edi, LINE_WIDTH_HANGED_MAN
-	add edi, 2*8*LINE_WIDTH
+	add edi, 2*7*LINE_WIDTH
 	mov esi, strike4
-	call printStrike
+	call printString
 	sub edi, LINE_WIDTH_HANGED_MAN
-	sub edi, 2*8*LINE_WIDTH
+	sub edi, 2*7*LINE_WIDTH
 	jmp .loopKey
 
 	.gameover:
 	mov esi, buffdefeat
 	call printBuff
+	mov edi, 0xb8000
+	add edi, 2*7*LINE_WIDTH
+	add edi, 2*14
+	mov esi, edx
+	call printString
 	jmp $
 
-printStrike:
+printString:
 	pusha
 	mov ecx, 0
 	.printloop:
@@ -191,6 +202,22 @@ printStrike:
 	jne .printloop
 	add ecx, ecx
 	sub edi, ecx
+	popa
+	ret
+
+printUsedLetters:
+	pusha
+	mov edi, 0xb8000
+	mov ecx, [letterspace]
+	add edi, ecx
+	add edi, LINE_WIDTH_LOOP
+	add edi, 2*22
+	mov byte[edi], al
+	sub edi, ecx
+	sub edi, 2*22
+	sub edi, LINE_WIDTH_LOOP
+	mov ecx, 4
+	add [letterspace], ecx
 	popa
 	ret
 
