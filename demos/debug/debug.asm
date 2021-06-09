@@ -108,7 +108,7 @@ hex_buff:
 	smaller:
 	add cl, 0x30
 	mov [edi],cl 			;move into buffer
-	add edi, 2
+	add edi, 1
 	ret
 
 ;function that prints out the buffer

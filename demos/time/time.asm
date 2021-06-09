@@ -22,7 +22,7 @@ mov dl, ah
 call print
 
 mov al, dl
-add al, 2
+sub al, 2
 call print
  				
 mov al, 0xa 			;print :
