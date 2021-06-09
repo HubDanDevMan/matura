@@ -1,10 +1,4 @@
 %define BACKSPACE 	 80
-;why is this the offset for backspace? 
-;only thing i can think of is the labels for registers only count for some
-;reason this somehow equals 70 spaces
-
-; for some reason the first stage shows up
-
 
 ;debug function prints out all registers
 
