@@ -16,7 +16,7 @@ times LINE_WIDTH db " "
 db "Guess: "
 buffRandomString: times 73 db " "
 db "You used the letters: "
-buffUsedLetters: times 58 db " "
+buffUsedLetters: times 28 db " "
 db 0
 
 buffvictory:

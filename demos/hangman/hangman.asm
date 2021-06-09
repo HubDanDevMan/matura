@@ -18,7 +18,6 @@ jmp _setup
 
 wordlength: resb 1
 health: resb 1
-letterspace: resb 1
 
 _setup:
 call getRandomString		;loads random stringaddress from wordlist into esi 
@@ -66,19 +65,14 @@ draw:
 	ret
 
 gameloop:
-	mov edi, 0xb8000		;move video memory to edi
-	add edi, LINE_WIDTH_LOOP+14	;move location of character to be printed 7 lines down and 7 characters to the right
 	mov bh, 5			
 	mov [health], bh		;set health to 5
-	mov bh, 2
-	mov [letterspace], bh		;set letterspace to 0
 	mov bl, 0
 	.loopKey:
-	mov bh, 0
 	call getKey			;moves keyboard input into al
-;	call printUsedLetters
-	mov ecx, 0			
+	call printUsedLetters		;prints al to show the already used characters
 	mov esi, edx			;restore original string
+	mov bh, 0
 
 	.loopcmp:
 		cmp byte[esi], 0	;jumps to .done when every character has been checked 
@@ -86,27 +80,14 @@ gameloop:
 		cmp byte[esi], al	;compares the character input to a character from the string
 		je .success		
 		inc esi			
-		add ecx, 2		;add offset of 1 character to ecx
+		add edi, 2		;add offset of 1 character to video memory
 		jmp .loopcmp
 
 		.success:
-			add edi, ecx		;move offset to video memory in case the character input is not the first character
 			mov byte[edi], al	;print character to video memory
-			sub edi, ecx		;restores position in video memory
-;			push ebx			
-;			mov ebx, [letterspace]
-;			add edi, ebx
-;			add edi, 2*LINE_WIDTH
-;			add edi, 2*15
-;			mov byte[edi], al
-;			sub edi, 2*LINE_WIDTH
-;			sub edi, 2*15
-;			mov [letterspace], ebx
-;			sub edi, ebx
-;			pop ebx
 			inc bh			;bh>0 if character input was a success at least once
 			inc bl			;counts how many times a word was a success 
-			add ecx, 2		;add offset of 1 character to ecx
+			add edi, 2		;add offset of 1 character to video memory
 			inc esi
 			jmp .loopcmp
 	
@@ -118,6 +99,7 @@ gameloop:
 	jmp .loopKey
 
 	.onestrike:
+	mov edi, 0xb85a0			;set position in video memory to 1440 which is 2*9*80(2* for each character, 9*80 for 9 lines)
 	mov bh, [health]
 	dec bh					;health is decremented every time the input is a wrong character
 	mov [health], bh
@@ -138,88 +120,65 @@ gameloop:
 	sub [num], bl				;shows how often the player guessed wrong
 	mov esi, buffvictory			
 	call printBuff				;prints the victory screen
-	mov edi, 0xb8000
-	add edi, 2*9*LINE_WIDTH
-	add edi, 2*14
-	mov esi, edx
+	mov edi, 0xb85bc			;set video memory location to the end of the "The word was: _" string
+	mov esi, edx				
 	call printString
 	jmp $
 	
 	.firststrike:
 	mov esi, strike1buff			
-	add edi, LINE_WIDTH_HANGED_MAN
 	call printString			;prints the buffer for the first strike 2 lines below the line where the string is displayed
-	sub edi, LINE_WIDTH_HANGED_MAN
 	jmp .loopKey
 
 	.secondstrike:
-	add edi, LINE_WIDTH_HANGED_MAN
 	add edi, 2*LINE_WIDTH
 	mov esi, strike2
-	call printString
-	sub edi, LINE_WIDTH_HANGED_MAN
-	sub edi, 2*LINE_WIDTH
+	call printString			;prints the buffer for the second strike 1 line below the begining of the first strike
 	jmp .loopKey
 
 	.thirdstrike:
-	add edi, LINE_WIDTH_HANGED_MAN
 	add edi, 2*3*LINE_WIDTH
-	mov esi, strike3
-	call printString
-	sub edi, LINE_WIDTH_HANGED_MAN
-	sub edi, 2*3*LINE_WIDTH
+	mov esi, strike3			;prints the buffer for the third strike 3 lines below the begining of the first strike
+	call printString			
 	jmp .loopKey
 
 	.fourthstrike:
-	add edi, LINE_WIDTH_HANGED_MAN
 	add edi, 2*7*LINE_WIDTH
 	mov esi, strike4
-	call printString
-	sub edi, LINE_WIDTH_HANGED_MAN
-	sub edi, 2*7*LINE_WIDTH
+	call printString			;prints the buffer for the fourth strike 7 lines below the begining of the first strike
 	jmp .loopKey
 
 	.gameover:
 	mov esi, buffdefeat
-	call printBuff
-	mov edi, 0xb8000
-	add edi, 2*7*LINE_WIDTH
-	add edi, 2*14
+	call printBuff				;prints the "You lose!" screen
+	mov edi, 0xb847c			;set video memory location to the end of the "The word was: _" string
 	mov esi, edx
-	call printString
+	call printString			
 	jmp $
 
-printString:
+printString:					;main difference to printBuff: video memory location is not given here
 	pusha
-	mov ecx, 0
 	.printloop:
-	mov dl, byte[esi]
-	mov byte[edi], dl
+	mov dl, byte[esi]			
+	mov byte[edi], dl			;move character to video memory
 	add edi, 2
 	inc esi
-	inc ecx
 	cmp byte[esi], 0
 	jne .printloop
-	add ecx, ecx
-	sub edi, ecx
 	popa
 	ret
 
-printUsedLetters:
-	pusha
-	mov edi, 0xb8000
-	mov ecx, [letterspace]
-	add edi, ecx
-	add edi, LINE_WIDTH_LOOP
-	add edi, 2*22
+printUsedLetters:			
+	mov edi, 0xb852c			;set location in video memory one line below the correctly guessed letters
+	add edi, ecx				
 	mov byte[edi], al
-	sub edi, ecx
-	sub edi, 2*22
-	sub edi, LINE_WIDTH_LOOP
-	mov ecx, 4
-	add [letterspace], ecx
-	popa
+	add ecx, 4				;ecx holds offset so that another character can be printed after this one
+	add edi, 2
+	mov bh, ","
+	mov byte[edi], bh			;set , after the character
+	mov edi, 0xb846e			;reset video memory location to the _ of the "Guess: _" line
 	ret
+
 
 END_PADDING
                                                    
