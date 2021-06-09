@@ -1,17 +1,11 @@
 %define BACKSPACE 	 80
-;why is this the offset for backspace? 
-;only thing i can think of is the labels for registers only count for some
-;reason this somehow equals 70 spaces
-
-; for some reason the first stage shows up
-
 
 ;debug function prints out all registers
 
 main:
 	call get_ip 					;call function without return pushes ip
 	get_ip:
-	pushf 							;flags into stack
+	pushf 						;flags into stack
 
 
 	mov eax, 0xABCDEF12 				;test register
@@ -19,7 +13,7 @@ main:
 	mov ecx, 0xCDEF1234
 	mov edx, 0xDEF12345
 
-	push ds 						;push changing registers
+	push ds 					;push changing registers
 	push edx
 	push ecx
 	push ebx
@@ -33,7 +27,7 @@ main:
 
 
 
-;move register to prnt into eax and then move into buffer at edi
+;move register to print into eax and then move into buffer at edi
 
 	pop eax
 	mov edi, eaxbuff
@@ -80,10 +74,10 @@ main:
 
 hex_isolate:
 	mov edx, eax
-	shr edx, 24
-	ror dx, 4
-	call hex_buff
-	shr dx, 12
+	shr edx, 24 			;shifts to isolate highest 8 bits
+	ror dx, 4 			;isolate highest 4 bits
+	call hex_buff 			;move into buffer
+	shr dx, 12 			;repeat for smaller 
 	call hex_buff
 	mov edx, eax
 	shl edx, 8
@@ -106,35 +100,36 @@ hex_isolate:
 
 ;transform to ascii and move into buffer
 hex_buff:
-	mov ch, 0000_1111b
-	mov cl, dl
-	cmp cl, 10
+	mov ch, 0000_1111b 		;white letters black background
+	mov cl, dl 			
+	cmp cl, 10 			;if bigger then 10 add 7
 	jl smaller
 	add cl, 7
 	smaller:
 	add cl, 0x30
-	mov [edi],cl
-	add edi, 2
+	mov [edi],cl 			;move into buffer
+	add edi, 1
 	ret
 
-
+;function that prints out the buffer
 print_buff:
-	mov esi, prebuff
+	mov esi, prebuff		;moves esi to the buffer
 	mov edi, 0xb8000
-	buff_loop: 							;problem
-	mov dl, byte [esi]
+	buff_loop: 							
+	mov dl, byte [esi] 		;take byte out of buffer into video memory
 	mov byte [edi], dl
-	add edi, 2
+	add edi, 2 			;moves 2 bytes for video memory
 	inc esi
 	cmp byte [esi],0 
 	jne buff_loop
 	ret
 
-
+;buffer where the register values are put into
+;also contains labels
 
 prebuff:
-db "eax:  "  							;for some reason these do not work
-eaxbuff: times BACKSPACE-6 db " "								;look into it
+db "eax:  "  							
+eaxbuff: times BACKSPACE-6 db " "								
 db "ebx:  "
 ebxbuff: times BACKSPACE-6 db " "
 db "ecx:  "
