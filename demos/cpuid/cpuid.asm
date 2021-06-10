@@ -3,7 +3,13 @@ jmp ___main
 %include "cpuid/printHex.asm"				;include printBuff and formatHex
 %define LINE_WIDTH 80		
 %define FREE_LINE (LINE_WIDTH-5)
-	
+
+lowmemory: resb 1
+base: resb 1
+len: resb 1
+type: resb 1
+size: resb 1
+
 ___main:
 xor eax, eax						;cpuid leaf 0
 mov ds, ax							
@@ -33,30 +39,24 @@ mov esi, brandbuff					; stringbuffers will block because they print until they
 call clearZeros						; reach a zero. Here we get rid of the remaining 0s.
 
 
-
-
-
-
 mov eax, 0x80000001					
 cpuid								;if eax=0x80000001: returns feature flags about the CPU in EDX and ECX
 bt edx, 29							;the 29th bit of edx is 1 if the CPU supports 64-bit instructions and registers
 jc longmodes
 
-longmodens:							;overwrites Longmodeyes with Longmode no 
+longmodens:							;overwrites Longmodeyes with Longmodeno 
 mov cx, 22 							 
 mov edi, Longmodeyes
 mov esi, Longmodeno
 rep movsb							;22 characters are moved from esi to edi
 
 longmodes:							
-;mov edi, bufflm							;move a buffer into edi and 
-;mov esi, Longmodeyes						;Longmodeyes into esi so that printBuff can print the string
 
 modelid:
 mov eax, 1 							;cpuid leaf 1
 cpuid								;if eax=1: returns information about the family and model of the CPU in eax
 
-;												EAX
+;						EAX
 ; _______________________________________________________________________________________________
 ;|31|30|29|28|27|26|25|24|23|22|21|20|19|18|17|16|15|41|13|21|11|10|09|08|07|06|05|04|03|02|01|00|
 ;|-----------|-----------------------|-----------|-----|-----|-----------|-----------|-----------|
@@ -74,13 +74,13 @@ call formatHex						;formatHex converts content of eax into ascii and moves it i
 cmp al, 0x06						
 je ExtModel							;if family ID = 6 jump to ExtModel
 
-
 model:
 mov eax, esi
 and eax, 0x000000f0 				;clear eax except for model ID
 mov edi, modbuff					
 call formatHex
-jmp halt							
+;jmp RAMsize							
+jmp halt
 
 ExtFam:								;if family ID = 15 the actual family ID is derived from extended family ID + family ID 
 mov eax, esi		
@@ -107,12 +107,12 @@ jmp $								;halt
 
 
 brandstr:
-mov [edi], eax
-mov [edi+4], ebx
-mov [edi+8], ecx
-mov [edi+12], edx
-add edi, 16							;add 16 to edi to allow brandstr to be called again
-ret
+	mov [edi], eax
+	mov [edi+4], ebx
+	mov [edi+8], ecx
+	mov [edi+12], edx
+	add edi, 16							;add 16 to edi to allow brandstr to be called again
+	ret
 
 ; cx = number of bytes that should be scanned and set to " " if they are 0 
 ; esi = start location of unsanitized buffer
@@ -128,25 +128,32 @@ clearZeros:
 
 
 strbuff:
+db "CPU:"
+times LINE_WIDTH-4 db " "
 db "CPU manufacturer: "
-strmanulength equ $-strbuff							;determines length of string one line above
-buffmanu: times LINE_WIDTH-strmanulength db " "		;subtract given string two lines above from line width
+buffmanu: times LINE_WIDTH-18 db " "		;subtract lenght of "CPU manufacturer: " string two lines above from line width
 Brandbufflen: db "Brand: "
 strbrandlength equ $-Brandbufflen
 brandbuff: times LINE_WIDTH-strbrandlength db 0
 db "Family: "
-fambuff: times FREE_LINE-3 db " "					;FREE_LINE is 5 characters shorter than LINE_WIDTH - 3 is the length of the string above;
+fambuff: times LINE_WIDTH-8 db " "				
 db "Model: "
-modbuff: times FREE_LINE-2 db " "
+modbuff: times LINE_WIDTH-7 db " "
 
 Longmodeyes:
 db "Longmode supported"
 strlmlength equ $-Longmodeyes
 bufflm: times LINE_WIDTH-strlmlength db " "
+times LINE_WIDTH db " "
+
+db "RAM:"
+times LINE_WIDTH-4 db " "
+db "RAM size: "
+ramsizebuff: times LINE_WIDTH-10 db " "
+rambuff: times 24 db 0
 db 0
 
 Longmodeno:
 db "Longmode not supported"
-db 0
 
 END_PADDING

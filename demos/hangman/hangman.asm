@@ -13,8 +13,6 @@ jmp _setup
 %include "hangman/wordlist.asm"			
 %include "cpuid/printHex.asm"			;include printBuff
 %define LINE_WIDTH 80				
-%define LINE_WIDTH_LOOP 2*7*80			;2* to skip background color
-%define LINE_WIDTH_HANGED_MAN 2*2*80-2*7
 
 wordlength: resb 1
 health: resb 1
