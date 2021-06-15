@@ -13,7 +13,6 @@ call memset
 ;	\|/
 ;	 v
 
-nop
 WriteSector 0,0,1,2,0x500
 nop
 mov ah, 0x0e
