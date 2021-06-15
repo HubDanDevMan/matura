@@ -26,6 +26,9 @@ jmp skip_includes
 skip_includes:
 
 
+
+
+
 mov esi, startupgreet
 call printStringBuf
 
@@ -43,6 +46,8 @@ db "|  _| | | (_| | | | | | | | | | | (_| | |_| |___) |                         
 db "|_|   |_|\__,_|_| |_| |_|_|_| |_|\__, |\___/|____/                              "
 db "                                  |___/                                         "
 db "Developed by Nick Gilgen, Daniel Huber and Moray Yesilgueller"
+times 9 db " "
+
 db 0
 
 

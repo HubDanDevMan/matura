@@ -5,7 +5,7 @@
 ; Nick Gilgen
 ; Moray Yesilgüller
 
-; This file contains formatting functions for decimal and hexadecimal to string
+; This file contains formatting functions for hexadecimal to string
 ; conversions and vice versa
 
 ; FormatHex BYTES DESTINATION_BUF
@@ -23,6 +23,14 @@
 	call formatHexFunc
 %endmacro
 
+
+; FormatBin BITS DESTINATION_BUF
+; BITS refers to the number of binary digits that should be parsed
+%macro FormatBin 2
+	mov ecx, %1
+	mov edi, %2
+	call formatBinFunc
+%endmacro
 
 
 ; formats eax, ax or al as a hexadecimal number
@@ -46,6 +54,28 @@ formatHexFunc:
 
 	popa
 	ret
+
+
+; formats eax, ax or al as a binary number
+formatBinFunc:
+	pusha
+	; we might print 32 bits but for that we need to start with 31. bit
+	; thats why we decrement ecx first
+	.loophead:
+	dec ecx
+	mov dl, "0"
+	bt eax, ecx		; set carry flag based on bit Nr ECX of EAX
+	jnc .noAdd		; if the bit Nr ECX of EAX is 1, then set the output in DL to "1"
+	inc dl
+	.noAdd:
+	mov byte [edi], dl	; mov ascii character to the buffer
+	inc edi			; increment char buffer pointer
+	or ecx, ecx		; does it print last bit??
+	jnz .loophead
+	popa
+	ret
+
+
 
 
 ; this function moves strings into video memory
