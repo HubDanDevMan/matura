@@ -1,76 +1,15 @@
+; ____  _          _ _ 
+;/ ___|| |__   ___| | |
+;\___ \| '_ \ / _ \ | |
+; ___) | | | |  __/ | |
+;|____/|_| |_|\___|_|_|
+                      
 jmp main
 
 
 
-;interrupt that gets ascii key from pressed button in al
-get_key:
-	xor eax,eax
-	int 0x16
-	ret
-
-;put al in buffer
-buffer_key:
-	cmp ecx, 255
-	je get_key 			;exception for char limit
-	mov edi, buffer
-	add edi, ecx
-	mov [edi], al
-	inc ecx
-	ret
-
-;delete a character out of buffer
-buffer_delete:
-	cmp ecx, 0
-	je get_key 			;exception for char limit
-	mov edi, buffer
-	add edi, ecx
-	dec edi
-	mov al, " "
-	mov [edi], al
-	dec ecx
-	ret
-
-
-
-;function for clearing screen prints out an emty buffer
-
-;function for printing buffer into video memory
-print_buffer:
-	mov esi, buffer
-	mov edi, 0xb8000
-	.print_buffer_loop:
-	mov dl, [esi]
-	mov [edi], dl
-	inc esi
-	inc edi
-	inc edi
-	cmp byte[esi], 0
-	je .return
-	jmp .print_buffer_loop
-	.return:
-	ret
-
-
-;function that clears the screen with a loop that inserts spaces
-clear_screen:
-	mov edi, 0xb8000
-	mov ecx, 0
-	mov al, " "
-	.clear_screen_loop:
-	mov [edi], al
-	inc ecx
-	inc edi
-	inc edi
-	cmp ecx, 1920
-	je .return
-	jmp .clear_screen_loop
-	.return:
-	mov ecx, 0
-	mov eax, 0
-	ret
 
 enter:
-	
 ;main loop
 main:
 call clear_screen
@@ -99,6 +38,80 @@ times 255 db " "
 db 0
 
 
+
+;interrupt that gets ascii key from pressed button in al
+get_key:
+	xor eax,eax
+	int 0x16
+	ret
+
+
+;put al in buffer
+buffer_insert:
+	cmp ecx, 255
+	je get_key 			;exception for char limit
+	mov edi, buffer
+	add edi, ecx
+	mov [edi], al
+	inc ecx
+	ret
+
+
+;delete a character out of buffer
+buffer_delete:
+	cmp ecx, 0
+	je get_key 			;exception for char limit
+	mov edi, buffer
+	add edi, ecx
+	dec edi
+	mov al, " "
+	mov [edi], al
+	dec ecx
+	ret
+
+
+;function for printing buffer into video memory
+print_buffer:
+	mov esi, buffer
+	mov edi, 0xb8000
+	.print_buffer_loop:
+	mov dl, [esi]
+	mov [edi], dl
+	inc esi
+	inc edi
+	inc edi
+	cmp byte[esi], 0
+	je .return
+	jmp .print_buffer_loop
+	.return:
+	ret
+
+
+
+
+
+;function that clears the screen with a loop that inserts spaces
+clear_screen:
+	mov edi, 0xb8000
+	mov ecx, 0
+	mov al, " "
+	.clear_screen_loop:
+	mov [edi], al
+	inc ecx
+	inc edi
+	inc edi
+	cmp ecx, 1920
+	je .return
+	jmp .clear_screen_loop
+	.return:
+	mov ecx, 0
+	mov eax, 0
+	ret
+
+
+
+
+
 END_PADDING
 
 
@@ -109,3 +122,44 @@ END_PADDING
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;
