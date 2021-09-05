@@ -23,7 +23,7 @@ def findSectorIndex(bitmap, length):
 
 def Main():
     BITMAP_LENGTH = 32 # 32 bytes in bitmap
-    BITMAP = [ [random.randint(0,1) for _ in range(8)] for __ in range(BITMAP_LENGTH)]
+    BITMAP = [ [random.randint(0,1) for _ in range(8)] for _ in range(BITMAP_LENGTH)]
     print("Bitmap is as follows: ", BITMAP, "looking for 5")
     bitpos = findSectorIndex(BITMAP, 5)
     print("Startposition: ", bitpos)
