@@ -5,13 +5,13 @@ VIRT=qemu-system-x86_64
 VIRTFLAGS=-drive format=raw,media=disk,file=
 VIRTDEBUG=-gdb tcp::1234 -S
 DBG=gdb
-DBGFLGS=-ix ../misc/gdbRealModeScript.txt\
-	-ex 'target remote :1234'\
+DBGFLGS=-ex 'target remote :1234'\
 	-ex 'set disassembly-flavor'\
 	-ex 'set architecture i8086'\
 	-ex 'break *0x7e00'\
 	-ex 'display/4i $$pc'\
 	-ex 'continue'
+	#-ix ../misc/gdbRealModeScript.txt
 # DeBuGger FLaGS:
 # 1: connect to qemu
 # 2: set the architecture to i8086 for 16 bit mode
@@ -30,6 +30,8 @@ DBGFLGS=-ix ../misc/gdbRealModeScript.txt\
 # if the kernel was a PE-file (UEFI BOOT), symbols CAN be available
 # but most kernels will strip the symbols
 
+
+
 default:
 ifeq  "$(origin IF)"  "undefined"
 	@echo "\033[31mUse make IF=DIRNAME [run]\033[0m"
@@ -45,6 +47,7 @@ run: default
 
 debug: default
 	$(VIRT) $(VIRTDEBUG) $(VIRTFLAGS)$(IF).bin & \
+	sleep 1 # waiting for QEMU
 	$(DBG) $(DBGFLGS)
 
 

@@ -29,7 +29,7 @@ findBitChainIndex:
 			bt edx, edi	; check if bit number <edi> in BYTE is 1
 					; if true, the bt instruction sets the carry flag
 			jnc .bitIsZero	; bit is 0
-			;.bitIsSet	; increment counter of 1s since last 0
+			;.bitIsSet:	; increment counter of 1s since last 0
 				inc eax
 				cmp eax, ecx	; check if the counter has reached the desired amount
 				jne .notEnoughBits
@@ -51,7 +51,7 @@ findBitChainIndex:
 			; else just redo
 	.redoBMByteLoop:
 	inc ebx
-	cmp ebx, BIT_MAP_SIZE
+	cmp ebx, BIT_MAP_SIZE + BITMAP		; EBX(Bitmap ptr) should not point past the bitmap
 	jle .bitmapBytePtrLoop	; if EBX (:=BYTE Pointer) is greater than the bitmap size, do not loop
 	; If every BYTE in BITMAP has been scanned without a matching index,
 	; return -1, signifying an ERROR
@@ -60,13 +60,11 @@ findBitChainIndex:
 
 prog:
 
-; mov ecx, 0b00000000000000000000000010001001
-; bsf eax, ecx
-
 
 ; setup
 mov ecx, BIT_CHAIN_LENGTH	; ecx contains the length of the desired bit chain
 call findBitChainIndex		; 
+; after return, al (eax) should contain 
 nop
 nop
 nop
