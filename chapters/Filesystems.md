@@ -46,12 +46,15 @@ filename in path `/usr/bin/cc` to `/bin/gcc`. If files were associated only by t
 their inode number, links would not be possible and the OS would have to copy the the entire
 executable GCC to the new location and store it under a different file name. Links allow the
 filesystem to effectively safe storage space and thats why modern filesystems use inode numbers to
-identify a file.
+identify a file. In our case the whole space of the superblock is allocated upon disk formatting.
+This leaves the possibility of 'running out of space' without the storage device being even remotely
+full. This occures when all the inodes in the superblock are used up. This happens only when a
+computer user creates many files that take up close to no space.
 
 It is important to point out that Windows' NTFS groups file metadata differently. We are not going to
-cover NTFS because it is proprietary. While most mechanism in NTFS are similar to unix filesystem
-mechanisms, they often have a different name. The superblock is called the *Master File Table* and
-inode numbers are called *FileID*s.
+cover NTFS because the official version is proprietary. While most mechanism in NTFS are similar to
+unix filesystem mechanisms, they often have a different name. The superblock is called the *Master
+File Table* and inode numbers are called *FileID*s.
 
 ## Sector allocation
 
@@ -152,9 +155,8 @@ More about "." and its purpose can be read in another chapter. With our fully fl
 also some speed improvements. If we would like to move a file from "pics/" to the parent directory the
 FS only has to delete the entry of the <file to be moved> from the "pics/" directory file and write
 the file name and inode number into the directory file of "..". This is a lot faster than copying the contents of the <file to be moved> and writing them to a new file and deleting the old file. This FS
-also allows the renaming of open files, something that Windows still cannot do. Windows will queue the
+also allows the renaming of open files, something that Windows still cannot do reliably. Windows will queue the
 name change and commit it only after the file has been closed.
-#### SHELL/UI CHAPTER
 
 ## Journaling filesystems
 
