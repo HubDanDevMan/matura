@@ -111,12 +111,14 @@ After using the filesystem for a while, we notice that storing the file name in 
 dumb idea because an inode is of fixed size. We either preallocate a large inode size for a filename
 or we force short file names to safe storage space. This is very restrictive but there is a solution.
 Instead of storing the file name in the inode, we store it in the directory where the file is located
-together with the inode number. This means that the contents of a directory file would look something
-like this:
+together with the inode number. This means that the contents of a directory entry file would look some
+thing like this:
 `'f' 'i' 'l' 'e' '.' 'm' 'd' '\0' '\x16'  'I' 'm' 'a' 'g' 'e' '.' 'p' 'n' 'g' '\0' '\x19'`
 Every character between '' represents a byte on the disk. Notice the `'\0'`, it is our file name
 terminator and tells us that the following byte is to be interpreted as an inode number. After the
-inode number, the name of the next file starts and it ends with the next `'\0'`, which is again followed by the inode number of the file. If the byte after an inode number is a `'\0'` the FS knows that the directory doesn't have any more files.
+inode number, the name of the next file starts and it ends with the next `'\0'`, which is again
+followed by the inode number of the file. If the byte after an inode number is a `'\0'` the FS knows
+that the directory doesn't have any more files.
 
 Let us recap what we have so far.
 We have the superblock that contains metadata about files in per-file inodes. The inode stores the
@@ -130,7 +132,8 @@ a directory is stored within its *parent directory* (the directory that contains
 there must be a directory that does not have a name, because it does not have a parent directory
 (unless there are infinitely many directories or a circular filesystem). This directory is the *root
 directory* and every other directory is either a direct or indirect subdirectory. The root directory
-is often shown as a plain "/". Windows users can think of it as the "C:\" drive but it is actually notentirely the case. We will explain why shortly, but there are some things that are important to know
+is often shown as a plain "/". Windows users can think of it as the "C:\" drive but it is actually not
+entirely the case. We will explain why shortly, but there are some things that are important to know
 first. If a path starts with the "/" such as "/home/Terry/tasks.txt" then the path is an *absolute
 path*. There is also a relative path and it depends on the *current working directory*. Let's say that
 a program is run from "/home/Terry/". The current working directory is the aforementioned one. If the 
@@ -139,9 +142,11 @@ wants to read. The full path of the file is actually “/home/Terry/homework.txt
 knows the current working directory (cwd) it can resolve the inode number of the file. Relative paths
 are very convenient but they still lack afeature in our FS. If we want to specify a path of the parent
 directory that does not traverse the cwd we must give the absolute path of the parent directory and
-then the following subdirectories. But this is another issue that can be solved. Every directory contains at least 2 entries (with the exception of the root directory). These are "." and "..". The "." is a directory file that points to itself. An example to understand it better is that lets say directory
-"/home/Terry/Pics" has the inode number 8 and its parent directorx has the inode number 6. The
-directory file will contain the following:
+then the following subdirectories. But this is another issue that can be solved. Every directory
+contains at least 2 entries (with the exception of the root directory). These are "." and "..". The
+"." is a directory entry file that points to itself. An example to understand it better is lets say
+directory "/home/Terry/Pics" has the inode number 8 and its parent directory has the inode number 6.
+The directory entry file will contain the following:
 `'.' '\0' '\x08' '.' '.' '\0' '\x06' '\0'`
 The first entry in the directory "." points to the itself! This means that in a relative path a "."
 will always point to the directory itself. From a viewpoint in "/home/", "." is equal to "/home/".
@@ -153,9 +158,10 @@ does not have an effect on the path. "../pictures/pic.jpeg" is equal to "../pict
 The "." does have its usecase but it is largely to reasons unrelated to filesystems themselves.
 More about "." and its purpose can be read in another chapter. With our fully fledged FS there are
 also some speed improvements. If we would like to move a file from "pics/" to the parent directory the
-FS only has to delete the entry of the <file to be moved> from the "pics/" directory file and write
-the file name and inode number into the directory file of "..". This is a lot faster than copying the contents of the <file to be moved> and writing them to a new file and deleting the old file. This FS
-also allows the renaming of open files, something that Windows still cannot do reliably. Windows will queue the
+FS only has to delete the entry of the <file to be moved> from the "pics/" directory entry file and
+write the file name and inode number into the directory entry file of "..". This is a lot faster than 
+copying the contents of the <file to be moved> and writing them to a new file and deleting the old
+file. This FS also allows the renaming of open files, something that Windows still cannot do reliably. Windows will queue the
 name change and commit it only after the file has been closed.
 
 ## Journaling filesystems
