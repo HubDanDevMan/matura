@@ -18,7 +18,13 @@ let alone their login screen.
 ## Windowing systems
 
 GUIs are made of programs that facilitate windows, icons, menus and pointing with a cursor. One of 
-the komponents is a program called the display server. It is responsible for drawing pixels on the
+the components is a program called the display server. It is responsible for the communication of all 
+the programs that have a graphical output. This communication occurs through a display server protocol
+and the programs communicating with the display server are its clients. In windowing systems every program has its own *window buffer*. It is a dedicated area in memory that the graphical program can
+write its own graphical output to. Whenever the program has finished rendering its own window it will message the display server over the aforementioned display server protocol. The display server has
+access to all the window buffers and creates a single frame for a coomputer screen out of all the windows in a routine called *compositing*.
+
+drawing pixels on the
 screen that together form the magnificent windows and desktop background pictures we know and love. 
 The display server, part of a *windowing system*, is responsible for much more than setting pixels on the screen. It defines a protocol that its *clients*, namely graphical 
 programs such as web browsers and photo editors, can use to communicate with the display server. Just like web servers, a display server has multiple clients that it can simultaniously serve. These
