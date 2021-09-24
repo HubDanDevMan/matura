@@ -53,14 +53,15 @@ xoring, anding and bitshifts. Our CPU will receive an ALU upgrade a bit later in
 
 
 
-Now that we have a basic understanding of the component, let's look at a possible instruction set (= All
-instructions a processor can understand and execute):
+Now that we have a basic understanding of the component, let's look at a possible instruction set
+(= All instructions a processor can understand and execute):
 
 | Instruction name | Arguments | Encoding |
 | --- | --- | --- |
-| LOAD | <NUMBER> | \x0F XX |
-| ADD | <NUMBER> | \x7C XX |
-| STORE | <ADDRESS> | \xE1 XX |
+| LOAD | \<NUMBER\> | \x0F XX |
+| LOADADDR | <\ADDRESS\> | \x0E XX |
+| ADD | <\NUMBER\> | \x7C XX |
+| STORE | <\ADDRESS\> | \xE1 XX |
 
 These instructions seems rather weird, haven't we all heard from a young age that
 computers work with 1s and 0s? That is obviously true, but a binary instruction
@@ -83,7 +84,8 @@ perform.
 So in our case,`\x0F` is the instruction that tells the CPU to `LOAD` a number in the accumulator.
 and the `\x05` is the number we want it to hold. When our CPU has finished executing the first
 instruction the accumulator holds the right value and the PC is incremented automatically to point
-to the next instruction, which is then fetched from memory. Here, the next instruction is the following:
+to the next instruction, which is then fetched from memory. Here, the next instruction is the
+following:
 
 `\x7C \x03` or in human readable form:  `ADD 3`
 
@@ -108,13 +110,92 @@ the PC register just like it does with the accumulator? Depicted below is an exa
 dissasembly. The numbers on the left side display the address of the memory that is being
 disassembled and on the right is the instruction mnemonic.
 ```
-0x0 ->
-0x2 ->
-0x4 ->
-0x6 ->
-0x8 ->
-0xa ->
+0x0 -> LOAD 0
+0x2 -> ADD 5
+0x4 -> JMP 2
 ```
+The first instruction should be familiar to most readers. Shortly after starting the program the 
+`LOAD` instruction is executed and the PC incrememted. The second instruction should also be mundane.
+The CPU executes the instruction and again increments the PC by 2. There is a new instruction in our 
+instruction set. `JMP` is similar to `LOAD` but instead of
+moving a value to the accumulator it moves it to the PC. Because PC holds the value 2, the
+proccessor will fetch the next instruction from address 2. The CPU will execute the instructiom
+`ADD 2` and prepare itself for the next instruction by fetching it. This would be the instruction
+at address 4. The processor would run the instruction and end up executing the 2 instructions
+(`ADD 5` and `JMP 2`) over and over again. This short program will run forever, adding 5 to the
+accumulator until it *overflows*. This means that the result that should be present in a register
+is altered because the result can not be represented in the register size. In practice this means
+that a 8-bit register can hold maximum value of 255. Whenever a mathematical opertion results in a 
+number greater than 255, such as 0b11111111 + 1 then the value will be 0 inside the register instead
+of 256, which requires more than 8 bits.
+
+## Conditional branching
+
+If we want a program to run forever, jumps are more than enough. Readers familiar with programming languages should know about `if` and `else` statements. They are used in programming to express
+under what condition a certain code block should be run. They are translated to CPU instructions
+in the following format:
+| Programming language | CPU language |
+|----|----|
+| ```if (condition) {<br>***first code block***} else {<br>***second code block***``` | ```cmp 7<br>jne elseblock<br> \<*first code block*\><br>elseblock:<br>\<*second code block\><br>done:<br>\<*more instructions...*\>``` |
+The relevant instructions are `cmp` and `jne`. A processor that supports conditional branching needs
+another register, specificly a *status register*. A status register contains bits that each signify
+a single condition. Our status reguster is 2 bits wide and those bits are the **Carry Flag* and
+the **Zero Flag**. These flags are extremely crucial to conditional branching. The `if` statement
+in the programming language is followed by a *condition*, such as a *comparison*. A comparison
+can be `*x* smaller than 3` or `*y* equal to 0`. They result in a either true or false value. In 
+CPU language, the `cmp` instruction performs a subtraction between two values, in our case between
+the accumulator and the value 7. The *result* of the subtraction is not stored in the accumulator
+but in the status register. The *result* is not the numeric value that results from the subtraction 
+but rather the status. If the compared values are equal, the subtraction results in in zero and the
+*Zero Flag* bit in the status register will be set to 1. If the first compared value is larger than the second one, the subtraction would result in a positive value. A positive value sets the
+*Carry Flag* to 1 and the Zero Flag 0.
+If the first value is smaller than the second value, the subtraction results in a negative value and
+the Carry Flag and the Zero Flag are set to 0 .
+
+
+## Negative numbers and two's complement
+
+Undrstanding how computers represent positive integers is not very abstracted to the way humans
+represent numbers, with the exception of a representation in *base 2* instead of *base 10*. Humans
+denote negative numbers with a minus in front of the numeric character resulting in such a notation: 
+-6 or -3. One might think that combining the *absolute value* of a number together with a *sign-bit*
+should suffice for a CPU express negative numbers. Integers -9 and 9 would look like 0b10001001 and
+0b10001001 respectively. It is certainly a valid option and engineers have produced
+CPUs that internally use this type of binary representation for integers. However, this is not the 
+internal integer representation used in processors today. There is a weird issue that can occur after
+a mathematical operations resulting in zero. Instead of there being one zero there are actually two 
+zeros now; 0 and -0. This is why modern processors use a different notation. Instead of only using a
+single sign-bit, all the bits are flipped and act as “extended” sign bits and then 1 is subtracted 
+from the number. This means that 0b11111111 is -1 and 0b10000000 is -128. This also voids the issue 
+of multiple zeroes and means that a 8 bit register can contain the numbers between -128 and 127. 
+A programer can also declare that he wishes to use an *unsigned value*. The compiler will generate
+machine code that treats the value as purely positive, no matter the sign bits.
+
+
+## Modern processors
+
+So far our CPU is capable of basic arithmetic operations, conditional branching and working with
+both signed and unsigned data i.e. integers. This is more or less all what CPUs had to do to get work
+done in the early days of computing. With the creation of *integrated circuits*, CPUs were mass 
+produced and became a lot cheaper. This meant that a computer system hwas made of a CPU and some
+other, smaller and cheaper co-processors. To this day these co-processors come soldered on the
+motherboard and relieve the CPU (note the **Central** *Processing Unit*) from some work. Before we
+follow up un *what* the CPU and co-processors do together we must understand *how* they work together.
+These processors must be able to communicate with each other. This happens either through
+**memory mapped I/O** or through **I/O pins**. Every processor needs RAM to get its instructions and
+store and retrieve data from. In some systems, multiple processors share the same RAM and these 
+processors comunicate with each other over certain memory regions. The processors would read and 
+write to those memory regions and communicate with each other, but it is important that all processors
+know what the address of said memory areas is and that there are no *data races* that cause memory
+corruption because multiple processors read or write simultaniously to the same memory address. 
+Memory mapped I/O is used in CPU cores. Every core in a CPU can be seen as an individual processor
+and all these cores share the same RAM i.e. they communicate with each other over memory. 
+Many processors on a motherboard do not necessarily share RAM and memory mapped I/O is not an option.
+I/O pins are a fantastic way for comminucations between both processors and hardware.For this, a
+processor must have new instructions, namely `in <pin number>` and `out <pin number>`. These two 
+commands *send the data* in the accumulator to the specified pin serially and *read a byte* from the 
+specified pin number. Most readers should have seen a CPU and noticed the hundreds of pins that are
+sticking out of the CPU. Some of those pins are reserved for and ground
 
 
 In the early days of computing there was a fellow by the name of Alan Turing which came up with the concept of subroutines and they work by adding or subtracting the PC. Of course, general purpose
