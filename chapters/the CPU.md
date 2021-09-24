@@ -59,9 +59,9 @@ Now that we have a basic understanding of the component, let's look at a possibl
 | Instruction name | Arguments | Encoding |
 | --- | --- | --- |
 | LOAD | \<NUMBER\> | \x0F XX |
-| LOADADDR | <\ADDRESS\> | \x0E XX |
-| ADD | <\NUMBER\> | \x7C XX |
-| STORE | <\ADDRESS\> | \xE1 XX |
+| LOADADDR | <ADDRESS\> | \x0E XX |
+| ADD | \<NUMBER\> | \x7C XX |
+| STORE | \<ADDRESS\> | \xE1 XX |
 
 These instructions seems rather weird, haven't we all heard from a young age that
 computers work with 1s and 0s? That is obviously true, but a binary instruction
@@ -137,6 +137,8 @@ in the following format:
 | Programming language | CPU language |
 |----|----|
 | ```if (condition) {<br>***first code block***} else {<br>***second code block***``` | ```cmp 7<br>jne elseblock<br> \<*first code block*\><br>elseblock:<br>\<*second code block\><br>done:<br>\<*more instructions...*\>``` |
+
+
 The relevant instructions are `cmp` and `jne`. A processor that supports conditional branching needs
 another register, specificly a *status register*. A status register contains bits that each signify
 a single condition. Our status reguster is 2 bits wide and those bits are the **Carry Flag* and
