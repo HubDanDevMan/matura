@@ -1,6 +1,5 @@
 jmp _start
 
-;%include "ramtest/hexdump.asm"
 %define LINE_WIDTH 80
 base: resq 1
 length: resq 1
@@ -36,8 +35,6 @@ mov edi, formatbuff
 call formatLoop
 mov edi, 0xb8000
 mov esi, formatbuff
-;mov esi, testbuff
-;call formatLoop
 
 .loopprint:
 push cx
@@ -92,19 +89,6 @@ formatLoop:
 	pop cx
 	ret
 
-;moveeax:
-;	xor eax, eax
-;	push cx
-;	mov cx, 4
-;	.loopmove:
-;	rol eax, 8
-;	mov al, byte[esi]
-;	inc esi
-;	loop .loopmove
-;	call formatByte
-;	add esi, 8
-;	pop cx
-
 formatByte:
 	pusha
 	xor eax, eax
@@ -122,7 +106,6 @@ formatByte:
 	add dl, 0x07 	; turns 9 to ascii "9" and 10 to ascii "A"
 	noAdd:
 	mov byte [esi], dl
-	;inc esi
 	loop get_top_nibble
 	.return:
 	popa
@@ -150,8 +133,6 @@ formatHex:
 
 rambuff: times 400 db 0
 formatbuff: times 400 db 0
-;testbuff:
-;db "eeeeeeeaaaaeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeaaaaaaaaaaaAAAAaaaaaa"
-;db 0
 
 END_PADDING
+

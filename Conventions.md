@@ -10,7 +10,7 @@
 
 ### Magic numbers
 Add purpose of magic numbers in comments. So instead of just writing `add ax, 42`, 
-add the comment`; 42 is the number of WHATEVER` so it's clear why 55 and not 39.
+add the comment`; 42 is the number of WHATEVER` so it's clear why 42 and not 39.
 
 ### General formatting
 - Tabs are 4 spaces wide and comments should be aligned after 10 tabs *if possible*
@@ -27,20 +27,21 @@ add the comment`; 42 is the number of WHATEVER` so it's clear why 55 and not 39.
 
 
 #### Example:
-[//]: # (I KNOW IT LOOKS UGLY AS HELL BUT THIS IS MARKDOWN CODE FORMATTING FOR YOU.)
-[//]: # (THIS IS AN ASSEMBLY CODE GUIDE, NOT MARKDOWN WRITE STYLE TUTORIAL.)
-<code>
-&semi; mov si, &lt;string&gt;<br/>
-printString:<br/>
-&semi; prints the string pointed to by si<br/>
-&emsp;&emsp;pusha<br/>
-&emsp;&emsp;mov ah, 0x0e	&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;	&semi; sets parameter for bios call to print char<br/>
-&emsp;&emsp;.print_string_loop:<br/>
-&emsp;&emsp;&emsp;&emsp;mov al, &lbrack;si&rbrack;<br/>
-&emsp;&emsp;&emsp;&emsp;int BIOS_VIDEO_INT	&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;	&semi; calls bios to print single char<br/>
-&emsp;&emsp;&emsp;&emsp;inc si<br/>
-&emsp;&emsp;&emsp;&emsp;cmp byte &lbrack;si&rbrack;, 0x00	&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;	&semi; compares if reached end of string<br/>
-&emsp;&emsp;&emsp;&emsp;jne .print_string_loop<br/>
-&emsp;&emsp;popa<br/>
-&emsp;&emsp;ret<br/>
-</code>
+```
+%define BIOS_VIDEO_INT 0x10
+%define PRINT_CHARACTER_ARG 0x0e
+
+; mov si, <string>
+printString:
+; prints the string pointed to by si
+pusha
+mov ah, PRINT_CHARACTER_ARG               ; sets parameter for bios call to print char
+  .print_string_loop:
+    mov al, [si]
+    int BIOS_VIDEO_INT                    ; calls bios to print single char
+    inc si
+    cmp byte [si], 0x00                   ; compares if reached end of string
+    jne .print_string_loop
+  popa
+  ret
+```

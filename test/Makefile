@@ -3,7 +3,7 @@ ASMFLAGS=-fbin -w+all -O0
 IF=demo.asm
 OF=flamingos.bin
 VIRT=qemu-system-x86_64
-VIRTFLAGS=-cpu SandyBridge -drive format=raw,media=disk,file=
+VIRTFLAGS=-m 128 -drive format=raw,media=disk,file=
 OLDDIR=old
 
 make: $(IF)

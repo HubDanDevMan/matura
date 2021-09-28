@@ -1,0 +1,11 @@
+SYMBOL TAMBLE
+
+findBitChainIndex: 0x7e03
+.bitmapBytePtrLoop: 0x7e09
+.bitTest: 0x7e12
+.bitIsZero: 0x7e34
+.notEnoughBits: 0x7c37
+.redoBMByteLoop: 0x7e41
+;; first iteration correctly increments edi, the bit index pointer
+
+BITMAP: 0x7eb0
