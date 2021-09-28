@@ -13,13 +13,14 @@ enter:
 ;main loop
 main:
 call clear_screen
+xor al, al
 .shell_loop:
 	call get_key
 	cmp al, 0x08
 	je .key_delete
 	cmp al, 0x0d
 	je .key_enter
-	call buffer_key
+	call buffer_insert
 	call print_buffer
 	jmp .shell_loop
 	.key_delete:
@@ -28,7 +29,13 @@ call clear_screen
 	jmp .shell_loop
 	.key_enter:
 	;call buffer_compare
-	;call buffer_wipe
+	call buffer_wipe
+	call print_buffer
+	cmp dh, 21
+	jne .skip
+	call scroll_screen
+	dec dh
+	.skip:
 	jmp .shell_loop
 
 
@@ -36,8 +43,6 @@ call clear_screen
 buffer:
 times 255 db " "
 db 0
-
-
 
 ;interrupt that gets ascii key from pressed button in al
 get_key:
@@ -49,11 +54,13 @@ get_key:
 ;put al in buffer
 buffer_insert:
 	cmp ecx, 255
-	je get_key 			;exception for char limit
+	je .return 			;exception for char limit
 	mov edi, buffer
 	add edi, ecx
 	mov [edi], al
 	inc ecx
+	xor al, al
+	.return:
 	ret
 
 
@@ -69,11 +76,53 @@ buffer_delete:
 	dec ecx
 	ret
 
+;add another check if its outside vm
+buffer_wipe:
+	push edi
+	mov edi, buffer
+	.wipe_loop:
+	mov al, " "
+	mov byte[edi], al
+	inc edi
+	cmp byte[edi], 0
+	jne .wipe_loop
+	pop edi
+	sub edi, 0xb8000
+	mov eax, edi
+	mov cl, 160
+	div cl
+	mov dl, al
+	inc dh
+	xor cl, cl
+	ret
 
-;function for printing buffer into video memory
+scroll_screen:
+	mov esi, 0xb8000
+	add esi, 160
+	mov edi, 0xb8000
+	.screen_loop
+	mov dl, byte[esi]
+	mov byte[edi],dl
+	inc edi
+	inc esi
+	cmp esi, 0xb8FA0 + 160
+	jne .screen_loop
+	ret
+
+;function for printing wbuffer into video memory
+;add a buffer wiper for some reaseon enter does not work yet(keeps memory location)
 print_buffer:
+	push dx
+	inc dh
 	mov esi, buffer
 	mov edi, 0xb8000
+	sub edi, 160
+	.check_line:
+	dec dh
+	add edi, 160
+	cmp dh, 0
+	jne .check_line
+	pop dx
 	.print_buffer_loop:
 	mov dl, [esi]
 	mov [edi], dl
