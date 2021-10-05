@@ -12,14 +12,14 @@
 
 
 ; 0 and 1 are not valid seeds !! 
-mov esi,  0b10111		; <- SEED 
+mov esi,  0x1234567890abcdef	; <- SEED 
 mov ecx, 256*256*256*256		; Number of Feedbacks
 mov ah, 0x0e
 rand:
 	xor al, al
 	shr esi, 1
 	; print bit
-	adc al, "0"
+	adc al, 0x30
 	int 0x10
 
 	; calculate new leftmost bit with maskbits

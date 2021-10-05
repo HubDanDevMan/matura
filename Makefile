@@ -16,7 +16,7 @@ DBGFLGS=-ex 'target remote :1234'\
 	-ex 'break *0x7e00'\
 	-ex 'display/4i $$pc'\
 	-ex 'continue'
-
+MOBILEFLAGS=-nographic
 # DeBuGger FLaGS:
 # 1: connect to qemu
 # 2: set the architecture to i8086 for 16 bit mode
@@ -41,6 +41,9 @@ make: $(SRCDIR)/$(IF)
 
 run: make
 	$(VIRT) $(VIRTFLAGS)$(OF)
+
+mobile: make
+	$(VIRT) $(MOBILEFLAGS) $(VIRTFLAGS)$(OF)
 
 debug: make
 	$(VIRT) $(VIRTDEBUG) $(VIRTFLAGS)$(OF) & \
