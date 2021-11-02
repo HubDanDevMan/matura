@@ -11,7 +11,7 @@
 %define LIGHT_GREEN			0b1010
 %define LIGHT_CYAN			0b1011
 %define LIGHT_RED			0b1100
-%define LIGHT_MAGENTA		0b1101
+%define LIGHT_MAGENTA			0b1101
 %define YELLOW				0b1110
 %define WHITE				0b1111
 %define PIXEL_MOVE			7
@@ -73,7 +73,7 @@ key_right_draw:
 add cx, PIXEL
 ret
 key_enter_draw:					;puts selected color onto the screen as
-	drawSquare al,PIXEL 		;pixel size
+	DrawSquare al,PIXEL 		;pixel size
 	call add_cursor
 	ret
 
@@ -84,11 +84,11 @@ remove_cursor:                  ;checks colour of the pixel next to the
 	int 0x10
 	sub cx, 2
 	sub dx, 2
-	drawSquare al,CURSOR
+	DrawSquare al,CURSOR
 	ret
 
 add_cursor: 					;simply adds a white cursor on cursor location
-	drawSquare WHITE,CURSOR
+	DrawSquare WHITE,CURSOR
 	ret
 
 
