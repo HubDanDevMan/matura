@@ -4,6 +4,7 @@ INCL=firststage.asm
 VIRT=qemu-system-x86_64
 VIRTFLAGS=-drive format=raw,media=disk,file=
 VIRTDEBUG=-gdb tcp::1234 -S
+MOBILEFLAGS=-nographic
 DBG=gdb
 DBGFLGS=-ex 'target remote :1234'\
 	-ex 'set disassembly-flavor'\
@@ -44,6 +45,9 @@ endif
 # runs IF
 run: default
 	$(VIRT) $(VIRTFLAGS)$(IF).bin
+
+mobile: default
+	$(VIRT) $(MOBILEFLAGS) $(VIRTFLAGS)$(IF).bin
 
 debug: default
 	$(VIRT) $(VIRTDEBUG) $(VIRTFLAGS)$(IF).bin & \
