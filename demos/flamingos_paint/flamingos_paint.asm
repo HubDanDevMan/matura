@@ -37,38 +37,38 @@ je     key_right
 cmp    ax,0x1c0d  		;Enter
 je     key_enter
 cmp    ax,0x3062 		;b
-je     0x393
+je     key_blue
 cmp    ax,0x3042 		;B
-je     0x39b
+je     key_light_blue
 cmp    ax,0x2267 		;g
-je     0x3a3
+je     key_green
 cmp    ax,0x2247 		;G
-je     0x3ab
+je     key_light_green
 cmp    ax,0x1372 		;r
-je     0x3b3
+je     key_red
 cmp    ax,0x1352 		;R
-je     0x3bb
+je     key_light_red
 cmp    ax,0x1970 		;p
-je     0x3c3
+je     key_black
 cmp    ax,0x1950 		;P
-je     0x3cb
+je     key_brown
 cmp    ax,0x2e63 		;c
-je     0x3d3
+je     key_cyan
 cmp    ax,0x2e43 		;C
-je     0x3db
+je     key_light_cyan
 cmp    ax,0x1177		;w
-je     0x3e3
+je     key_white
 cmp    ax,0x1157 		;W
-je     0x3eb
+je     key_light_grey
 cmp    ax,0x2c7a 		;y
-je     0x3f3
+je     key_yellow
 cmp    ax,0x1071 		;q
-je     0x3fb
+je     key_dark_grey
 cmp    ax,0x1474 		;t
 je     0x403
 cmp    ax,0x11b 		;esc
-je     0x353
-jmp    0x2bb
+je     key_dark_grey
+jmp    keystroke_loop
 ;this is the end of keystroke check, 0x2bb is most likely start of loop
 
 ;from here on these are the actual functions for the keys, find each of them
@@ -107,66 +107,105 @@ push   ax
 call   key_enter_draw
 jmp    keystroke_loop
 
+
+
+
+key_blue:
 pop    ax
-call   0x27e
+call   key_change_blue
 push   ax
-jmp    0x2bb
+jmp    keystroke_loop
+
+key_black:
 pop    ax
-call   0x281
+call   key_change_black
 push   ax
-jmp    0x2bb
+jmp    keystroke_loop
+
+key_green:
 pop    ax
-call   0x284
+call   key_change_green
 push   ax
-jmp    0x2bb
+jmp    keystroke_loop
+
+key_cyan:
 pop    ax
-call   0x287
+call   key_change_cyan
 push   ax
-jmp    0x2bb
+jmp    keystroke_loop
+
+key_red:
 pop    ax
-call   0x28a
+call   key_change_red
 push   ax
-jmp    0x2bb
+jmp    keystroke_loop
+
+key_magenta:
 pop    ax
-call   0x28d
+call   key_change_magenta
 push   ax
-jmp    0x2bb
+jmp    keystroke_loop
+
+key_brown:
 pop    ax
-call   0x290
+call   key_change_brown
 push   ax
-jmp    0x2bb
+jmp    keystroke_loop
+
+key_light_grey:
 pop    ax
-call   0x293
+call   key_change_light_grey
 push   ax
-jmp    0x2bb
+jmp    keystroke_loop
+
+key_dark_grey:
 pop    ax
-call   0x296
+call   key_change_dark_grey
 push   ax
-jmp    0x2bb
+jmp    keystroke_loop
+
+key_light_blue:
 pop    ax
-call   0x299
+call   key_change_light_blue
 push   ax
-jmp    0x2bb
+jmp    keystroke_loop
+
+key_light_green:
 pop    ax
-call   0x29c
+call   key_change_green
 push   ax
-jmp    0x2bb
+jmp    keystroke_loop
+
+key_light_cyan:
 pop    ax
-call   0x29f
+call   key_change_light_cyan
 push   ax
-jmp    0x2bb
+jmp    keystroke_loop
+
+key_light_red:
 pop    ax
-call   0x2a2
+call   key_change_light_red
 push   ax
-jmp    0x2bb
+jmp    keystroke_loop
+
+key_light_magenta:
 pop    ax
-call   0x2a5
+call   key_change_light_magenta
 push   ax
-jmp    0x2bb
+jmp    keystroke_loop
+
+key_yellow:
 pop    ax
-call   0x2a8
+call   key_change_yellow
 push   ax
-jmp    0x2bb
+jmp    keystroke_loop
+
+key_white:
+pop    ax
+call   key_change_white
+push ax
+jmp keystroke_loop
+
 ;what in gods name is this
 ;these are colors delte this and redo
 

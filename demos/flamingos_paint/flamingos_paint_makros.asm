@@ -138,7 +138,9 @@ key_change_dark_grey:
 key_change_brown:
 	mov al, BROWN
 	ret
-
+key_change_light_grey:
+	mov al, LIGHT_GREY
+	ret
 
 ;key_change_light_grey:				i have no fucking clue as to why grey
 ;	mov al, LIGHT_GREY 				does not work so its a feature now
