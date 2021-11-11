@@ -1,5 +1,5 @@
 
-#Processes
+# Processes
 
 A process is defined as a computer program that is currently being executed. A program is a 
 series of instructions and static data that are stored as a file on a disc. The instructions
