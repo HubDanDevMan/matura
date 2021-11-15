@@ -22,6 +22,23 @@ The text contains the current activity, this is represented by the value of the 
 
 Further iformation on these four sections can be found within the memory chapter.
 
+Processes can be further categorized into what is called aprocess life cycle. The process life cycle is
+a categorization of the different states a process or program can be in. A process life cycle can vary
+from one operating system to another and the names are also not standardized. The aforementioned 
+categorisation consists of 5 different stages:
+
+- Start:
+The original state in which a process is first initiated in.
+- Ready:
+A ready process in in wait for the processor to allocate them via the operating system. Processes will
+likely enter this state after the Start state. The other likely reason why a process enters this stage
+is because the OS scheduler(part of the operating system that manages CPU allocation to processes) will
+interrupt the process to assign the CPU to another process.
+- Running:
+In this state the process has been assigned the CPU by the OS scheduler and executes its instructions.
+- Waiting:
+- Exit/Terminate:
+
 
 ## Program
 
