@@ -40,7 +40,13 @@ interrupt the process to assign the CPU to another process.
 
 In this state the process has been assigned the CPU by the OS scheduler and executes its instructions.
 - Waiting:
+
+This is the stage in which the process is waiting for a resource such as waiting for a file to become available
+or waiting for user input.
 - Exit/Terminate:
+
+This is the last state a process enters when it has finished with its execution. The process is then removed
+from main memory.
 
 
 ## Program
