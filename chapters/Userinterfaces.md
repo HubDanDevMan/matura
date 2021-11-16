@@ -2,7 +2,7 @@
 
 Most definitely, every reader has interacted with a computer before. But most likely there was no
 direct interaction with the kernel. Not only is it tedious to interact with the kernel but also
-extremely time consuming. This is where the user interfaces (UIs) come to help.
+extremely time consuming. This is where user interfaces (UIs) come to help.
 
 ## The shell
 
@@ -18,11 +18,11 @@ let alone their login screen. Traditionally computers were accessed using a *com
 color on black background. CLIs don't use a lot of system resources. This is due to the fundamental
 difference in architecture between GUIs and CLIs.
 
-## Windowing systems
+## Windowing systems and GUIs
 
 GUIs are made of programs that facilitate windows, icons, menus and pointing with a cursor. One of 
-the components is a program called the display server. It is responsible for the communication of all 
-the programs that have a graphical output. This communication occurs through a display server protocol
+its components is a program called the *display server*. It is responsible for the communication between
+all the programs that have a graphical output. This communication occurs through a *display server protocol*
 and the programs communicating with the display server are its clients. In windowing systems every
 program has its own *window buffer*. It is a dedicated area in memory that the graphical program can
 render its own graphical output to. Whenever the program has finished rendering its own window it will
@@ -52,34 +52,27 @@ thereof.
 
 ### Input
 
-GUIs are heavily reliant on mouse input to drag, resize and reordering windows, but keyboard input
+GUIs are heavily reliant on mouse input to drag, resize and reordering windows but keyboard input
 is just as important for a enjoyable user experience. There may be multiple windows running
-simultaneously and all of them are waiting for input. Input from external devices is handled by the
-kernel. The display manager more or less exclusively acquires the exclusive right to the system input     
-and decides whom to send key strokes or pointer events such as scrolling or rightclick. Additionaly
+simultaneously and all of them are waiting for user input. Input from external devices is handled by the
+kernel. The display manager more or less exclusively acquires the right to the system input
+and decides whom to send key strokes or pointer events such as scrolling or rightclicking. Additionaly,
 the display server will check if the input received from the kernel requires a window focus change.
 Focus indicates the selected window which will get user input. If the display server notices that
 the user has clicked on a window outside of the current window with focus it will transfer the focus
 to the new window and change its Z-order to bring it to the front.
-
-Clients ask the server for key and mouse input and render their own window. When an applications
-window has been updated, the client application will communicate the changes to the display server.
-The display server takes care of input. Kernels are system resource managers and one of those system
-resources is the computer monitor
-
-
-The display manager will also
-check wether a click has been made on the window bar buttons such as close, minimize or maximize. The
-display manager will merely tell the program that it has been resized and the program will redraw its
-buffer according to the new dimensions of its window. 
+The display manager will also check wether a click has been made on one of the programs window bar
+buttons such as the close, minimize or maximize buttons or if the window has been resized by clicking
+and draging the border. It will then tell the program that it has been resized and the program will
+redraw its buffer according to the new dimensions of its window and then communicate the changes to the
+display server.
 
 ## CLI
 
 Command line interfaces are a text-only interface that put emphasis on speed, practicality and
 efficency. The are purely controlled by the keyboard and are operated by entering
-commands into to the command prompt.The commands are processed by a program called *command
-interpreter*. The term _shell_ was associated with command line interpreter but today it has gotten
-a bit of the meaning _user interface_ as well. The command line interpreter is a program that awaits
+commands into to the command prompt. The commands are processed by a program called a *command
+interpreter*. The command line interpreter is a program that awaits
 textual commands to invoke a program. A program can be started by typing its name into the shell. The
 shell evaluates the input of the user. Valid input can be one of the following:
 
@@ -95,60 +88,6 @@ be too much of an overhead. These small functionalities are called *commands* in
 they are provided by the command line interpreter itself. Examples of such commands are *cd*/*chdir*, which
 is used to change the *current working directory* or *help*, which is used to display helpful information
 about the command line interpreter.
-
-### Executables
-
-Executables are files that can be *run*. They are sometimes called *programs* but executables refer
-strictly to the files, specificly files containing *instructions and data*. Whenever their name is
-typed into the command prompt, the executable is run and when finished, the user will be returned to
-the prompt. However, there are multiple types of files. A JPEG image is a excellent container for
-photographs and pictures but it is a terrible format to store instructions and data for a computer.
-It is a bad idea to execute a JPEG file because the instructions contained within the file are garbage
-at best or nefarious (such as malware) at worst. Operating systems have mechanisms to deter users from
-running non-executable files but the OS itself has to know wether a file is runnable or not. These files
-are identified in some operating systems by their _extension_ or their _file signature_. An extension is
-a small appendix to the file name. It is of format `filename.extension`. The Windows NT family of operating
-systems relies heavily on extensions to differentiate between executables and regular files.
-
-#### Binary executables
-
-The executable files used on DOS since the 90' and its descendants (like Windows) use a format called the MZ
-executable. The MZ file format has been upgraded multiple times over the course of history. Its latest revision
-is called the Portable Executable (PE) and is merely built on top of the MZ format. The extension used for
-MZ and PE is typically **.exe** to identify *binary executables* i.e. instructions and data for the
-processor. Windows supports most DOS legacy formats due to backwards compatibility. These includes formats
-such as **.COM**. The default command line interpreter on Windows CMD is the graphical version of the
-text-only DOS command line interpreter and is used to start programs and navigate the system. A program
-name can be typed in to the prompt and DOS would execute it. Because the developers of DOS noticed that
-typing out the file extension for every program is annoying, they made typing the extension obsolete.
-The text editor on DOS was *EDLIN.EXE* but starting the program was done by typing `EDLIN` into the command
-prompt. After typing the name of the program into the prompt, the interpreter checks wether the program name
-is associated with a **.exe** or a **.com** file and if so, the program would be run and the user was able
-to interact with the program until it quits, upon which the user will be prompted again. 
-
-#### Scripts
-
-There is also a different type of executables, namely *scripts*. Scripts are written in a human readable
-scripting language. They rely on software to interprete the instructions at run time in contrast of
-hardware (such as the CPU). The interpreting software is a program that contains instructions for
-the CPU. Windows uses the **.bat** or **.cmd** extension for scripts written for `cmd.exe` and for
-the newer PowerShell scripts with extension **.ps1** it will use `powershell.exe`. The command line
-interpreter will 
-
-#### Executables on unix-like systems
-
-Unix-like operating systems differ greatly from Windows NT ones. They rarely rely on extensions to
-identify executables but rather *file signatures*. Binary executables unix systems with the exception of MacOS
-contain the "\x7fELF" signature. 
-
-A special type of file signature can be found on
-scripts. Even though they are made of plain ASCII characters the author of the file creates the
-signature by him or herself. In scripts for Unix-like operating systems the format is as follows:
-`#!/path/to/the/script/interpreter -parameters\n` followed by instructions in the scripting language that can
-be interpreted by the interpreter specified in the path. The *shebang* ("#!") is the script signature
-and tells the kernel that the program is not in a binary format such as ELF (Linux) or Mach-O
-(MacOS Darwin), the unix-like counterparts to Windows *.exe* (PE). When the executable is invoked,
-the kernel will first invoke the interpreter, which is a binary executable
 
 ### Environment variables
 
@@ -193,6 +132,25 @@ browsing et al. and system administrative tasks or running text-only programs.
 
 ## Remote Access
 
+As computers incorporated more and more internet capabilities, engineers added functionalities for
+*remote access*. This meant that a user connected to a *local area network* (LAN) with his computer
+was able to interact with another computer located on the LAN and interact with the remote machine
+as it was a local device. 
+
 ### Secure shell
 
+The first type of remote access was a login program listening on the network. It was over a protocol called
+telnet and a user was able to connect to another computer running a *telnet server* using a *telnet client*.
+However, it was quickly overtaken by a new protocol due to its unencrypted nature: **SSH**, the *Secure SHell*.
+SSH works similar to telnet in a sense of accessing a remote computer. A user can log in to a different
+computer running a *SSH server* by using a *SSH client*. Unlike telnet, SSH encrypts all internet traffic,
+which is crucial when sending passwords over a network. SSH has become a standard today and is widely used to
+manage server computers on both local and wide-area networks.
+
 ### Remote Desktop
+
+Many programs (such as web browsers) exist only in *graphical mode* and do not support a text-only interface.
+However, remote access can also be served in a graphical format. The protocol differs greatly from SSH because
+it must additionaly support mouse input and screen output. On the host machine, the display server redirects
+the framebuffer output to the client. The client consistently sends keystrokes and mouse events to the display
+server. 
