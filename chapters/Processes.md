@@ -45,7 +45,50 @@ In this state the process has been assigned the CPU by the OS scheduler and exec
 
 ## Program
 
+## Executables
 
+### Binary executables
+
+The executable files used on DOS since the 90' and its descendants (like Windows) use a format called the MZ
+executable. The MZ file format has been upgraded multiple times over the course of history. Its latest revision
+is called the Portable Executable (PE) and is merely built on top of the MZ format. The extension used for
+MZ and PE is typically **.exe** to identify *binary executables* i.e. instructions and data for the
+processor. Windows supports most DOS legacy formats due to backwards compatibility. These includes formats
+such as **.COM**. The default command line interpreter on Windows CMD is the graphical version of the
+text-only DOS command line interpreter and is used to start programs and navigate the system. A program
+name can be typed in to the prompt and DOS would execute it. Because the developers of DOS noticed that
+typing out the file extension for every program is annoying, they made typing the extension obsolete.
+The text editor on DOS was *EDLIN.EXE* but starting the program was done by typing `EDLIN` into the command
+prompt. After typing the name of the program into the prompt, the interpreter checks wether the program name
+is associated with a **.exe** or a **.com** file and if so, the program would be run and the user was able
+to interact with the program until it quits, upon which the user will be prompted again. 
+
+### Scripts
+
+There is also a different type of executables, namely *scripts*. Scripts are written in a human readable
+scripting language. They rely on software to interprete the instructions at run time in contrast of
+hardware (such as the CPU). The interpreting software is a program that contains instructions for
+the CPU. Windows uses the **.bat** or **.cmd** extension for scripts written for `cmd.exe` and for
+the newer PowerShell scripts with extension **.ps1** it will use `powershell.exe`. The command line
+interpreter will 
+
+### Executables on unix-like systems
+
+Unix-like operating systems differ greatly from Windows NT ones. They rarely rely on extensions to
+identify executables but rather *file signatures*. Binary executables unix systems with the exception of MacOS
+contain the "\x7fELF" signature. 
+
+# **MORE IN CHAPTER FILES !!!!**
+
+A special type of file signature can be found on
+scripts. Even though they are made of plain ASCII characters the author of the file creates the
+signature by him or herself. In scripts for Unix-like operating systems the format is as follows:
+`#!/path/to/the/script/interpreter -parameters\n` followed by instructions in the scripting language that can
+be interpreted by the interpreter specified in the path. The *shebang* ("#!") is the script signature
+and tells the kernel that the program is not in a binary format such as ELF (Linux) or Mach-O
+(MacOS Darwin), the unix-like counterparts to Windows *.exe* (PE). When the executable is invoked,
+the kernel will first invoke the interpreter, which is a binary executable and pass the name of the script
+to the interpreter.
 
 
 
