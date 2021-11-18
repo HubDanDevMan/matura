@@ -13,6 +13,7 @@ enter:
 ;main loop
 main:
 call clear_screen
+call print_buffer
 xor al, al
 .shell_loop:
 	call get_key
@@ -40,6 +41,8 @@ xor al, al
 
 
 ;buffer for string comparison
+prebuffer:
+db "[Flamingos$]:"
 buffer:
 times 255 db " "
 db 0
@@ -114,7 +117,7 @@ scroll_screen:
 print_buffer:
 	push dx
 	inc dh
-	mov esi, buffer
+	mov esi, prebuffer
 	mov edi, 0xb8000
 	sub edi, 160
 	.check_line:
