@@ -19,6 +19,11 @@ wordlength: resb 1
 health: resb 1
 
 _setup:
+mov esi, clearscreen
+call printBuff
+
+mov esi, 0
+xor cx, cx
 call getRandomString		;loads random stringaddress from wordlist into esi 
 mov edx, esi			;save string in edx
 call getStringLength		;counts characters in the string and loads length into cx
@@ -34,7 +39,7 @@ jmp $
 
 
 getStringLength:
-	mov cx, 0
+	xor cx, cx
 	.loop:
 	cmp byte[esi], 0	
 	je .done			;jumps to .done if every character in esi has been analyzed
@@ -64,6 +69,10 @@ gameloop:
 	mov bl, 0
 	.loopKey:
 	call getKey			;moves keyboard input into al
+	cmp al, 0x01
+	je shutdown			;if the user presses the esc key the program shuts down
+	cmp al, 0x04
+	je _setup			;if the user presses the enter key the program restarts
 	call printUsedLetters		;prints al to show the already used characters
 	mov esi, edx			;restore original string
 	mov bh, 0
@@ -117,6 +126,13 @@ gameloop:
 	mov edi, 0xb85bc			;set video memory location to the end of the "The word was: _" string
 	mov esi, edx				
 	call printString
+	.waitforkeyW:
+	call getKey
+	cmp al, 0x01
+	je shutdown				;if the user presses the esc key the program shuts down
+	cmp al, 0x04
+	je _setup				;if the user presses the enter key the program restarts
+	jmp .waitforkeyW
 	jmp $
 	
 	.firststrike:
@@ -148,7 +164,15 @@ gameloop:
 	mov edi, 0xb847c			;set video memory location to the end of the "The word was: _" string
 	mov esi, edx
 	call printString			
+	.waitforkeyL:
+	call getKey
+	cmp al, 0x01
+	je shutdown				;if the user presses the esc key hangman shuts down
+	cmp al, 0x04				
+	je _setup				;if the user presses the enter key the game restarts
+	jmp .waitforkeyL
 	jmp $
+	
 
 printString:					;main difference to printBuff: video memory location is not given here
 	pusha
@@ -172,7 +196,12 @@ printUsedLetters:
 	mov byte[edi], bh			;set , after the character
 	mov edi, 0xb846e			;reset video memory location to the _ of the "Guess: _" line
 	ret
+	
+shutdown:	
+	mov ah, 0x53
+	mov al, 0x07		; 'Set power state' control word
+	mov bx, 1 		; ALL devices
+	mov cx, 3 		; Power State: OFF
+	int 0x15
 
-align 512
-times 512 db 0
-;END_PADDING
+END_PADDING

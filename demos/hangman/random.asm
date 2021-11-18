@@ -14,7 +14,8 @@
 ;clock ticks are about 18.2 per second so we cannot predict the output number
 
 getRandNr:
-mov ax, 0 			;parameters for getting clock ticks
+xor ax, ax 			;parameters for getting clock ticks
+xor dx, dx
 int 0x1a 			;clock ticks interrupt puts them in CX:DX
 mov ax, dx 			;move into division format
 mov dx, cx

@@ -75,7 +75,7 @@ str74	db "turkey", 0
 str75	db "wine", 0
 str76	db "cookie", 0
 str77	db "donut", 0
-str78	db "fondu", 0
+str78	db "fondue", 0
 str79	db "lasagna", 0
 str80	db "pepperoni", 0
 str81	db "england", 0

@@ -1,5 +1,5 @@
 [org 0x7c00]
-%define SECTORS 20
+%define SECTORS 25
 %define END_PADDING times (512*SECTORS)-($-$$) db 0
 
 mov ah, 0x02

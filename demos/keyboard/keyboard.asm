@@ -27,6 +27,7 @@ KEY_LUT_1_CH:					;Key lookuptable scan code set 1
 	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
 	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
 	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
+	db 0
 
 _start:
 
@@ -59,6 +60,7 @@ initialise:			;set scan code set. decides what the scan code for the different k
 
 
 getKey:
+	push ebx
 	.scanCodeLoop:		;check if a key was pressed
 	in al, 0x64
 	bt ax, 0
@@ -78,6 +80,7 @@ getKey:
 	;jmp .scanCodeLoop
 	;
 	;
+	pop ebx
 	ret
 	;
 	;pusha
@@ -210,4 +213,4 @@ delay:
 	
 	ret
 
-END_PADDING
+;END_PADDING

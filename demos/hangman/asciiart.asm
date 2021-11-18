@@ -38,7 +38,9 @@ num db "5"
 times LINE_WIDTH-11 db " "
 db "The word was: "
 victoryword: times LINE_WIDTH-14 db " "
-times 15*LINE_WIDTH db " "
+times LINE_WIDTH db " "
+db "Press ENTER to restart."
+times 13*LINE_WIDTH db " "
 db 0
 
 strike1buff:
@@ -128,7 +130,8 @@ times LINE_WIDTH-53 db " "
 times LINE_WIDTH db " "
 db "The word was: "
 defeatword: times LINE_WIDTH-14 db " "
-times LINE_WIDTH db " "
+db "Press ENTER to restart."
+times LINE_WIDTH-23 db " "
 db " ____________       "
 times LINE_WIDTH-20 db " "
 db " |          |       "
@@ -163,5 +166,8 @@ db " |                  "
 times LINE_WIDTH-20 db " "
 db "_|________          "
 times LINE_WIDTH-20 db " "
-times 5*LINE_WIDTH db " "
+times 4*LINE_WIDTH db " "
+db 0
+
+clearscreen: times 25*LINE_WIDTH db " "
 db 0
