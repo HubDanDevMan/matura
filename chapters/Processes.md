@@ -49,12 +49,19 @@ from main memory.
 
 ## Threads
 
+Threads are the most basic unit of CPU utilisation, meaning that this is the smallest amount that we can split
+the workload of the CPU. Threads consist of a stack, a set of registers and a program counter. Usually a process
+is tied to strictly one thread meaning that the CPU does not split the workload over multiple threads. However in
+modern programming often multiple threads are used by one process to perform different tasks independently at the
+same time.
+
+
+## Program
+
 A program is a file containing a set of instructions. These instructions can be written in many different 
 programming languages such as: Python, C or C++. The CPU however cammpt read these instructions yet they 
 first need to be translated into something that the computer can use.
 
-
-## Program
 
 ## Executables
 
