@@ -47,6 +47,12 @@ or waiting for user input.
 This is the last state a process enters when it has finished with its execution. The process is then removed
 from main memory.
 
+## Threads
+
+A program is a file containing a set of instructions. These instructions can be written in many different 
+programming languages such as: Python, C or C++. The CPU however cammpt read these instructions yet they 
+first need to be translated into something that the computer can use.
+
 
 ## Program
 
@@ -106,7 +112,7 @@ stuff:
 [^proc1]: https://web.archive.org/web/20200916133128/https://pages.cs.wisc.edu/~remzi/OSTEP/
 [^proc2]: https://www.tutorialspoint.com/operating_system/os_processes.htm
 [^proc3]: https://medium.com/@imdadahad/a-quick-introduction-to-processes-in-computer-science-271f01c780da
-
+https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/4_Threads.html 
 
 
 
