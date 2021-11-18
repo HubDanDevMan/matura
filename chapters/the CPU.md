@@ -58,10 +58,10 @@ Now that we have a basic understanding of the component, let's look at a possibl
 
 | Instruction name | Arguments | Encoding |
 | --- | --- | --- |
-| LOAD | \<NUMBER\> | \x0F XX |
-| LOADADDR | <ADDRESS\> | \x0E XX |
-| ADD | \<NUMBER\> | \x7C XX |
-| STORE | \<ADDRESS\> | \xE1 XX |
+| LOAD | \<NUMBER\> | `\x0F XX` |
+| LOADADDR | \<ADDRESS\> | `\x0E XX` |
+| ADD | \<NUMBER\> | `\x7C XX` |
+| STORE | \<ADDRESS\> | `\xE1 XX` |
 
 These instructions seems rather weird, haven't we all heard from a young age that
 computers work with 1s and 0s? That is obviously true, but a binary instruction
@@ -136,7 +136,7 @@ under what condition a certain code block should be run. They are translated to 
 in the following format:
 | Programming language | CPU language |
 |----|----|
-| ```if (condition) {<br>***first code block***} else {<br>***second code block***``` | ```cmp 7<br>jne elseblock<br> \<*first code block*\><br>elseblock:<br>\<*second code block\><br>done:<br>\<*more instructions...*\>``` |
+| ```if (condition) {<br>&#10;***first code block***} else {<br>***second code block***``` | ```cmp 7<br>jne elseblock<br> \<*first code block*\><br>elseblock:<br>\<*second code block\><br>done:<br>\<*more instructions...*\>``` |
 
 
 The relevant instructions are `cmp` and `jne`. A processor that supports conditional branching needs

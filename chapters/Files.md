@@ -17,12 +17,13 @@ of the aforementioned format have a specific file signature, a magic number loca
 few bytes of the file. It can be thought of as file extension stored in the file itself and not in
 the file name (metadata). The only difference is that extensions differ from the file signatures.
 Here is a small list of file signatures:
+
 | File type | Signature |
 |----|----|
-| JPEG | "ÿØÿÛ" |
-| MP3 | "ÿû" |
-| ZIP | "PK\x03\x04" |
-| PDF | "%PDF-" |
+| JPEG | &#255;&#216;&#255;&#219; |
+| MP3 | &#255;&#251; |
+| ZIP | PK\\x03\\x04 |
+| PDF | \%PDF- |
 
 Whenever a user opens a file from Finder on MacOS or any similar file manager that does not contain a
 file extension it will open the file with the correct program nonetheless. One problem arises, namely
@@ -80,7 +81,5 @@ such as `zerodrv`implement drivers for unix-like equivalent special device files
 on Windows.
 
 [^windev]: https://superuser.com/questions/1204522/dev-sda-equivalent-in-windows
-
 ### Character devices
-
 ### Block devices

@@ -11,7 +11,7 @@ Here are some of the more frequently used terms, some will be explained in great
 | **Compiler** | A program that translates a programming language into machine code. |
 | **CPU instructions** (opcode)| The most fundamental, simple operations that can be done by a processor, such as addition, multiplication, binary-xor). They are encoded in bytes and depending on the instruction set architecture can be multiple bytes long. More in chapter "The CPU" |
 | **Instruction set architecture**(ISA) | An abstract computer model. Hardware that executes the ISA is an implementation of that ISA. Said ISA describes many low level CPU components and concepts such as CPU instructions and registers. Further explaine in chapter 'The CPU'. |
-| **Operating system**00 (OS) | A program that manages the hardware and system respurces as well as a user interface. It provides a layer of abstraction for application programs. Examples of OSes are Windows 10, MacOS, Android and Ubuntu. Because operating systems are the central part of our project this booklet will explain the inner workings and components of an OS. |
+| **Operating system** (OS) | A program that manages the hardware and system respurces as well as a user interface. It provides a layer of abstraction for application programs. Examples of OSes are Windows 10, MacOS, Android and Ubuntu. Because operating systems are the central part of our project this booklet will explain the inner workings and components of an OS. |
 | **Data structures** | Ways of organizing, accessing and finding data. Examples are: <br/> - _Arrays_: Items of single data type stored sequentally in memory. <br > -_Linked list_: A list where the first element (a.k.a *head*) element points to the memory address of the next element, which will also point to the its next element et cetera. |
 | **Protocol** | It can be seen as a language or grammar used in communication between programs or firmware. A protocol defines rules, syntax and synchronisation for communication. Examples are *http*, used between web servers and browsers or SMTP, the simple mail protocol used by e-mail servers. Hardware/firmware protocols are used to discover newly attached peripheral devices or for sending commands to devices. |
 
@@ -30,10 +30,11 @@ and 0b11001010 (202).
 
 Srings are literal text for a computer. They can be seen as an array of characters, such as 'A', 'k' and '\*'. Characters are
 associated with a numeric value. 'A' is equivalent to 0x41 (65). Sometimes strings contain characters that are not associated with a glyph. 0x42 represents a 'B' but 0x12 equates a charachter that is nowhere to be found in the alphabet, number characters (0-9) and other symbol lists such as `.,:;_+-*/=#$@%&!(){}[]` and alike. These characters are represented by an escape sequence, usually a backslash. Depicted below is a table with the most common escaped characters as well as their numeric value and their purpose:
+
 | Character | Numeric value | Description |
-|------|------|------|
-| '**\n**' | 0xa | Newline character  |
-| '**\0**' | 0x0 | Null-terminator used to mark an end of a primitive string |
-| '**\xf0**' |  0xf0 | Hex escape sequence can represent any numeric value between 0x0 and 0xff (255), a 1 byte value |
+|---|---|---|
+| `\n` | 0xa | Newline character |
+| `\0` | 0x0 | Null-terminator used to mark an end of a primitive string |
+| `\xf0` |  0xf0 | Hex escape sequence can represent any numeric value between 0x0 and 0xff (255), a 1 byte value |
 
 There are a few more but those will not be encountered in this booklet.

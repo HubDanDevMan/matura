@@ -51,7 +51,7 @@ debug: make
 
 clean: $(OF)
 	rm $(OF)
-
+	rm *.pdf
 paper: $(DOCS)
 	cat chapters/*.md > $(OUTDOC).md
 	pandoc $(OUTDOC).md -o $(OUTDOC).pdf

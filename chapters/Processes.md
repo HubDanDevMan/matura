@@ -1,4 +1,3 @@
-
 # Processes
 
 A process is defined as a computer program that is currently being executed. A program is a 
@@ -55,7 +54,7 @@ from main memory.
 
 ### Binary executables
 
-The executable files used on DOS since the 90' and its descendants (like Windows) use a format called the MZ
+The executable files used on DOS since the 90\' and its descendants (like Windows) use a format called the MZ
 executable. The MZ file format has been upgraded multiple times over the course of history. Its latest revision
 is called the Portable Executable (PE) and is merely built on top of the MZ format. The extension used for
 MZ and PE is typically **.exe** to identify *binary executables* i.e. instructions and data for the
@@ -82,7 +81,7 @@ interpreter will
 
 Unix-like operating systems differ greatly from Windows NT ones. They rarely rely on extensions to
 identify executables but rather *file signatures*. Binary executables unix systems with the exception of MacOS
-contain the "\x7fELF" signature. 
+contain the `\x7fELF` signature. 
 
 # **MORE IN CHAPTER FILES !!!!**
 
@@ -98,15 +97,15 @@ to the interpreter.
 
 
 
-Do processes, threads, ipc and daemons(init)
+Do processes, threads, ipc and daemons(init)[^proc1][^proc2][^proc3]
 
 
 
 
 stuff:
-https://web.archive.org/web/20200916133128/https://pages.cs.wisc.edu/~remzi/OSTEP/
-https://www.tutorialspoint.com/operating_system/os_processes.htm
-https://medium.com/@imdadahad/a-quick-introduction-to-processes-in-computer-science-271f01c780da
+[^proc1]: https://web.archive.org/web/20200916133128/https://pages.cs.wisc.edu/~remzi/OSTEP/
+[^proc2]: https://www.tutorialspoint.com/operating_system/os_processes.htm
+[^proc3]: https://medium.com/@imdadahad/a-quick-introduction-to-processes-in-computer-science-271f01c780da
 
 
 
