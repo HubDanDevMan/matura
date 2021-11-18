@@ -11,10 +11,10 @@ ACK_FLAG: resb 1
 COMMAND_BYTE: resb 1
 DATA_BYTE: resb 1
 KEY_LUT_1_CH:					;Key lookuptable scan code set 1
-	db " ", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "'", "^", " ", " " 
-	db "q", "w", "e", "r", "t", "z", "u", "i", "o", "p", "ü", " ", " ", "a", "s", "d"
-	db "f", "g", "h", "j", "k", "l", "ö", "ä", "$", "y", "x", "c", "v", "b", "n", "m" 
-	db ",", ".", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
+	db " ", 0x01, "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "'", "^", 0x02, 0x03 	;0x01 = esc key ; 0x02 = backspace key ; 0x03 = tab key
+	db "q", "w", "e", "r", "t", "z", "u", "i", "o", "p", " ", "¨", 0x04, "a", "s", "d"	;0x04 = enter key
+	db "f", "g", "h", "j", "k", "l", "ö", "ä", "$", "y", "x", "c", "v", "b", "n", "m"
+	db ",", ".", "-", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
 	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
 	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
 	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
@@ -45,7 +45,7 @@ jmp $
 initialise:			;set scan code set. decides what the scan code for the different keys are.
 	mov dx, 0xf0
 	mov [COMMAND_BYTE], dx
-	mov dx, 2
+	mov dx, 1
 	mov [DATA_BYTE], dx
 	call sendCommand
 
@@ -64,18 +64,18 @@ getKey:
 	bt ax, 0
 	jnc .scanCodeLoop
 	xor eax, eax
-
 	in al, 0x60		;get scan code from data port
 	cmp al, 0x80		
 	ja .scanCodeLoop	;skip scan code when it's just a key that was released
+
 	mov ebx, KEY_LUT_1_CH	;move memory address of the lookup table to ebx
 	add ebx, eax		;the value of the scan code in eax equals the offset from the base memory address of the lookup table
 	mov al, byte [ebx]	;move the value in the lookup table at the offset of the scan code value into al
-	mov ah, 0x0e
-	int 0x10
+	;mov byte [edi], al
+	;add edi, 2
 	;
 	;
-	jmp .scanCodeLoop
+	;jmp .scanCodeLoop
 	;
 	;
 	ret
