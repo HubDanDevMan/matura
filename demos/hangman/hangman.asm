@@ -12,6 +12,7 @@ jmp _setup
 %include "hangman/random.asm"
 %include "hangman/wordlist.asm"			
 %include "cpuid/printHex.asm"			;include printBuff
+%include "keyboard/keyboard.asm"
 %define LINE_WIDTH 80				
 
 wordlength: resb 1
@@ -42,11 +43,6 @@ getStringLength:
 	jmp .loop
 	.done:
 	mov [wordlength], cl		;loads cl into the variable wordlength to save registers
-	ret
-
-getKey:
-	xor eax, eax			;ah=0 
-	int 0x16			;ah=0 and int 0x16 waits for a keyboard input and loads it into al
 	ret
 
 draw:
@@ -177,8 +173,6 @@ printUsedLetters:
 	mov edi, 0xb846e			;reset video memory location to the _ of the "Guess: _" line
 	ret
 
-
-END_PADDING
-                                                   
-                                                    
-                                                                               
+align 512
+times 512 db 0
+;END_PADDING
