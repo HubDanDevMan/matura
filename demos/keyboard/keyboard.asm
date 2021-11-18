@@ -1,6 +1,6 @@
 jmp _start
 
-%include "cpuid/printHex.asm"
+;%include "cpuid/printHex.asm"
 
 TIME_OUT dw 65535 
 DELAY dw 65535
@@ -13,11 +13,14 @@ ACK_FLAG: resb 1
 COMMAND_BYTE: resb 1
 DATA_BYTE: resb 1
 COMMAND_ARRAY times 8 dw 0
-
+;SCAN_CODES: .db 
 _start:
 
 call reinitialise
 
+mov edi, 0xb8000
+
+call waitForScanCode
 
 jmp $
 
@@ -42,7 +45,7 @@ jmp $
 reinitialise:
 	mov dx, 0xf0
 	mov [COMMAND_BYTE], dx
-	mov dx, 2
+	mov dx, 3
 	mov [DATA_BYTE], dx
 	call sendCommand
 
@@ -51,14 +54,47 @@ reinitialise:
 	mov dx, 0
 	mov [DATA_BYTE],dx
 	call sendCommand
-
-
-	call waitForScanCode
 	
 	ret
 
 waitForScanCode:
-	
+	mov eax, 0
+	.scanCodeLoop:
+	in al, 0x64
+	bt ax, 0
+	jnc .scanCodeLoop
+
+	in al, 0x60
+	cmp al, 0x2c
+	jne .pressed
+	jmp .scanCodeLoop
+	.pressed:
+	;
+	;
+	pusha
+	mov cx, 8
+	; copy top most bit to dl
+	.get_top_nibble:
+	rol eax, 4
+	mov dl, al
+	and dl, 0x0F	; clear higher nibble of dl
+	; convert to hex representation in ASCII
+	add dl, 0x30
+	cmp dl, "9"	; if the number is greater than Ascii 9 (0x39), it would turn it to a character, "A"=0x41 
+	jle .noAdd
+	add dl, 0x07 	; turns 9 to ascii "9" and 10 to ascii "A"
+	.noAdd:
+	mov byte [edi], dl
+	add edi, 2
+	loop .get_top_nibble
+	popa
+	;
+	;
+	;mov dx, "t"
+	;mov byte [edi], dl
+	;add edi, 2
+	jmp .scanCodeLoop
+
 
 sendCommand:				;move command byte into dl and if needed data byte into dh before calling the function
 	call pollingSend		;check if the input buffer is empty
