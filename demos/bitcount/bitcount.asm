@@ -1,11 +1,11 @@
-%define BIT_CHAIN_LENGTH 	13
+%define BIT_CHAIN_LENGTH 	14
 ; This is just for the current test
 
 %define BIT_MAP_SIZE		32
 ; BIT_MAP_SIZE refers to the number of BYTES in the BITMAP
 
 jmp prog
-
+%include "./cpuid/printHex.asm"
 ; variables
 ;EAX : counts set bits since Last 0 bit; will point to the current bit index
 ;EBX : current byte pointer; will point to a byte in the Bitmap 
@@ -38,6 +38,10 @@ findBitChainIndex:
 				mov eax, ebx
 				sub eax, BITMAP	; EAX will contain the BYTE offset relative to the BM
 				shl eax, 3	; multiply the BYTE offset with 8 (bits per byte)
+				; #####################################################################
+				sub eax, ecx	; transform to start bit position
+				inc eax		; correct starting address	
+				; #####################################################################
 				;each shift left is equal to *2 mul, 3 shift left is *= 2*2*2, so *8
 				add eax, edi	; add the bit offset in Byte to the BYTE offset as bits  
 				; return value (Sector Number with sequential N free sectors) is in eax
@@ -65,19 +69,13 @@ prog:
 mov ecx, BIT_CHAIN_LENGTH	; ecx contains the length of the desired bit chain
 call findBitChainIndex		; 
 ; after return, al (eax) should contain 
-nop
-nop
-nop
-add al, 0x30
-mov ah, 0x0e
-int 0x10
 
-jmp $
-mov eax, esi
+
 ; print eax
-
+mov edi, charbuf
+call formatHex
 mov esi, strbuf
-call print
+call printBuff
 
 jmp $
 
@@ -97,8 +95,8 @@ print:
 
 
 align 8
-strbuf: db "longest chain: "
-charbuf: db "0", 0
+strbuf: db "longest chain: 0x"
+charbuf: db "00000000        ", 0
 
 
 ; BIT MAP
@@ -106,6 +104,7 @@ charbuf: db "0", 0
 ; EMPTY SECTOR := 0
 align 8
 BITMAP:
-dd 0b1111_1111_1111_1111_1111_1111_1111_1100
+db 0b1111_1111, 0b1111_1111, 0b1111_1111, 0b1111_1111
 times 7 dd 0xFFFF_FFFF	; all are unoccupied
+db 0
 END_PADDING
