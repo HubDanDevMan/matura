@@ -13,16 +13,31 @@ ACK_FLAG: resb 1
 COMMAND_BYTE: resb 1
 DATA_BYTE: resb 1
 COMMAND_ARRAY times 8 dw 0
-;SCAN_CODES: .db 
+KEY_LUT_1:					;Key lookuptable scan code set 1
+	db " ", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", " ", " " 
+	db "q", "w", "e", "r", "t", "z", "u", "i", "o", "p", " ", " ", " ", " ", "a", "s"
+	db "d", "f", "g", "h", "j", "k", "l", " ", " ", " ", " ", " ", "y", "x", "c", "v"
+	db "b", "n", "m", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
+	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
+	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
+	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
+	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
+	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
+	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
+	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
+	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
+	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
+	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
+	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
+	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
+
 _start:
 
-call reinitialise
+call initialise
 
-mov edi, 0xb8000
+;mov edi, 0xb8000
 
-call waitForScanCode
-
-jmp $
+call getKey
 
 error:
 mov ah, 0x0e 
@@ -42,58 +57,64 @@ mov al, "A"
 int 0x10
 jmp $
 
-reinitialise:
+initialise:
 	mov dx, 0xf0
 	mov [COMMAND_BYTE], dx
-	mov dx, 3
+	mov dx, 2
 	mov [DATA_BYTE], dx
 	call sendCommand
 
 	mov dx, 0xf4
 	mov [COMMAND_BYTE], dx
-	mov dx, 0
+	xor dx, dx
 	mov [DATA_BYTE],dx
 	call sendCommand
 	
 	ret
 
-waitForScanCode:
-	mov eax, 0
+
+getKey:
 	.scanCodeLoop:
 	in al, 0x64
 	bt ax, 0
 	jnc .scanCodeLoop
+	xor eax, eax
 
 	in al, 0x60
-	cmp al, 0x2c
-	jne .pressed
+	cmp al, 0x80
+	ja .scanCodeLoop
+	mov ebx, KEY_LUT_1
+	add ebx, eax
+	mov al, byte [ebx]
+	mov ah, 0x0e
+	int 0x10
+	;
+	;
 	jmp .scanCodeLoop
-	.pressed:
 	;
 	;
-	pusha
-	mov cx, 8
-	; copy top most bit to dl
-	.get_top_nibble:
-	rol eax, 4
-	mov dl, al
-	and dl, 0x0F	; clear higher nibble of dl
-	; convert to hex representation in ASCII
-	add dl, 0x30
-	cmp dl, "9"	; if the number is greater than Ascii 9 (0x39), it would turn it to a character, "A"=0x41 
-	jle .noAdd
-	add dl, 0x07 	; turns 9 to ascii "9" and 10 to ascii "A"
-	.noAdd:
-	mov byte [edi], dl
-	add edi, 2
-	loop .get_top_nibble
-	popa
+	ret
+	;
+	;pusha
+	;mov cx, 8
+	;.get_top_nibble:
+	;rol eax, 4
+	;mov dl, al
+	;and dl, 0x0F	; clear higher nibble of dl
+	;add dl, 0x30
+	;cmp dl, "9"	; if the number is greater than Ascii 9 (0x39), it would turn it to a character, "A"=0x41 
+	;jle .noAdd
+	;add dl, 0x07 	; turns 9 to ascii "9" and 10 to ascii "A"
+	;.noAdd:
+	;mov byte [edi], dl
+	;add edi, 2
+	;loop .get_top_nibble
+	;popa
 	;
 	;
 	;mov dx, "t"
 	;mov byte [edi], dl
 	;add edi, 2
-	jmp .scanCodeLoop
 
 
 sendCommand:				;move command byte into dl and if needed data byte into dh before calling the function
