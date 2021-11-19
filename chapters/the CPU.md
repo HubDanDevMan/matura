@@ -103,29 +103,52 @@ and memory was very limited in the early days.
 
 ## Memory
 
-Memory refers to a system or device that is able to store data for immediate use. 
-Compared to permanent storage memory offers a faster access to data at the cost of very 
-limited storage capacity. There are several different memory storage mediums and memory 
-types, each with their own benefits and drawbacks. Memory nowadays is implemented as semiconductor
-memory. The data is stored in memory cells, where each can hold one bit of data. Semiconductor 
-memory is seperated into two types of memory:
+Memory refers to a system or device that is able to store data for immediate use. Compared to permanent 
+storage memory offers a faster access to data at the cost of very limited storage capacity. At the 
+beginning of computer science memory storage was very ineffective. Thousands of small vacuum tubes 
+were needed for simple decimal calculations. There are several different memory storage mediums and memory 
+types, each with their own benefits and drawbacks. The use of memory is determined by the purpose of
+the data in memory. There are three different segments of a computers memory. The fastest segment is cache
+memory, followed by primary memory and lastly secondary memory. While secondary memory is the slowest segment it is
+also usually the one with the highest memory size. Peripheral storage devices such as hard disks, cds, dvds and floppy disks
+are part of secondary memory. The data in secondary memory is only accessible through I/O ports making 
+it slower than the other segments. Primary memory refers to the memory that can be accessed by the CPU. Main memory, 
+cache memory and CPU registers are all part of primary memory. However, the fastest types of memory 
+are also the most expensive types and the ones with the smallest data capacity. Memory nowadays is 
+implemented as semiconductor memory. The data is stored in memory cells, where each can hold one bit 
+of data. Semiconductor memory is seperated into two types of memory:
 
-- Volatile memory:
+### Volatile memory:
 
 Volatile memory refers to memory that requires power to store data. The data stored in volatile memory
 devices is either lost or stored somewhere else when the computer shuts down. Examples for volatile 
-memory are DRAM (dynamic random-access memory) and SRAM (static random-access memory). Both are well suited
-for a different purpose than the other one. DRAM uses only one transistor per bit which means that it is cheaper 
-and takes up less space on the RAM sticks but is more difficult to control and needs to regularly refresh to keep
-the data. SRAM on the other hand does not lose the data as long as it is powered and is simpler for interfacing
-and control but uses six transistors per bit. DRAM is mostly used for desktop system memory, where a speed of
-nanoseconds is not necessary. In contrast SRAM is used for cache memory. The cache is seperated into two to three
-levels. L1 is the first level of cache memory and is usually located on the CPU itself and not the RAM like DRAM. The 
+memory are DRAM (dynamic random-access memory) and SRAM (static random-access memory). Both have their
+advantages. DRAM uses only one transistor per bit which means that it is cheaper and takes up less 
+space on the RAM sticks but is more difficult to control and needs to be regularly refreshed to keep
+the data stored. SRAM on the other hand does not lose the data as long as it is powered and is simpler for interfacing
+and control but uses six transistors per bit. Using only SRAM would be much more expensive and unnecessary for 
+certain tasks, where the hardware cannot send a response within nanoseconds. DRAM is mostly used for desktop system memory. 
+In contrast, SRAM is used for cache memory. The cache is seperated into two to three levels. 
+L1 is the first level of cache memory and is located on the cores of the CPU and not the RAM like DRAM. The 
 size of a level 1 cache can range between only 2 KB and 64 KB. Processor calculations can be as fast as nanoseconds, which
-is why memory needs to be accessible in such a short time
+is why the data in memory needs to be accessible in such a short time. L2 is the second level of cache memory
+and it is present inside or outside of the CPU. The size of memory ranges from 256 KB to 512 KB.
+Level 2 is not as fast as level 1 but is still faster than primary memory thanks to a high-speed bus
+that connects the cache to one or two cores of the CPU. L3 is the third level cache which is always outside
+of the processor. All cores share access to level 3 caches which enhances performance of level 1 and
+level 2 cache. The size of memory is between 1 MB and 8 MB.
 
+### Non-volatile memory:
 
-At the beginning of computer science memory storage was very ineffective. Thousands of small vacuum 
+Non-volatile memory can retain the stored data without a supply of power. ROM (read-only memory) is a well-known
+example of non-volatile memory storage, as well as peripheral storage devices such as hard disks, floppy disks, cds and 
+dvds. Non-volatile memory usually handles secondary storage and long-term storage. This type of memory is once again
+divided into two categories:
+
+-Electrically addressed systems such as ROM, which are generally fast but are expensive and
+have a limited capacity. 
+
+-Mechanically addressed systems are cheaper per bit but are slower. 
 tubes were needed for simple decimal calculations. 
 
 
