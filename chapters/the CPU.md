@@ -24,8 +24,8 @@ Secondly, it is important to understand that RAM can be addressed by means of *n
 values*, these values are also called a *memory address* and when the address is stored
 in a register, it is called a *pointer*. So the PC is a pointer to the next instruction
 in memory. <br/>
-Now, the next question arises, what exactly is RAM? RAM is made of many fields that can store
-one byte of data. They are similar to registers, in the sense that they hold data, a numeric
+Now, the next question arises, what exactly is random access memory? RAM is made of many fields 
+that can store one byte of data. They are similar to registers, in the sense that they hold data, a numeric
 value between 0 and 255, until they are overwritten again. In RAM, there is a large number of
 those fields while there may only be a few registers present. RAM takes the form of its
 own separate hardware, namely RAM sticks. RAM is used by the CPU while it is running, but
@@ -100,6 +100,34 @@ So far we have familiarized ourselves with a cycle called the *fetch, decode, ex
 describes the steps taken for an instruction to be run by the CPU. Fetching is done by retrieving
 the instruction from RAM at address held in the PC. Engineers have realized that having instructions in memory that must be repeated take up a lot of memory
 and memory was very limited in the early days.
+
+## Memory
+
+Memory refers to a system or device that is able to store data for immediate use. 
+Compared to permanent storage memory offers a faster access to data at the cost of very 
+limited storage capacity. There are several different memory storage mediums and memory 
+types, each with their own benefits and drawbacks. Memory nowadays is implemented as semiconductor
+memory. The data is stored in memory cells, where each can hold one bit of data. Semiconductor 
+memory is seperated into two types of memory:
+
+- Volatile memory:
+
+Volatile memory refers to memory that requires power to store data. The data stored in volatile memory
+devices is either lost or stored somewhere else when the computer shuts down. Examples for volatile 
+memory are DRAM (dynamic random-access memory) and SRAM (static random-access memory). Both are well suited
+for a different purpose than the other one. DRAM uses only one transistor per bit which means that it is cheaper 
+and takes up less space on the RAM sticks but is more difficult to control and needs to regularly refresh to keep
+the data. SRAM on the other hand does not lose the data as long as it is powered and is simpler for interfacing
+and control but uses six transistors per bit. DRAM is mostly used for desktop system memory, where a speed of
+nanoseconds is not necessary. In contrast SRAM is used for cache memory. The cache is seperated into two to three
+levels. L1 is the first level of cache memory and is usually located on the CPU itself and not the RAM like DRAM. The 
+size of a level 1 cache can range between only 2 KB and 64 KB. Processor calculations can be as fast as nanoseconds, which
+is why memory needs to be accessible in such a short time
+
+
+At the beginning of computer science memory storage was very ineffective. Thousands of small vacuum 
+tubes were needed for simple decimal calculations. 
+
 
 ## Jumps and subroutines
 
