@@ -56,7 +56,31 @@ modern programming often multiple threads are used by one process to perform dif
 same time. This is very useful in modern programming because this means that a task in a process will not block 
 other task. For example a program like word can check for user input with one thread, load images on a second thread,
 check for grammar errors on a third thread and make backups on a fourth thread. Each thread has its own set of registers
-and a stack but all threads share the same files, code and data.
+and a stack but all threads share the same files, code and data. Modern CPUs have multiple cores meaning that they have
+multiple processing units this allows multiple threads to do parallel processing because each thread is strictly
+related to one processing unit. This type of programming that uses threads to complete mutliple tasks
+in parallel is reffered to as multi-threading and this benefits four main categories:
+
+- Sclalability:
+
+Multi-threading allows programmers to utilize multiple CPU cores for a single process as opposed to single
+thread processes which can only utilize a single CPU core.
+
+- Responsiveness:
+
+When threads are still occupied with tasks in the process multi-threading allows for another thread
+to still check for input and thus allowes rapid responce from the user.
+
+- Economy:
+
+Multi-threading is much faster than single thread processes. Managing and creating threads allows for
+faster completion of tasks.
+
+- Resource sharing:
+
+Threads share their recources amongst each other allowing for tasks to be completed in parallel in a
+single adress space.
+
 
 
 ## Program
