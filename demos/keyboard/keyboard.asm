@@ -50,7 +50,7 @@ _start:
 
 call initialise
 
-mov edi, 0xb8000
+;mov edi, 0xb8000
 
 call getKey
 
@@ -78,8 +78,6 @@ initialise:			;set scan code set. decides what the scan code for the different k
 
 getKey:
 	push ebx
-	mov bl, 0
-	mov [SHIFT_FLAG], bl
 	.scanCodeLoop:		;check if a key was pressed
 	in al, 0x64
 	bt ax, 0
@@ -102,11 +100,11 @@ getKey:
 	mov ebx, KEY_LUT_1_CH	;move memory address of the lookup table to ebx
 	add ebx, eax		;the value of the scan code in eax equals the offset from the base memory address of the lookup table
 	mov al, byte [ebx]	;move the value in the lookup table at the offset of the scan code value into al
-	mov byte [edi], al
-	add edi, 2
+	;mov byte [edi], al
+	;add edi, 2
 	;
 	;
-	jmp .scanCodeLoop
+	;jmp .scanCodeLoop
 	;
 	;
 	pop ebx
@@ -118,9 +116,9 @@ getKey:
 	add ebx, eax
 	mov al, byte [ebx]
 
-	mov byte [edi], al
-	add edi, 2
-	jmp .scanCodeLoop
+	;mov byte [edi], al
+	;add edi, 2
+	;jmp .scanCodeLoop
 
 	pop ebx
 	ret
@@ -243,4 +241,4 @@ delay:
 	
 	ret
 
-END_PADDING
+;END_PADDING
