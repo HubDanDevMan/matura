@@ -1,25 +1,6 @@
 # Processes
 
-A process is defined as a computer program that is currently being executed. A program is a 
-series of instructions and static data that are stored as a file on a disc. The instructions
-by themselves do nothing, the bytes must first be transformed by the operating system into 
-something usable for the CPU. When a program is loaded into memory it becomes a process and 
-this can be generalized into four sections:
-
-- The Stack:
-
-The stack contains a data such as method parameters, local variables and return adresses. The stack is use for temporary data.
-- The Heap:
-
-The heap contains Memory that is dynamically allocated during the run time of the process.
-- The Data
-
-The data is the section containing the static and global variables.
-- The Text
-
-The text contains the current activity, this is represented by the value of the program counter it also contains the contents of the processor's registers.
-
-Further iformation on these four sections can be found within the memory chapter.
+A process is defined as a computer program that is currently being executed. 
 
 Processes can be further categorized into what is called aprocess life cycle. The process life cycle is
 a categorization of the different states a process or program can be in. A process life cycle can vary
@@ -86,8 +67,43 @@ single adress space.
 ## Program
 
 A program is a file containing a set of instructions. These instructions can be written in many different 
-programming languages such as: Python, C or C++. The CPU however cammpt read these instructions yet they 
-first need to be translated into something that the computer can use.
+programming languages such as: Python, C or C++. These are considered high lever programming languages as 
+they have strong abstraction from the inner machinations of a computer. The CPU however cammpt read these 
+instructions yet they first need to be translated into something that the computer can use. This is done 
+via a compiler. Thecompiler translates When this program is loaded into memory it becomes a process and can 
+be seperated into four parts:
+
+
+- The Stack:
+
+The stack contains a data such as method parameters, local variables and return adresses. The stack is use for temporary data.
+- The Heap:
+
+The heap contains Memory that is dynamically allocated during the run time of the process.
+- The Data
+
+The data is the section containing the static and global variables.
+- The Text
+
+The text contains the current activity, this is represented by the value of the program counter it also contains the contents of the processor's registers.
+
+Further iformation on these four sections can be found within the memory chapter.
+
+- The Stack:
+
+The stack contains a data such as method parameters, local variables and return adresses. The stack is use for temporary data.
+- The Heap:
+
+The heap contains Memory that is dynamically allocated during the run time of the process.
+- The Data
+
+The data is the section containing the static and global variables.
+- The Text
+
+The text contains the current activity, this is represented by the value of the program counter it also contains the contents of the processor's registers.
+
+Further iformation on these four sections can be found within the memory chapter.
+
 
 
 ## Executables
