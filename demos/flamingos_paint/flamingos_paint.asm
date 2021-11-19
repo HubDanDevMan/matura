@@ -46,7 +46,7 @@ je     key_black
 cmp    ax,0x1950 		;P
 je     key_brown
 cmp    ax,0x2e63 		;c
-je     key_cyan
+je     key_cycle
 cmp    ax,0x2e43 		;C
 je     key_light_cyan
 cmp    ax,0x1177		;w
@@ -101,101 +101,122 @@ call   key_enter_draw
 jmp    keystroke_loop
 
 
-
+key_cycle:
+pop ax
+call color_change_cycle
+call add_indicator
+push ax
+jmp keystroke_loop
 
 key_blue:
 pop    ax
 call   key_change_blue
+call add_indicator
 push   ax
 jmp    keystroke_loop
 
 key_black:
 pop    ax
 call   key_change_black
+call add_indicator
 push   ax
 jmp    keystroke_loop
 
 key_green:
 pop    ax
 call   key_change_green
+call add_indicator
 push   ax
 jmp    keystroke_loop
 
 key_cyan:
 pop    ax
 call   key_change_cyan
+call add_indicator
 push   ax
 jmp    keystroke_loop
 
 key_red:
 pop    ax
 call   key_change_red
+call add_indicator
 push   ax
 jmp    keystroke_loop
 
 key_magenta:
 pop    ax
 call   key_change_magenta
+call add_indicator
 push   ax
 jmp    keystroke_loop
 
 key_brown:
 pop    ax
 call   key_change_brown
+call add_indicator
 push   ax
 jmp    keystroke_loop
 
 key_light_grey:
 pop    ax
 call   key_change_light_grey
+call add_indicator
 push   ax
 jmp    keystroke_loop
 
 key_dark_grey:
 pop    ax
 call   key_change_dark_grey
+call add_indicator
 push   ax
 jmp    keystroke_loop
 
 key_light_blue:
 pop    ax
 call   key_change_light_blue
+call add_indicator
 push   ax
 jmp    keystroke_loop
 
 key_light_green:
 pop    ax
 call   key_change_green
+call add_indicator
 push   ax
 jmp    keystroke_loop
 
 key_light_cyan:
 pop    ax
 call   key_change_light_cyan
+call add_indicator
 push   ax
 jmp    keystroke_loop
 
 key_light_red:
 pop    ax
 call   key_change_light_red
+call add_indicator
 push   ax
 jmp    keystroke_loop
 
 key_light_magenta:
 pop    ax
 call   key_change_light_magenta
+call add_indicator
 push   ax
 jmp    keystroke_loop
 
 key_yellow:
 pop    ax
 call   key_change_yellow
+call add_indicator
 push   ax
 jmp    keystroke_loop
 
 key_white:
 pop    ax
 call   key_change_white
+call add_indicator
 push ax
 jmp keystroke_loop
 

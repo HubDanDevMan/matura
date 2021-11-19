@@ -86,11 +86,30 @@ remove_cursor:                  ;checks colour of the pixel next to the
 	DrawSquare al,CURSOR
 	ret
 
+
+add_indicator:
+	push cx
+	push dx
+	mov dx, 4
+	mov cx, 632
+	DrawSquare al, PIXEL
+	pop dx
+	pop cx
+	ret
+
 add_cursor: 					;simply adds a white cursor on cursor location
 	DrawSquare WHITE,CURSOR
 	ret
 
+color_change_cycle:
+	cmp al, 16
+	je color_change_cycle_end
+	inc al
+	ret
 
+color_change_cycle_end:
+	mov al, 1
+	ret
 
 key_change_blue: 				;changes colour based on key pressed
 	mov al, BLUE

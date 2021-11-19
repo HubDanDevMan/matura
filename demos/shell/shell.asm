@@ -3,23 +3,23 @@
 ;\___ \| '_ \ / _ \ | |
 ; ___) | | | |  __/ | |
 ;|____/|_| |_|\___|_|_|
-                      
 jmp main
-
+%include "keyboard/keyboard.asm"
 
 
 
 enter:
 ;main loop
+
 main:
 call clear_screen
 call print_buffer
 xor al, al
 .shell_loop:
-	call get_key
-	cmp al, 0x08
+	call getKey
+	cmp al, 0x02
 	je .key_delete
-	cmp al, 0x0d
+	cmp al, 0x04
 	je .key_enter
 	call buffer_insert
 	call print_buffer
@@ -48,10 +48,7 @@ times 255 db " "
 db 0
 
 ;interrupt that gets ascii key from pressed button in al
-get_key:
-	xor eax,eax
-	int 0x16
-	ret
+
 
 
 ;put al in buffer
@@ -70,7 +67,7 @@ buffer_insert:
 ;delete a character out of buffer
 buffer_delete:
 	cmp ecx, 0
-	je get_key 			;exception for char limit
+	je getKey 			;exception for char limit
 	mov edi, buffer
 	add edi, ecx
 	dec edi
