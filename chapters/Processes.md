@@ -53,7 +53,10 @@ Threads are the most basic unit of CPU utilisation, meaning that this is the sma
 the workload of the CPU. Threads consist of a stack, a set of registers and a program counter. Usually a process
 is tied to strictly one thread meaning that the CPU does not split the workload over multiple threads. However in
 modern programming often multiple threads are used by one process to perform different tasks independently at the
-same time.
+same time. This is very useful in modern programming because this means that a task in a process will not block 
+other task. For example a program like word can check for user input with one thread, load images on a second thread,
+check for grammar errors on a third thread and make backups on a fourth thread. Each thread has its own set of registers
+and a stack but all threads share the same files, code and data.
 
 
 ## Program
