@@ -1,0 +1,87 @@
+# Interrupts
+
+One of the key features of modern processors is theability to support *interrupts*.
+Unlike many other processor features interrupts are not an arithmetic operation but
+rather the ability of a processor to *respond to a event asynchronously*. Events are
+unexpected changes that are signaled to the kernel. This chapter will explain in
+greater detail what they are and how they work in low level.
+
+# The different types of interrupts
+
+Gone are the days where the only instructions CPUs were capable of executing were
+purely arithmetic. The engineers behind the chip design in the 80' noticed that
+computers are destined to serve a purpose beyond specific mathematical computations,
+namely
+
+In
+practice this means that a processor may be running a program and an event, such as a pressed
+key, *interrupts* the execution of the program and invokes a handler for the event. The
+handler will run and upon completion the processor will resume execution of the program.
+
+## Hardware
+
+Most hardware needs to communicate with eachother. It is used for *time synchronisation*,
+*data* and to send *commands*. Devices that are attached to the computer such as keyboards 
+and USB thumb drives aswell as coprocessors and hardware located directly on the 
+motherboard such as sound cards and the clock need to be synced, programmed and set up data
+exchange. Most of this communication is done via *hardware interrupts*. All these attached
+devices are connected to the CPU with a wire called the *interrupt line*. When a device needs the CPU's 
+attention it will toggle the voltage of the interrupt line. This signals an *interrupt request* to the
+processor. The CPU will finish executing the current instruction and notice the interrupt request and
+check which device requested the interrupt. Modern CPU architectures have multiple *interrupt lines*
+and each of them can be assigned to a handler. In action this would look like the following:
+
+# IMAGE !!
+running cpu -> interrupt -> run handler -> resume execution
+
+The handler then reprograms the device if needed or performs the data exchange. Hardware 
+interrupts allow te processor to do its job and only attend hardware if its needed. This
+must be supported by hardware (interrupt line).
+
+### Interrupts vs Polling
+
+There are two paradigms used to await input, the aforementioned interrupts and *polling*, 
+which is a continous check of hardware status. It is usually implemented in software and 
+used in systems that do not support interrupts. This means that a running program must 
+frequently check all the attached hardware. The rate of which hardware is checked is called 
+the *polling rate*. A high polling rate means that the program must spend a lot of time 
+polling and a low latency. This is useful in systems that do not conduct computationally
+calculations but need high responsiveness such as routers. Most of the time devices such as 
+routers *do nothing* until an event occures, in the case of routers this is an arriving 
+internet packet. The device will only then stop polling, handle the event i.e. determine 
+the packet destination and then reroute the packet accordingly. It will resume polling once 
+again. In the time slice between receiving the packet and rerouting it, the CPU was busy and
+wasn't able to check for another packet. 
+
+## Software
+
+## Interrupt vector table
+
+Interrupt handlers are essentially *functions* that are automatically executed as soon as an
+interrupt occurs. They differ form normal functions because they are not explicitly called.
+Processors must know the *address of a function* in order to call them. Interrupt vector
+tables (IVTs) are a method to associate interrupts to interrupt handlers. It is essentially an
+*array of function pointers*. Interrupts are generally numbered and this number is used to look up 
+the address of an interrupt handler. For example, software interrupts are invoked with the `int 
+\<NUMBER\>` instruction. This number is the *interrupt number* and it is used by the CPU to determine 
+the address of the handler. The interrupt number is used as an array index. The instruction `int *N*` 
+will make the CPU jump to address pointed to by the IVT's *N*th entry. Some architectures have the IVT
+at a fixed location. The earlier versions of x86 processors had the IVT at address 0x0. Every entry
+is 4 bytes long, meaning the address of the `int *N*` handler is at adress `4 \* *N*`. As an exmple,
+the `int 0x10` instruction makes the CPU jump to the address that is in the IVT's 0x10's address,
+i.e. the address 0x40.
+
+## Interrupt requests lines
+
+Interrupts are also invoked by peripheral devices and often they do not necessarily have a fixed 
+interrupt number associated with themselves. In systems with multiple peripheral devices such as for 
+example a keyboard and a network adapter it is more practical to have separate interrupt handlers
+instead of a single handler. Mapping each peripheral device to its own handler avoids the overhead of 
+having to identify which device requested the interrupt. This mapping is done with a coprocessor often
+called the *Programmable Interrupt Controller*, PIC for short. An operating systems task is to
+*reprogram* the PIC by assigning every peripheral device its own handler. Reprogramming the PIC also
+allows for *prioritized IRQs* i.e. determining which IRQ should be handled first when multiple IRQs 
+occur simultaneously. Whenever a new hardware interrupt occurs, the reprogrammed PIC will determine
+the correct handler, communicate the IRQ number to the processor which will invoke said handler. In
+modern operating systems with dedicated drivers, the IRQ handler will invoke the driver that takes
+care of the device reconfiguration or data transfer.
