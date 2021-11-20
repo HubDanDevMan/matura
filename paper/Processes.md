@@ -31,7 +31,7 @@ from main memory.
 ## Threads
 
 Threads are the most basic unit of CPU utilisation, meaning that this is the smallest amount that we can split
-the workload of the CPU. Threads consist of a stack, a set of registers and a program counter. Usually a process
+the workload of a process. Threads consist of a stack, a set of registers and a program counter. Usually a process
 is tied to strictly one thread meaning that the CPU does not split the workload over multiple threads. However in
 modern programming often multiple threads are used by one process to perform different tasks independently at the
 same time. This is very useful in modern programming because this means that a task in a process will not block 
@@ -90,6 +90,13 @@ The text contains the current activity, this is represented by the value of the 
 Further iformation on these four sections can be found within the memory chapter.
 
 
+## Daemons and Init
+
+Daemons are computer programs that run in the background of an operating system. Users do not have direct
+access to daemon processes and have no control over them. The implementation for daemons will differ from
+operating system platforms. For Microsoft Windows NT systems, the programs that serve the functions of 
+daemons are called Windows services. In most cases they do not interact with user input and are started 
+during the boot. From Windows 2000 on the services can be manually started and stopped via the control panel.
 
 
 
