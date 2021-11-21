@@ -1,10 +1,10 @@
-# User interfaces
+\section{User interfaces}
 
 Most definitely, every reader has interacted with a computer before. But most likely there was no
 direct interaction with the kernel. Not only is it tedious to interact with the kernel but also
 extremely time consuming. This is where user interfaces (UIs) come to help.
 
-## The shell
+\subsection{The shell}
 
 The shell is the outermost layer of an OS. Users interact with the shell to start, pause and quit
 programs. Most readers will be familiar with a *graphical user interface*, GUI for short. GUIs come
@@ -18,7 +18,7 @@ let alone their login screen. Traditionally computers were accessed using a *com
 color on black background. CLIs don't use a lot of system resources. This is due to the fundamental
 difference in architecture between GUIs and CLIs.
 
-## Windowing systems and GUIs
+\subsection{Windowing systems and GUIs}
 
 GUIs are made of programs that facilitate windows, icons, menus and pointing with a cursor. One of 
 its components is a program called the *display server*. It is responsible for the communication between
@@ -35,7 +35,7 @@ factor in the Z-order which is the ordering of windows from back to front and dr
 frame buffer accordingly. As a last step it will also draw the cursor at the cursor position.
 ![*IMAGE NOT FOUND*](../assets/displayserver.png "Overview of a windowing system")
 
-### Rendering
+\subsubsection{Rendering}
 
 Every program is responsible for rendering its own window buffer. This includes but is not limited to:
 
@@ -50,7 +50,7 @@ its own font rendering tool as there is no point in reinventing the wheel. There
 faster rendering of shapes and images provided by either the display server itself or an extension
 thereof.
 
-### Input
+\subsection{Input}
 
 GUIs are heavily reliant on mouse input to drag, resize and reordering windows but keyboard input
 is just as important for a enjoyable user experience. There may be multiple windows running
@@ -67,7 +67,7 @@ and draging the border. It will then tell the program that it has been resized a
 redraw its buffer according to the new dimensions of its window and then communicate the changes to the
 display server.
 
-## CLI
+\subsection{CLI}
 
 Command line interfaces are a text-only interface that put emphasis on speed, practicality and
 efficency. The are purely controlled by the keyboard and are operated by entering
@@ -80,7 +80,7 @@ shell evaluates the input of the user. Valid input can be one of the following:
 - Full or relative path of an executable program or a program name with its path in the *PATH* _environment variable_.
 - Interactive scripting keywoards 
 
-### Shell built-ins
+\subsubsection{Shell built-ins}
 
 Many functionalities that are available to a user are *programs*. Some of those programs do such primitive
 tasks and encapsulating them in a separate program (i.e. not part of the command line interpreter) would
@@ -89,7 +89,7 @@ they are provided by the command line interpreter itself. Examples of such comma
 is used to change the *current working directory* or *help*, which is used to display helpful information
 about the command line interpreter.
 
-### Environment variables
+\subsubsection{Environment variables}
 
 Typing out full path names of executables is very annoying when invoking commands, especially if there
 are multiple directories where executables are located. Operating system designers came up with a clever
@@ -108,7 +108,7 @@ name. Environment variables are widely used nowadays but are mostly hidden from 
 The GUI will hide away most of the complexity of the OS, one of them being environment variables.
 
 
-### Scripting
+\subsubsection{Scripting}
 
 Users sometimes have more demanding requests of programs they wish to invoke. Users wishing to invoke a
 program one hundred times would need to type in the desired programs name a hundred times. Invoking
@@ -130,14 +130,14 @@ running a command line interpreter (such as CMD). This provides flexibility for 
 browsing et al. and system administrative tasks or running text-only programs.
 
 
-## Remote Access
+\subsection{Remote Access}
 
 As computers incorporated more and more internet capabilities, engineers added functionalities for
 *remote access*. This meant that a user connected to a *local area network* (LAN) with his computer
 was able to interact with another computer located on the LAN and interact with the remote machine
 as it was a local device. 
 
-### Secure shell
+\subsubsection{Secure shell}
 
 The first type of remote access was a login program listening on the network. It was over a protocol called
 telnet and a user was able to connect to another computer running a *telnet server* using a *telnet client*.
@@ -147,7 +147,7 @@ computer running a *SSH server* by using a *SSH client*. Unlike telnet, SSH encr
 which is crucial when sending passwords over a network. SSH has become a standard today and is widely used to
 manage server computers on both local and wide-area networks.
 
-### Remote Desktop
+\subsubsection{Remote Desktop}
 
 Many programs (such as web browsers) exist only in *graphical mode* and do not support a text-only interface.
 However, remote access can also be served in a graphical format. The protocol differs greatly from SSH because
