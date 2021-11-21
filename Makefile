@@ -5,8 +5,7 @@ IF=kernelmain.asm
 OF=flamingos.bin
 VIRT=qemu-system-x86_64
 VIRTFLAGS=-drive format=raw,media=disk,file=
-DOCS=$(ls chapters/)
-OUTDOC=paper
+DOCS=$(ls paper/)
 
 VIRTDEBUG=-gdb tcp::1234 -S
 DBG=gdb
@@ -17,6 +16,7 @@ DBGFLGS=-ex 'target remote :1234'\
 	-ex 'display/4i $$pc'\
 	-ex 'continue'
 MOBILEFLAGS=-nographic
+
 # DeBuGger FLaGS:
 # 1: connect to qemu
 # 2: set the architecture to i8086 for 16 bit mode
@@ -52,7 +52,6 @@ debug: make
 clean: $(OF)
 	rm $(OF)
 	rm *.pdf
-paper: $(DOCS)
-	cat chapters/*.md > $(OUTDOC).md
-	pandoc $(OUTDOC).md -o $(OUTDOC).pdf
-	rm $(OUTDOC).md
+
+papers: paper/Titlepage.md
+	pandoc paper/Titlepage.md -o Paper.pdf
