@@ -60,7 +60,7 @@ faster completion of tasks.
 - Resource sharing:
 
 Threads share their recources amongst each other allowing for tasks to be completed in parallel in a
-single adress space.
+single adress space.[^proc2]
 
 
 
@@ -87,7 +87,7 @@ The data is the section containing the static and global variables.
 
 The text contains the current activity, this is represented by the value of the program counter it also contains the contents of the processor's registers.
 
-Further iformation on these four sections can be found within the memory chapter.
+Further iformation on these four sections can be found within the memory chapter.[^proc3]
 
 
 ## Daemons and Init
@@ -151,15 +151,14 @@ to the interpreter.
 
 
 
-Do processes, threads, ipc and daemons(init)[^proc1][^proc2][^proc3]
 
 
 
 
 stuff:
 [^proc1]: https://medium.com/@imdadahad/a-quick-introduction-to-processes-in-computer-science-271f01c780da
-[^proc2]: https://www.tutorialspoint.com/operating_system/os_processes.htm
-[^proc3]: https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/4_Threads.html 
+[^proc2]: https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/4_Threads.html 
+[^proc3]: https://www.tutorialspoint.com/operating_system/os_processes.htm
 [^proc4]: https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2003/cc783643(v=ws.10)?redirectedfrom=MSDN
 [^proc5]: https://books.google.ch/books?id=JhS-TkW0tOYC&pg=PA84&redir_esc=y#v=onepage&q&f=false
 
