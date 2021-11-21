@@ -19,12 +19,21 @@ Before we began programming we installed a virtual machine that
 allowed us to run Linux even though our host operating systems were either Windows or macOS. By using a virtual machine we protected our hardware from our own mistakes. The 
 command line is a powerful tool that can, if used incorrectly, break your software and even hardware. But thanks to the virual machine we were able to isolate our host 
 operating system from our working environment which was especially important as we were new to using the command line. Furthermore Linux is commonly used by specialists 
-meaning that there are a lot of guides and tutorials to help beginners. On top of that there are more and usually better convenient, free and open-source applications. We 
+meaning that there are a lot of guides and tutorials to help beginners. On top of that there are more and usually better, convenient, free and open-source applications. We 
 then installed the Netwide Assembler or NASM for short which, as the name suggest, is an assembler. It translates the assembly source code into machine language
 so that the hardware can read and execute the program. Additionally we installed QEMU, a software that allowed us to emulate an entire computer system. QEMU enabled us to 
-test our programs quickly and efficiently. To write our code we used neo vim which is a text editor focused on extensibility and usability. 
-It can be an extremly powerful text editor if the user has experience. While neo vim takes some getting used to it also provides the user with convenient shortcuts. 
+test our programs quickly and efficiently. To write the chapters and code we used neo vim which is a text editor focused on extensibility and usability. 
+It can be an extremly powerful text editor if the user is experienced. While neo vim takes some getting used to it also provides the user with convenient shortcuts. 
 Sometimes our code was faulty and we needed to debug it. For convience's sake we used an online debugger called GDB. This website provided us with quick and easy access to 
 a reliable debugger. In order to save time and for simplicity and consitency we also used the make utility. We created a Makefile that contains instructions for building, 
 emulating and debuging software. The command make executes the Makefile in the current directory and is followed by the name of the target(s). In our project the Makefile 
-launches NASM, translating the source code, and then QEMU, emulating the operating system according to the parameters defined in the Makefile. 
+launches NASM, translating the source code, and then QEMU, emulating the operating system according to the parameters defined in the Makefile. We shared the Makefiles and 
+everything else we made with git. The aforementioned is a distributed version control system that allowed us to manage our project quickly and efficiently. With git one can 
+upload files to and download files from a repository. We used GitHub to store our files on a cloud so that we were able to work together on this project. Finally, we used Pandoc,
+a universal document converter to convert our written text for the matura from \LaTeX into a pdf. All of the previously mentioned programs are free and open-source.
+
+\subsection{Workflow}
+
+As soon as we installed the necessary software and got a grasp of the basics of assembly language we started programming. We chose easier tasks in the beginning so that
+we could warm up to this rather complicated language. Whenever we were done writing a program we began with debugging. Some bugs cost us a great amount of time which 
+was often very frustrating. 
