@@ -1,4 +1,4 @@
-# Files
+\section{Files}
 
 One of the most convenient and widely used features provided by operating systems are files. Files in
 the traditional sense are persistent sequences of bytes associated with a *file type*. A traditional
@@ -7,7 +7,7 @@ instructed to delete it. Traditional files can contain an arbitrary amount of da
 space and filesystem support.
 
 
-## File signatures
+\section{File signatures}
 
 Magic numbers are more or less arbritarily chosen
 numberic or textual constanst used across most of computer science but in the context of files
@@ -33,7 +33,7 @@ for a non-ascii format such as `%PDF-`for PDFs, the file manager will try to ope
 file viewer. The file will be interpreted incorrectly and seem corrupted. This is why using file
 extensions is still a good idea, even in operating systems that support extensionless files.
 
-## Executables
+\subsection{Executables}
 
 Executables are files that can be *run*. They are sometimes called *programs* but executables refer
 strictly to the files, specificly files containing *instructions and data*. Whenever their name is
@@ -47,7 +47,7 @@ are identified in some operating systems by their _extension_ or their _file sig
 a small appendix to the file name. It is of format `filename.extension`. The Windows NT family of operating
 systems relies heavily on extensions to differentiate between executables and regular files. 
 
-## Pseudofiles
+\section{Pseudofiles}
 
 Because files are organized and structured in hierarchical filesystem, some operating systems use special
 files that are actually *interfaces* to *device drivers*. In practice this means that a special file can
