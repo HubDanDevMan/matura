@@ -1,4 +1,5 @@
 \section{Booting}
+
 Whenever a computer starts up, there is a fixed set of instructions that
 have to be performed to initialize the system correctly. This routine is
 called a system startup. In IBM-PC compatible systems, the system startup
@@ -38,6 +39,7 @@ instructions from location 0x7C00.
 
 
 \subsection{Bootloader}
+
 The bootloader has 2 important tasks. The first one is gathering more
 information about the RAM of the system. It will determine wether there is
 enough RAM to load the OS and if this is true it will load the OS. Loading
