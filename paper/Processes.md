@@ -1,4 +1,4 @@
-# Processes
+\section{Processes}
 
 A process is defined as a computer program that is currently being executed. 
 
@@ -28,7 +28,7 @@ or waiting for user input.
 This is the last state a process enters when it has finished with its execution. The process is then removed
 from main memory.[^proc1]
 
-## Threads
+\subsection{Threads}
 
 Threads are the most basic unit of CPU utilisation, meaning that this is the smallest amount that the workload of a 
 process can be split. Threads consist of a stack, a set of registers and a program counter. Usually a process
@@ -64,7 +64,7 @@ single adress space.[^proc2]
 
 
 
-## Program
+\subsection{Program}
 
 A program is a file containing a set of instructions. These instructions can be written in many different 
 programming languages such as: Python, C or C++. These are considered high lever programming languages as 
@@ -90,7 +90,7 @@ The text contains the current activity, this is represented by the value of the 
 Further iformation on these four sections can be found within the memory chapter.[^proc3]
 
 
-## Daemons and Init
+\subsection{Daemons and Init}
 
 Daemons are computer programs that run in the background of an operating system. Users do not have direct
 access to daemon processes and have no control over them. The implementation for daemons will differ from
@@ -104,9 +104,9 @@ and then places the sytem in single user mode or spawns a shell to read the syst
 
 
 
-## Executables
+\subsection{Executables}
 
-### Binary executables
+\subsubsection{Binary executables}
 
 The executable files used on DOS since the 90\' and its descendants (like Windows) use a format called the MZ
 executable. The MZ file format has been upgraded multiple times over the course of history. Its latest revision
@@ -122,7 +122,7 @@ prompt. After typing the name of the program into the prompt, the interpreter ch
 is associated with a **.exe** or a **.com** file and if so, the program would be run and the user was able
 to interact with the program until it quits, upon which the user will be prompted again. 
 
-### Scripts
+\subsubsection{Scripts}
 
 There is also a different type of executables, namely *scripts*. Scripts are written in a human readable
 scripting language. They rely on software to interprete the instructions at run time in contrast of
@@ -131,7 +131,7 @@ the CPU. Windows uses the **.bat** or **.cmd** extension for scripts written for
 the newer PowerShell scripts with extension **.ps1** it will use `powershell.exe`. The command line
 interpreter will 
 
-### Executables on unix-like systems
+\subsubsection{Executables on unix-like systems}
 
 Unix-like operating systems differ greatly from Windows NT ones. They rarely rely on extensions to
 identify executables but rather *file signatures*. Binary executables unix systems with the exception of MacOS
