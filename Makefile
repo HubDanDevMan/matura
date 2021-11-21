@@ -54,5 +54,5 @@ clean:
 	test -f *.pdf && rm *.pdf
 	test -f tex* && rm -r tex*
 
-papers: paper/Titlepage.md
-	pandoc paper/Titlepage.md -o Paper.pdf
+papers: paper/Titlepage.tex
+	pandoc paper/Titlepage.tex -o Paper.pdf

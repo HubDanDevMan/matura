@@ -56,12 +56,17 @@ xoring, anding and bitshifts. Our CPU will receive an ALU upgrade a bit later in
 Now that we have a basic understanding of the component, let's look at a possible instruction set
 (= All instructions a processor can understand and execute):
 
-| Instruction name | Arguments | Encoding |
-| --- | --- | --- |
-| LOAD | \<NUMBER\> | `\x0F XX` |
-| LOADADDR | \<ADDRESS\> | `\x0E XX` |
-| ADD | \<NUMBER\> | `\x7C XX` |
-| STORE | \<ADDRESS\> | `\xE1 XX` |
+\begin{center}
+\begin{tabular} { | c | c | c | }
+\hline
+ Instruction name & Arguments & Encoding \\
+ LOAD & \ltNUMBER\gt & `\x0F XX` \\
+ LOADADDR & \ltADDRESS\gt & `\x0E XX` \\
+ ADD & \ltNUMBER\gt & `\x7C XX` \\
+ STORE & \ltADDRESS\gt & `\xE1 XX` 
+
+\end{tabuler}
+\end{center}
 
 These instructions seems rather weird, haven't we all heard from a young age that
 computers work with 1s and 0s? That is obviously true, but a binary instruction
