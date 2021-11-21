@@ -104,7 +104,7 @@ matching file name is done recursively.
 
 \section{IMAGE OF PATH TRAVERSAL}
 
-\subsection{For readers used to Windows, the path separator "/" is equivalent to the backslash "\" on Windows}
+\subsubsection{For readers used to Windows, the path separator "/" is equivalent to the backslash "\" on Windows}
 
 
 After using the filesystem for a while, we notice that storing the file name in the inode itself is a
