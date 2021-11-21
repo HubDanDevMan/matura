@@ -1,4 +1,4 @@
-# Filesystems and resource management
+\section{Filesystems and resource management$
 
 As mentioned before, one of an operating systems tasks is the managing of resources.
 One of those resources is storage. There are 3 main reasons why storage (and many other
@@ -16,7 +16,7 @@ controls and organizes how data is stored and retrived from a storage device. It
 device in files and directories and their metadata. Modern filesystems also provide mechanism for
 error detection and encryption.
 
-## Storage devices
+\subsection{Storage devices}
 
 Storage devices such as hard disks, floppy disks, USB flash drive and SSDs have no notion of files.
 The only thing these devices know are *sectors*. Sectors are the smallest container a storage device
@@ -28,7 +28,7 @@ specific IO pins from the CPU to the storage device. The device then executes th
 an error if for example sector ***x*** is not a valid sector. Remembering which files are located on
 which sector numbers is tedious for both humans and computers. This is where filesystems come to help.
 
-## The superblock
+\subsection{The superblock}
 
 The heart of the file system is a datastructure that contains every single file and directory: the
 superblock. It holds the _metadata_ (i.e. data about data) about every single file/directory,
@@ -56,7 +56,7 @@ cover NTFS because the official version is proprietary. While most mechanism in 
 unix filesystem mechanisms, they often have a different name. The superblock is called the *Master
 File Table* and inode numbers are called *FileID*s.
 
-## Sector allocation
+\subsection{Sector allocation}
 
 Another importand data structure in filesystems is used by the *sector allocator* to keep track of the
 occupied and free sectors of the disk. It is important to keep track of which sectors are in use and
@@ -81,7 +81,7 @@ copy can be stored in RAM for faster editing. Lastly, there is the *tree* but be
 many different forms, namely *b*-tree or *b+*-tree etc., it will not be explained in this booklet.
 Nonetheless, it also keeps track of used and unused sectors.
 
-## Primitive filesystems
+\subsection{Primitive filesystems}
 
 To understand why these data structures ara needed to make a good filesystem we will start off with a
 mediocre filesystem and add components to make it better on the run. This allows us to comprehend the 
@@ -102,9 +102,9 @@ checking all the inodes in the directory until a file name matching an inodes fi
 found. If the path traverses multiple directories, the previos step of looking for inodes with a
 matching file name is done recursively.
 
-# IMAGE OF PATH TRAVERSAL
+\section{IMAGE OF PATH TRAVERSAL}
 
-#### For readers used to Windows, the path separator "/" is equivalent to the backslash "\" on Windows
+\subsection{For readers used to Windows, the path separator "/" is equivalent to the backslash "\" on Windows}
 
 
 After using the filesystem for a while, we notice that storing the file name in the inode itself is a
@@ -164,7 +164,7 @@ copying the contents of the <file to be moved> and writing them to a new file an
 file. This FS also allows the renaming of open files, something that Windows still cannot do reliably. Windows will queue the
 name change and commit it only after the file has been closed.
 
-## Journaling filesystems
+\subsection{Journaling filesystems}
 
 Readers that have worked on old machines with primitive filesystems maybe have encountered one of the
 most annoying things when trying to get work done: A crash. Back in the days a crash could mean that
