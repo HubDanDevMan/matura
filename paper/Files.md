@@ -31,7 +31,7 @@ ASCII has no directly associated file signature with it and script files as well
 ASCII file signature. If a user was to write a file that *accidentaly* contained a filesignature used
 for a non-ascii format such as `%PDF-`for PDFs, the file manager will try to open the file in a PDF
 file viewer. The file will be interpreted incorrectly and seem corrupted. This is why using file
-extensions is still a good idea, even in operating systems that support extensionless files.
+extensions is still a good idea, even in operating systems that support extensionless files.[^proc1]
 
 \subsection{Executables}
 
@@ -78,8 +78,10 @@ via file paths. For example, a raw hard disk partition can be accessed by writin
 with `*` being the number of the disk in which it was detected at startup and `#` referring to the partition number.
 Many special files in unix-like operating systems also exist in Windows, although named differently. Compatibility layers
 such as `zerodrv`implement drivers for unix-like equivalent special device files `\\?\Device/zero` and `\\?\Devices\null`
-on Windows.
+on Windows.[^proc2]
 
+[^proc1]: https://www.lsoft.net/posts/file-signatures/
+[^proc2]: https://superuser.com/questions/1198292/what-is-a-pseudo-file-system-in-linux
 [^windev]: https://superuser.com/questions/1204522/dev-sda-equivalent-in-windows
 ### Character devices
 ### Block devices
