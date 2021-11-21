@@ -59,12 +59,11 @@ Now that we have a basic understanding of the component, let's look at a possibl
 \begin{center}
 \begin{tabular} { | c | c | c | }
 \hline
- Instruction name & Arguments & Encoding \\
- LOAD & \ltNUMBER\gt & `\x0F XX` \\
- LOADADDR & \ltADDRESS\gt & `\x0E XX` \\
- ADD & \ltNUMBER\gt & `\x7C XX` \\
- STORE & \ltADDRESS\gt & `\xE1 XX` 
-
+ 	Instruction name & Arguments & Encoding \\
+	LOAD & \lt NUMBER \gt & `\backslash{}x0F XX` \\
+	LOADADDR & \lt{}ADDRESS\gt & `\backslash{}x0E XX` \\
+	ADD & \lt{}NUMBER\gt & `\backslash{}x7C XX` \\
+	STORE & \lt{}ADDRESS\gt & `\backslash{}xE1 XX` 
 \end{tabuler}
 \end{center}
 
@@ -86,19 +85,19 @@ chosen pretty randomly with the only requirement being that the encodings don't 
 If both `LOAD` and `STORE` were encoded as `0F` the CPU would not know which operation to
 perform.
 
-So in our case,`\x0F` is the instruction that tells the CPU to `LOAD` a number in the accumulator.
-and the `\x05` is the number we want it to hold. When our CPU has finished executing the first
+So in our case,`\backslash{}x0F` is the instruction that tells the CPU to `LOAD` a number in the accumulator.
+and the `\backslash{}x05` is the number we want it to hold. When our CPU has finished executing the first
 instruction the accumulator holds the right value and the PC is incremented automatically to point
 to the next instruction, which is then fetched from memory. Here, the next instruction is the
 following:
 
-`\x7C \x03` or in human readable form:  `ADD 3`
+`\backslash{}x7C \backslash{}x03` or in human readable form:  `ADD 3`
 
-The `\x7C` instruction triggers the ALU to perform an addition with the accumulator and
-the value that followed the `\x7C` instruction, namely the `\x03`, which means that the value
+The `\backslash{}x7C` instruction triggers the ALU to perform an addition with the accumulator and
+the value that followed the `\backslash{}x7C` instruction, namely the `\backslash{}x03`, which means that the value
 in the accumulator will be updated to 8. The PC is incremented again and the next instruction is
-fetched from memory: `\xE1 \x00` which disassembles into `STORE 0`. This instruction stores the `8` 
-that is in the accumulator into the memory location `\x00`. This might be surprising, but 0 is a
+fetched from memory: `\backslash{}xE1 \backslash{}x00` which disassembles into `STORE 0`. This instruction stores the `8` 
+that is in the accumulator into the memory location `\backslash{}x00`. This might be surprising, but 0 is a
 valid memory address. That small field in RAM now holds the data which is saved for later.
 
 So far we have familiarized ourselves with a cycle called the *fetch, decode, execute cycle*. It 
@@ -190,10 +189,21 @@ of 256, which requires more than 8 bits.
 If we want a program to run forever, jumps are more than enough. Readers familiar with programming languages should know about `if` and `else` statements. They are used in programming to express
 under what condition a certain code block should be run. They are translated to CPU instructions
 in the following format:
-| Programming language | CPU language |
-|----|----|
-| ```if (condition) {<br>&#10;***first code block***} else {<br>***second code block***``` | ```cmp 7<br>jne elseblock<br> \<*first code block*\><br>elseblock:<br>\<*second code block\><br>done:<br>\<*more instructions...*\>``` |
 
+
+\begin{center}
+\begin{tabular} { | c | c | }
+\hline
+	Programming language & CPU language \\
+	\begin{lstlisting}[language=C]
+	if (condition) \{
+		<first code block>
+	} else {
+		<second code block>
+	\end{lstlisting} & ```cmp 7\newline{}jne elseblock\newline{}\lt{}\textit{first code block}\gt{}\newline{}elseblock:\newline{}\lt{}\textit{second code block}\gt{}\newline{}done:\newline{}\lt{}\textit{more instructions...}\gt```
+
+\end{tabuler}
+\end{center}
 
 The relevant instructions are `cmp` and `jne`. A processor that supports conditional branching needs
 another register, specificly a *status register*. A status register contains bits that each signify
@@ -211,7 +221,7 @@ If the first value is smaller than the second value, the subtraction results in 
 the Carry Flag and the Zero Flag are set to 0 .
 
 
-## Negative numbers and two's complement
+\subsection{Negative numbers and two's complement}
 
 Undrstanding how computers represent positive integers is not very abstracted to the way humans
 represent numbers, with the exception of a representation in *base 2* instead of *base 10*. Humans
@@ -230,7 +240,7 @@ A programer can also declare that he wishes to use an *unsigned value*. The comp
 machine code that treats the value as purely positive, no matter the sign bits.
 
 
-## Modern processors
+\subsection{Modern processors}
 
 So far our CPU is capable of basic arithmetic operations, conditional branching and working with
 both signed and unsigned data i.e. integers. This is more or less all what CPUs had to do to get work

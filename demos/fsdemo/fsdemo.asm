@@ -121,7 +121,6 @@ LBAtoCHS:
 	cmp ecx, 64
 	jge .invalidCHSFormat
 	
-	call mapCHS
 	
 	ret
 
