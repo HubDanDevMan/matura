@@ -26,7 +26,7 @@ receive commands from the CPU on the system. A command can be to `READ` sector n
 address ***y*** or `WRITE` from RAM addres ***y*** to sector ***x***. This command is sent through
 specific IO pins from the CPU to the storage device. The device then executes the command or returns
 an error if for example sector ***x*** is not a valid sector. Remembering which files are located on
-which sector numbers is tedious for both humans and computers. This is where filesystems come to help.
+which sector numbers is tedious for both humans and computers. This is where filesystems come to help.[^proc2]
 
 \subsection{The superblock}
 
@@ -183,5 +183,8 @@ entirety of the FS and if the journal is empty the OS can just continue starting
 The journal file is not really a file but rather just a few sectors at a fixed location totaling a
 fixed size for faster access times. Regular files might move around on the disk if they grow in size
 or some other cases. 
+  
+ 
+ [^proc2]: https://www.tech21century.com/different-types-of-storage-devices/
 
 
