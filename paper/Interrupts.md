@@ -1,4 +1,4 @@
-# Interrupts
+\section{Interrupts}
 
 One of the key features of modern processors is theability to support *interrupts*.
 Unlike many other processor features interrupts are not an arithmetic operation but
@@ -6,7 +6,7 @@ rather the ability of a processor to *respond to a event asynchronously*. Events
 unexpected changes that are signaled to the kernel. This chapter will explain in
 greater detail what they are and how they work in low level.
 
-# The different types of interrupts
+\section{The different types of interrupts}
 
 Gone are the days where the only instructions CPUs were capable of executing were
 purely arithmetic. The engineers behind the chip design in the 80' noticed that
@@ -18,7 +18,7 @@ practice this means that a processor may be running a program and an event, such
 key, *interrupts* the execution of the program and invokes a handler for the event. The
 handler will run and upon completion the processor will resume execution of the program.
 
-## Hardware
+\section{Hardware}
 
 Most hardware needs to communicate with eachother. It is used for *time synchronisation*,
 *data* and to send *commands*. Devices that are attached to the computer such as keyboards 
@@ -38,7 +38,7 @@ The handler then reprograms the device if needed or performs the data exchange. 
 interrupts allow te processor to do its job and only attend hardware if its needed. This
 must be supported by hardware (interrupt line).
 
-### Interrupts vs Polling
+\subsubsection{Interrupts vs Polling}
 
 There are two paradigms used to await input, the aforementioned interrupts and *polling*, 
 which is a continous check of hardware status. It is usually implemented in software and 
@@ -53,9 +53,9 @@ the packet destination and then reroute the packet accordingly. It will resume p
 again. In the time slice between receiving the packet and rerouting it, the CPU was busy and
 wasn't able to check for another packet. 
 
-## Software
+\subsection{Software}
 
-## Interrupt vector table
+\subsection{Interrupt vector table}
 
 Interrupt handlers are essentially *functions* that are automatically executed as soon as an
 interrupt occurs. They differ form normal functions because they are not explicitly called.
@@ -71,7 +71,7 @@ is 4 bytes long, meaning the address of the `int *N*` handler is at adress `4 \*
 the `int 0x10` instruction makes the CPU jump to the address that is in the IVT's 0x10's address,
 i.e. the address 0x40.
 
-## Interrupt requests lines
+subsection{Interrupt requests lines}
 
 Interrupts are also invoked by peripheral devices and often they do not necessarily have a fixed 
 interrupt number associated with themselves. In systems with multiple peripheral devices such as for 
