@@ -1,4 +1,4 @@
-\section{Filesystems and resource management$
+\section{Filesystems and resource management}
 
 As mentioned before, one of an operating systems tasks is the managing of resources.
 One of those resources is storage. There are 3 main reasons why storage (and many other
