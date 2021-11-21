@@ -94,10 +94,13 @@ Further iformation on these four sections can be found within the memory chapter
 
 Daemons are computer programs that run in the background of an operating system. Users do not have direct
 access to daemon processes and have no control over them. The implementation for daemons will differ from
-operating system platforms. For Microsoft Windows NT systems, the programs that serve the functions of 
+operating system platforms. For Microsoft Windows NT systems, the programs that serve the same functions as 
 daemons are called Windows services. In most cases they do not interact with user input and are started 
-during the boot. From Windows 2000 on the services can be manually started and stopped via the control panel.
-In Unix-like systems daemon processes usually end with the letter "d" 
+during the boot. From Windows 2000 on the services can be manually started and stopped via the control panel.[^proc4]
+In Unix-like systems daemon processes usually end with the letter "d" for example the crond daemon is 
+a job scheduler for background processes. In Unix systems there is also a special daemon from which all
+other daemons spawn the init daemon. The init daemon is the first process to be started at system boot 
+and then places the sytem in single user mode or spawns a shell to read the system's startup files.[^proc5]
 
 
 
@@ -157,7 +160,9 @@ stuff:
 [^proc1]: https://web.archive.org/web/20200916133128/https://pages.cs.wisc.edu/~remzi/OSTEP/
 [^proc2]: https://www.tutorialspoint.com/operating_system/os_processes.htm
 [^proc3]: https://medium.com/@imdadahad/a-quick-introduction-to-processes-in-computer-science-271f01c780da
-https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/4_Threads.html 
+[^proc4]: https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/4_Threads.html 
+[^proc5]: https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2003/cc783643(v=ws.10)?redirectedfrom=MSDN
+[^proc6]: https://books.google.ch/books?id=JhS-TkW0tOYC&pg=PA84&redir_esc=y#v=onepage&q&f=false
 
 
 
