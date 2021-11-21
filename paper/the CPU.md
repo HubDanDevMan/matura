@@ -1,4 +1,4 @@
-# The CPU 
+\section{The CPU}
 
 The Processor (Central Processing Unit) is often refered to as the brain of a computer. On the
 lowest level, it is made of circuits with thousands or up to billions of transistors. In
@@ -101,7 +101,7 @@ describes the steps taken for an instruction to be run by the CPU. Fetching is d
 the instruction from RAM at address held in the PC. Engineers have realized that having instructions in memory that must be repeated take up a lot of memory
 and memory was very limited in the early days.
 
-## Memory
+\subsection{Memory}
 
 Memory refers to a system or device that is able to store data for immediate use. Compared to permanent 
 storage memory offers a faster access to data at the cost of very limited storage capacity. At the 

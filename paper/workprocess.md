@@ -1,6 +1,6 @@
-# Workprocess
+\section{Workprocess}
 
-## Workflow
+\subsection{Workflow}
 
 Our first step was deciding what our project should look like. We knew that we wanted to do something related to computer science, but we were still uncertain of the details. 
 Rather spontaneously did we decide to make an operating system. The exact content of our matura project was decided after we talked to several different teachers. We 
@@ -13,7 +13,7 @@ tough in the beginning because assembly is not comparable to high-level language
 that it is closer to machine language which is the language understood by a computer. We had to invest the first two to three months into research to comprehend the basics
 of the language. Afterwards we each chose a task and started researching these specific topics individually. We listed the websites we used under the chapter "Sources".
 
-## Tools
+\subsection{Tools}
 
 Before we began programming we installed a virtual machine that 
 allowed us to run Linux even though our host operating systems were either Windows or macOS. By using a virtual machine we protected our hardware from our own mistakes. The 

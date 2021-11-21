@@ -1,4 +1,4 @@
-# Booting
+\section{Booting}
 Whenever a computer starts up, there is a fixed set of instructions that
 have to be performed to initialize the system correctly. This routine is
 called a system startup. In IBM-PC compatible systems, the system startup
@@ -37,7 +37,7 @@ will transfer control to the bootloader by telling the CPU to fetch
 instructions from location 0x7C00.
 
 
-# Bootloader
+\subsection{Bootloader}
 The bootloader has 2 important tasks. The first one is gathering more
 information about the RAM of the system. It will determine wether there is
 enough RAM to load the OS and if this is true it will load the OS. Loading
@@ -50,7 +50,7 @@ RAM. It is interrupt number 0x13 in hex or decimal 19 and it is invoked with par
 address determined by a parameter. After a successful load the bootloader
 hands over the execution to the operating system, specifically the *kernel*.
 
-# Kernel
+\subsection{Kernel}
 
 The kernel is the most important part of the OS. It controls hardware and it
 manages all *system resources*. System resources are both digital or physical
@@ -85,4 +85,4 @@ to by programs just like it will also manage the reading and writing of a
 file. There are hundreds of different hard disk drives and they all work a
 bit differently. If every program had its own 
 
-# UEFI
+\subsection{UEFI}

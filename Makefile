@@ -49,9 +49,10 @@ debug: make
 	$(VIRT) $(VIRTDEBUG) $(VIRTFLAGS)$(OF) & \
 	$(DBG) $(DBGFLGS)
 
-clean: $(OF)
-	rm $(OF)
-	rm *.pdf
+clean:
+	test -f $(OF) && rm $(OF)
+	test -f *.pdf && rm *.pdf
+	test -f tex* && rm -r tex*
 
 papers: paper/Titlepage.md
 	pandoc paper/Titlepage.md -o Paper.pdf

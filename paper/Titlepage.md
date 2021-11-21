@@ -1,6 +1,7 @@
 % Operating Systems
 % Structure and Implementation
 % Daniel Huber, Nick Gilgen and Moray Yesilgüller
+
 \center{with supervision from Dr. G. Palfinger and Dr. C. Bersier}
 
 \vspace*{\fill}
@@ -16,24 +17,22 @@
 \pagenumbering{gobble}
 \newpage 
 
-# Table of Contents
 
-1. [Abstract](#)
-2. [Project Overview](#)
-3. [The CPU](#)
-4. [Booting](#)
-5. [](#)
-6. [](#)
-7. [](#)
-8. [](#)
-9. [](#)
-10. [#](#)
+\tableofcontents
+
+
+\newpage
 
 \pagenumbering{arabic}
-\newpage
-# Abstract
 
 
+\input{./paper/Workprocess.md}
+\input{./paper/Booting.md}
+\include{./"paper/The CPU.md"}
+\include{./paper/Interrupts.md}
+\include{./paper/Files.md}
+\include{./paper/Filesystems.md}
+\include{./paper/Processes.md}
+\include{./paper/Userinterfaces.md}
+\include{./paper/Sources.md}
 
-\newpage
-# Project Overview
