@@ -1,4 +1,4 @@
-# Glossary
+\section{Glossary}
 The world of computers is a fascinating but vast world. There are many different concepts in computer science and all of them are named.
 Here are some of the more frequently used terms, some will be explained in great detail bit later if they are important.
 
@@ -16,7 +16,7 @@ Here are some of the more frequently used terms, some will be explained in great
 | **Protocol** | It can be seen as a language or grammar used in communication between programs or firmware. A protocol defines rules, syntax and synchronisation for communication. Examples are *http*, used between web servers and browsers or SMTP, the simple mail protocol used by e-mail servers. Hardware/firmware protocols are used to discover newly attached peripheral devices or for sending commands to devices. |
 
 
-## Good to know
+\subsection{Good to know}
 
 It is important to point out that every number can be described in another base. A base ten number can also be represented
 as a binary number and vice versa. Computer programmers often work with base two due to the fact that computers support only a 
