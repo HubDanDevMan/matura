@@ -93,11 +93,24 @@ such a filesystem (now *FS* for short) we would not know where it is located exa
 what the first files position is, namely the first sector of the medium but we can't know the files
 length and therefore we won't now the  position of the following files. This is where a key component
 comes into play: the \textit{superblock}. It is an array of inodes and our primitive FS stores the name of
-the file in the inode itself together with other metadata. Our FS supports now various files and
-because it works so well we start to organize our files. But organizing files without FS support for
-directories is pretty much impossible. We decide to treat directories as regular files except that we
-add a flag in the inode that marks it as a directory. In these \textit{"files"} we can store the inode number
-of files that are stored in the directory. Now we need to add mechanisms for *path traversal* i.e. the
+the file in the inode itself together with other metadata.
+
+\begin{figure}[h]
+	\includegraphics[width=350px]{filesystems.png}
+	\centering
+\end{figure}
+
+Our FS supports now various files and
+because it works so well we start to organize our files. Organizing files requires \textit{directory}
+support for Directories, also known as \textit{folders} on Windows, are filesystem objects that
+\textit{"contain"} other files or. We decide to treat directories as regular files, except that we
+add a flag in the inode that marks it as a directory. In these directory entry files, i.e. the actual
+content of the directory, we can store the inode number of files and directories that are \textit{"stored"}
+in it. Our hierarchical filesystem is built like a tree turned upside down, there is the root and every
+subdirectory is a branch (directory) or a leaf (regular file). Now that files are organized, there is need
+for a way to access them accordingly.
+
+The next step is adding mechanisms for *path traversal* i.e. the
 ability to specify the position of a file that is nested within multiple directories. This is done by
 checking all the inodes in the directory until a file name matching an inodes file name field is
 found. If the path traverses multiple directories, the previos step of looking for inodes with a
@@ -105,9 +118,7 @@ matching file name is done recursively.
 
 \section{IMAGE OF PATH TRAVERSAL}
 
-\subsubsection{For readers used to Windows, the path separator "/" is equivalent to the backslash "\" on Windows}
-
-
+\textit{Note: For readers used to Windows, the path separator "/" is a "\"}
 After using the filesystem for a while, we notice that storing the file name in the inode itself is a
 dumb idea because an inode is of fixed size. We either preallocate a large inode size for a filename
 or we force short file names to safe storage space. This is very restrictive but there is a solution.
@@ -115,7 +126,10 @@ Instead of storing the file name in the inode, we store it in the directory wher
 together with the inode number. This means that the contents of a directory entry file would look some
 thing like this:
 
-![NOTFOUND](./assets/disklayout.png){width=500px}
+\begin{figure}[h]
+	\includegraphics[width=350px]{disklayout.png}
+	\centering
+\end{figure}
 
 Every character in a box represents a byte on the disk. Notice the `0` in the red field,
 it is our file name string terminator and tells us that the following byte in blue is to be interpreted
@@ -150,8 +164,11 @@ contains at least 2 entries (with the exception of the root directory). These ar
 "." is a directory entry file that points to itself. An example to understand it better is lets say
 directory "/home/Terry/Pics" has the inode number 8 and its parent directory has the inode number 6.
 The directory entry file will contain the following:
-\newline{}
-`'.' '\\0' '\\x08' '.' '.' '\\0' '\\x06' '\\0'`
+\newline
+\begin{lstlisting}
+'.' '\\0' '\\x08' '.' '.' '\\0' '\\x06' '\\0'
+\end{lstlisting}
+
 The first entry in the directory "." points to the itself! This means that in a relative path a "."
 will always point to the directory itself. From a viewpoint in "/home/", "." is equal to "/home/".
 This is not very spectacular but if you look at the file directory above you can see that ".." points

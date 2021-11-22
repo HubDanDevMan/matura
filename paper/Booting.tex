@@ -48,22 +48,23 @@ sectors into memory using a BIOS interrupt. The number of sectors depends on
 the size of the OS on the storage device. A BIOS interrupt can be thought of
 as a function provided by the BIOS that the bootloader can call. There are
 multiple interrupts but only one of them can be used to read sectors into
-RAM. It is interrupt number 0x13 in hex or decimal 19 and it is invoked with parameters that will load *x* many sector on *y* many platters into RAM
+RAM. It is interrupt number 0x13 in hex or decimal 19 and it is invoked with parameters that will load $x$ many sector on $y$ many platters into RAM
 address determined by a parameter. After a successful load the bootloader
-hands over the execution to the operating system, specifically the *kernel*.
+hands over the execution to the operating system, specifically the \textit{kernel}.
 
 \subsection{Kernel}
 
 The kernel is the most important part of the OS. It controls hardware and it
-manages all *system resources*. System resources are both digital or physical
+manages all \textit{system resources}. System resources are both digital or physical
 components of a computer that are shared between multiple users and all their
 running programs. Examples of such system resources are:
-* Processes; programs are started by other programs and users but they are maaged by the kernel.
-* CPU time; There might be a hundred processes running but there aren't a hundred processors available. The kernel will offer every process a *time slice*during which a process will be running on the CPU (core).
-* Memory; We don't want a process to interfere with other processes' memory. It is a Kernels job to manage memory to avoid inter process interference. Memory that is managed by a kernel is called *Virtal Memory* (VM).
-* Internet access; Taking care of internet packets is also one of the kernels jobs.
-* Direct hardware access; Direct hardware access is done by the kernel through device drivers. A program may ask the kernel for disk access and the kernel will either grant or refuse it. If the kernel grants access it will tell the driver to perform the hardware specific operation requested by the program
-
+\begin{itemize}
+\item Processes; programs are started by other programs and users but they are maaged by the kernel.
+	CPU time; There might be a hundred processes running but there aren't a hundred processors available. The kernel will offer every process a \textit{time slice}during which a process will be running on the CPU (core).
+\item Memory; We don't want a process to interfere with other processes' memory. It is a Kernels job to manage memory to avoid inter process interference. Memory that is managed by a kernel is called \textit{Virtual Memory} (VM).
+\item Internet access; Taking care of internet packets is also one of the kernels jobs.
+\item Direct hardware access; Direct hardware access is done by the kernel through device drivers. A program may ask the kernel for disk access and the kernel will either grant or refuse it. If the kernel grants access it will tell the driver to perform the hardware specific operation requested by the program
+\end{itemize}
 There are many more, some of which will be explained later in this booklet.
 But one can clearly see that a kernel must take care of a lot of stuff. It
 is because of that reason that the kernel is the most important part of an
@@ -74,9 +75,9 @@ system resources to manage if no one is requesting any.
 The other components of an
 operating system are programs that create an environment that provide an user
 experience. Such programs are responsible for things such as graphical user
-interfaces (GUIs) or text user interfaces (TUIs) and a *shell*. A shell is a
+interfaces (GUIs) or text user interfaces (TUIs) and a \textit{shell}. A shell is a
 program that reads text-only commands and performs the requested commands. It
-is called *shell* because it is the outer layer of an operating system. Users
+is called \textit{shell} because it is the outer layer of an operating system. Users
 interact with said outer layer and there are many different implementations
 of shells. Summarized, an operating system is made out of a kernel and many programs working on top of the kernel that provide an user experience.
 

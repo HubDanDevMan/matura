@@ -1,27 +1,38 @@
 \documentclass{article}
 \usepackage{graphicx}
 \usepackage{listings}
+\usepackage{geometry}
+\usepackage[english]{babel}
+\usepackage[document]{ragged2e}
+
+
+\graphicspath{ {../assets/} }
+\geometry{left=3.0cm,right=3.0cm,top=3.0cm,bottom=3.0cm}
+
+
+\title{%
+	Operating Systems \\
+	\large Structure and Implementation
+	}
+
+\author{Daniel Huber, Nick Gilgen and Moray Yesilgüller}
 
 \begin{document}
-
-% Operating Systems
-% Structure and Implementation
-% Daniel Huber, Nick Gilgen and Moray Yesilgüller
+\maketitle
 
 \center{with supervision from Dr. G. Palfinger and Dr. C. Bersier}
-
 \vspace*{\fill}
 
-![](./assets/ostp.png){width=250px}
+\includegraphics[width=200px]{ostp}
 
 \bigskip
 \bigskip
 \bigskip
 \bigskip
 
-\center{Maturaarbeit 2021}
+\center{Maturaarbeit Kantonsschule Baden}
 \pagenumbering{gobble}
-\newpage 
+\newpage
 
 
 \tableofcontents
@@ -31,13 +42,14 @@
 
 \pagenumbering{arabic}
 
+\raggedright
 
 %\input{Workprocess.tex}
-%\include{Booting.tex}
+\input{Booting.tex}
 \include{"The CPU.tex"}
 %\include{Interrupts.tex}
 %\include{Files.tex}
-%\input{Filesystems.tex}
+\input{Filesystems.tex}
 %\include{Processes.tex}
 %\include{Userinterfaces.tex}
 %\include{Sources.tex}
