@@ -50,7 +50,7 @@ as a function provided by the BIOS that the bootloader can call. There are
 multiple interrupts but only one of them can be used to read sectors into
 RAM. It is interrupt number 0x13 in hex or decimal 19 and it is invoked with parameters that will load $x$ many sector on $y$ many platters into RAM
 address determined by a parameter. After a successful load the bootloader
-hands over the execution to the operating system, specifically the \textit{kernel}.
+hands over the execution to the operating system, specifically the \textit{kernel}. \footnote{Booting in Operating system in: Javapoint, \today \\ https://www.javatpoint.com/booting-in-operating-system}
 
 \subsection{Kernel}
 
@@ -79,7 +79,7 @@ interfaces (GUIs) or text user interfaces (TUIs) and a \textit{shell}. A shell i
 program that reads text-only commands and performs the requested commands. It
 is called \textit{shell} because it is the outer layer of an operating system. Users
 interact with said outer layer and there are many different implementations
-of shells. Summarized, an operating system is made out of a kernel and many programs working on top of the kernel that provide an user experience.
+of shells. Summarized, an operating system is made out of a kernel and many programs working on top of the kernel that provide an user experience. \footnote{Bellevue Linux Users Group: Kernel Definition, \today . \\ http://www.linfo.org/kernel.html}
 
 
 hard disk and a
