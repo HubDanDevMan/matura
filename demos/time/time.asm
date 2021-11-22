@@ -72,6 +72,6 @@ printL:
 clockbuff: db "UTC-"
 numbuf: db 0
 
-%include "cpuid/printHex.asm"
+%include "library.asm"
 
 END_PADDING

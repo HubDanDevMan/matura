@@ -1,6 +1,6 @@
 jmp ___main
 
-%include "cpuid/printHex.asm"				;include printBuff and formatHex
+%include "library.asm"				;include printBuff and formatHex
 %define LINE_WIDTH 80		
 %define FREE_LINE (LINE_WIDTH-5)
 
@@ -11,6 +11,7 @@ type: resb 1
 size: resb 1
 
 ___main:
+call clear_screen
 xor eax, eax						;cpuid leaf 0
 mov ds, ax							
 mov es, ax
@@ -145,13 +146,13 @@ db "Longmode supported"
 strlmlength equ $-Longmodeyes
 bufflm: times LINE_WIDTH-strlmlength db " "
 times LINE_WIDTH db " "
-
-db "RAM:"
-times LINE_WIDTH-4 db " "
-db "RAM size: "
-ramsizebuff: times LINE_WIDTH-10 db " "
-rambuff: times 24 db 0
 db 0
+;db "RAM:"
+;times LINE_WIDTH-4 db " "
+;db "RAM size: "
+;ramsizebuff: times LINE_WIDTH-10 db " "
+;rambuff: times 24 db 0
+;db 0
 
 Longmodeno:
 db "Longmode not supported"

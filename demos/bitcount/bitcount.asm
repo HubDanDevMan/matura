@@ -5,7 +5,7 @@
 ; BIT_MAP_SIZE refers to the number of BYTES in the BITMAP
 
 jmp prog
-%include "./cpuid/printHex.asm"
+%include "./library.asm"
 ; variables
 ;EAX : counts set bits since Last 0 bit; will point to the current bit index
 ;EBX : current byte pointer; will point to a byte in the Bitmap 

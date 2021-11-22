@@ -1,6 +1,6 @@
 jmp prog
 
-%include "./cpuid/printHex.asm"
+%include "./library.asm"
 prog:
 mov edi, 0
 
