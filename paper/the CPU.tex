@@ -108,7 +108,7 @@ valid memory address. That small field in RAM now holds the data which is saved 
 So far we have familiarized ourselves with a cycle called the \textit{fetch, decode, execute cycle}. It 
 describes the steps taken for an instruction to be run by the CPU. Fetching is done by retrieving
 the instruction from RAM at address held in the PC. Engineers have realized that having instructions in memory that must be repeated take up a lot of memory
-and memory was very limited in the early days.
+and memory was very limited in the early days. \footnote{CPU, from: Learncomputerscienceonline, \today \\ https://www.learncomputerscienceonline.com/what-are-cpu-registers/}
 
 \subsection{Memory}
 
@@ -158,7 +158,7 @@ divided into two categories:
 have a limited capacity. 
 
 -Mechanically addressed systems are cheaper per bit but are slower. 
-tubes were needed for simple decimal calculations. 
+tubes were needed for simple decimal calculations. \footnote{Memory, from: Javapoint, \today \\ https://www.javatpoint.com/volatile-memory}
 
 
 \subsection{Jumps and subroutines}
@@ -237,7 +237,7 @@ but rather the status. If the compared values are equal, the subtraction results
 Zero Flag bit in the status register will be set to 1. If the first compared value is larger than the second one, the subtraction would result in a positive value. A positive value sets the
 Carry Flag to 1 and the Zero Flag 0.
 If the first value is smaller than the second value, the subtraction results in a negative value and
-the Carry Flag and the Zero Flag are set to 0 .
+the Carry Flag and the Zero Flag are set to 0 . \footnote{Jumps, from: Infoscinstitute, \today \\ https://resources.infosecinstitute.com/topic/conditionals-and-jump-instructions/}
 
 
 \subsection{Negative numbers and two's complement}
@@ -256,7 +256,8 @@ single sign-bit, all the bits are flipped and act as “extended” sign bits an
 from the number. This means that 0b11111111 is -1 and 0b10000000 is -128. This also voids the issue 
 of multiple zeroes and means that a 8 bit register can contain the numbers between -128 and 127. 
 A programer can also declare that he wishes to use an \textit{unsigned value}. The compiler will generate
-machine code that treats the value as purely positive, no matter the sign bits.
+machine code that treats the value as purely positive, no matter the sign bits. \footnote{Negative Numbers, from: Binaryhakka, \today \\ https://binaryhakka.blogspot.com/2020/03/assembly-language-negative-numbers.html}
+
 
 
 \subsection{Modern processors}
