@@ -70,10 +70,10 @@ memory. Additionally there are input devices such as \texttt{/dev/input/mouse*} 
 mouse was detected at startup. Mouse devices are a \textit{character device} which means that operations are performed
 bytewise. Reading from \texttt{/dev/input/mouse0} allows a user or a program to view the bytes that are send from the
 mouse device. A display server (more in chapter Userinterfaces) reads from this device via the device file
-interface. The \textit{"files"} located in \texttt{/dev} are not only device interfaces, there are so called \textit{pseude device files}
-as well. An example of those is \texttt{/dev/null}, which is essentially the garbage bin or trash. Writing to \texttt{/dev/null},
+interface. The \textit{"files"} located in \texttt{/dev} are not only device interfaces, there are also other special files called \textit{pseude device files}.
+An example of those is \texttt{/dev/null}, which is essentially the garbage bin or trash. Writing to \texttt{/dev/null},
 the data is simply discarded and can not be recovered be reading from it. Reading operations are not implemented for
-the Null-device. Another infamous device file in this directory is \texttt{/dev/urandom} or in some OSes \texttt{/dev/random}. Urandom is a pseudo device file
+the Null-device. Another common device file in this directory is \texttt{/dev/urandom} or in some OSes \texttt{/dev/random}. Urandom is a pseudo device file
 that only supports the \texttt{read} operation and returns random data. It is frequently used to seed random number
 generators or to generate cryptographically secure keys. Writing to Urandom is also not permitted. The kernel regularly
 adds random data such as mouse input and alike to Urandom and performs cryptographical operations on the data to make
