@@ -18,18 +18,20 @@ few bytes of the file. It can be thought of as file extension stored in the file
 the file name (metadata). The only difference is that extensions differ from the file signatures.
 Here is a small list of file signatures:
 
-| File type | Signature |
-|----|----|
-| JPEG | &#255;&#216;&#255;&#219; |
-| MP3 | &#255;&#251; |
-| ZIP | PK\\x03\\x04 |
-| PDF | \%PDF- |
+\begin{tabular}{| c | c |}
+File type & Signature \\
+\hline
+ JPEG & &#255;&#216;&#255;&#219; \\
+ MP3 & &#255;&#251; \\
+ ZIP & PK\\x03\\x04 \\
+ PDF & \%PDF-
+ \end{tabular}
 
 Whenever a user opens a file from Finder on MacOS or any similar file manager that does not contain a
 file extension it will open the file with the correct program nonetheless. One problem arises, namely
 ASCII has no directly associated file signature with it and script files as well as PDF files have an
 ASCII file signature. If a user was to write a file that *accidentaly* contained a filesignature used
-for a non-ascii format such as `%PDF-`for PDFs, the file manager will try to open the file in a PDF
+for a non-ascii format such as `%PDF-` for PDFs, the file manager will try to open the file in a PDF
 file viewer. The file will be interpreted incorrectly and seem corrupted. This is why using file
 extensions is still a good idea, even in operating systems that support extensionless files.[^proc1]
 
@@ -83,5 +85,5 @@ on Windows.[^proc2]
 [^proc1]: https://www.lsoft.net/posts/file-signatures/
 [^proc2]: https://superuser.com/questions/1198292/what-is-a-pseudo-file-system-in-linux
 [^windev]: https://superuser.com/questions/1204522/dev-sda-equivalent-in-windows
-### Character devices
-### Block devices
+\subsubsection{Character devices}
+\subsub{Block devices}
