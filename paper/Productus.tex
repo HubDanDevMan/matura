@@ -8,33 +8,33 @@ system work the core features are as follows:
 
 \begin{itemize}
 
-\item Bootloader
+\item \textbf{Bootloader} \\
 The bootloader loads the kernel into memory.
-\item Keyboard driver
+\item \textbf{Keyboard driver} \\
 The keyboard driver handles the input of the keyboard with IO ports. This works
 by it sending a signal to a certain IO port and then checking for a return signal.
 Then the signal gets translated via a lookup table to ascii characters.
-\item Shell
+\item \textbf{Shell} \\
 The shell is a terminal that allows for user input to activate commands on a command
 line. It does this by keyinput from the keyboard driver and then saves said input
 into a buffer. The string that is in the buffer can then be used to do operations with
 it. This is done by the string comparison function from the library with common functions.
-\item Filesystem
+\item \textbf{Filesystem} \\
 The filesystem organized and structures files. The filesystem is not hierarchical meaning
 that it does not support multiple directories. It has both file read and file write functions
 and it uses a superblock for file organization.
-\item CPU identification
+\item \textbf{CPU identification} \\
 The CPU identification gives information on the current CPU used by the operating system.
 This is done via a interrupt and gives information such as its family, wheather longmode is
 supported, the manufacturer, what brand it is and the modell.
-\item Library with common fuctions
+\item \textbf{Library with common fuctions} \\
 The library with common function is a collections of functions that are often used in different
 programs. The library contains following functions: Format to hex a function that converts decimal
 numbers to hexadecimal numbers. Print buffer functions that prints out a buffer onto the screen. 
 Shutdown function which shuts down the current running program. Clear screen funtion which wipes
-the entire screen blank. And lansty the get string length function which as its name implies returns
+the entire screen blank. And lastly the get string length function which as its name implies returns
 the length of a string.
-\item Interrupt handlers
+\item \textbf{Interrupt handlers} \\
 The interrupt handler creates exceptions for common errors such as division by zero, double fault
 and invalid opcode errors.
 
@@ -42,9 +42,9 @@ and invalid opcode errors.
 \end{itemize}
 
 
-The entire project is licenced under th GNU general public licence. This licence requires all
+The entire project is licenced under the GNU general public licence version 3.0. This licence requires all
 modification and usage of our project to be under the same licence and require authors to reveal
 the full source code of the licenced medium. The entirety of the project is located in a github
 repository under the following link:
 
-https://github.com/HubDanDevMan
+https://github.com/HubDanDevMan/matura.git
