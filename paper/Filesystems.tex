@@ -27,7 +27,7 @@ address ***y*** or `WRITE` from RAM addres ***y*** to sector ***x***. This comma
 specific IO pins from the CPU to the storage device. The device then executes the command or returns
 an error if for example sector ***x*** is not a valid sector. Remembering which files are located on
 which sector numbers is tedious for both humans and computers. This is where filesystems come to help
-\footnote{Storage devices, from: Tech21, \today  \\ https://www.tech21century.com/different-types-of-storage-devices/}.
+\footnote{Storage devices, from: Tech21, \today  \\ https://www.tech21century.com/different-types-of-storage-devices/}
 
 \subsection{The superblock}
 
@@ -55,7 +55,8 @@ computer user creates many files that take up close to no space.
 It is important to point out that Windows' NTFS groups file metadata differently. We are not going to
 cover NTFS because the official version is proprietary. While most mechanism in NTFS are similar to
 unix filesystem mechanisms, they often have a different name. The superblock is called the *Master
-File Table* and inode numbers are called *FileID*s.
+File Table* and inode numbers are called *FileID*s. \footnote{Superblocks, from: Linfo, \today  \\ http://linfo.org/superblock}
+
 
 \subsection{Sector allocation}
 
@@ -80,11 +81,14 @@ sector allocator can result in faster read/write speeds because it is easier to 
 represented in a bitmap than going through a linked list. The bitmap is also a lot faster, because a
 copy can be stored in RAM for faster editing. Lastly, there is the *tree* but because it is used in
 many different forms, namely *b*-tree or *b+*-tree etc., it will not be explained in this booklet.
-Nonetheless, it also keeps track of used and unused sectors.
+Nonetheless, it also keeps track of used and unused sectors. \footnote{Disk Sector, from: Stackoverflow, \today  \\ https://stackoverflow.com/questions/13799183/disk-sector-and-block-allocation-for-file}
+
+
+________________________________________________________________This is in we form we should put this in the project stuff__________________________________________________
 
 \subsection{Primitive filesystems}
 
-To understand why these data structures ara needed to make a good filesystem we will start off with a
+To understand why these data structures are needed to make a good filesystem we will start off with a
 mediocre filesystem and add components to make it better on the run. This allows us to comprehend the 
 reasoning behind the incorporation of the components that make up modern filesystems.
 Let's have a look at a simple filesystem that stores all the files sequentally on the storage device,
