@@ -31,21 +31,21 @@ processor. The CPU then finishes executing the current instruction and notice th
 check which device requested the interrupt. Modern CPU architectures have multiple \textit{interrupt lines}
 and each of them can be assigned to a handler. In action this would look like the following:
 
-\begin{figure}[H]
+\begin{figure}
 \begin{center}
 \includegraphics[width=200px]{int0.png}
 \caption{A processor is running a regular program.}
 \end{center}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}
 \begin{center}
 \includegraphics[width=200px]{int1.png}
 \caption{Interrupt request line (INTR) gets set high. The CPU finishes the current instruction and notices the interrupt request.}
 \end{center}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}
 \begin{center}
 \includegraphics[width=200px]{int2.png}
 \caption{The interrupt handler is invoked by the CPU by looking up the handler address from the
@@ -53,7 +53,7 @@ interrupt vector table and jumping to this address.}
 \end{center}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}
 \begin{center}
 \includegraphics[width=200px]{int3.png}
 \caption{The previous program resumes execution once the handler is done. }
@@ -96,7 +96,7 @@ makes the CPU jump to the address pointed to by the IVT's \textit{N}th entry. So
 at a fixed location. The earlier versions of x86 processors had the IVT at address 0x0. Every entry
 is four bytes long, meaning the address of the `int \textit{N}` handler is at adress `4 \* \textit{N}`. As an exmple,
 the `int 0x10` instruction makes the CPU jump to the address that is in the IVT's 0x10's address,
-i.e. the address 0x40. \footnote{Interrupts, from: Tutorialspoint, \today}
+i.e. the address 0x40. \footnote{Interrupts, from: Tutorialspoint, \today  \\ https://www.tutorialspoint.com/embedded\_systems/es\_interrupts.htm}
 
 \subsection{Interrupt requests lines}
 
