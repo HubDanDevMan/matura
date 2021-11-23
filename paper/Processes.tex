@@ -1,28 +1,23 @@
 \section{Processes}
 
-A process is defined as a computer program that is currently being executed. 
-
-Processes can be further categorized into what is called aprocess life cycle. The process life cycle is
+A process is defined as an instance of a computer program that is currently being executed.
+The operating system is ultimately in control of all the processes and 
+Processes can be further categorized into what is called a \textit{process life cycle}. The process life cycle is
 a categorization of the different states a process or program can be in. A process life cycle can vary
 from one operating system to another and the names are also not standardized. The aforementioned 
 categorisation consists of 5 different stages:
 
-
 \begin{itemize}
 \item Start: \\
-
 The original state in which a process is first initiated in.
 \item Ready: \\
-
 A ready process in in wait for the processor to allocate them via the operating system. Processes will
 likely enter this state after the Start state. The other likely reason why a process enters this stage
 is because the OS scheduler(part of the operating system that manages CPU allocation to processes) will
 interrupt the process to assign the CPU to another process.
 \item Running:
-
 In this state the process has been assigned the CPU by the OS scheduler and executes its instructions.
 \item Waiting: \\
-
 This is the stage in which the process is waiting for a resource such as waiting for a file to become available
 or waiting for user input.
 <item Exit/Terminate: \\
@@ -76,84 +71,75 @@ A program is a file containing a set of instructions. These instructions can be 
 programming languages such as: Python, C or C++. These are considered high lever programming languages as 
 they have strong abstraction from the inner machinations of a computer. The CPU however cammpt read these 
 instructions yet they first need to be translated into something that the computer can use. This is done 
-via a compiler. Thecompiler translates When this program is loaded into memory it becomes a process and can 
+via a compiler. The compiler translates when this program is loaded into memory it becomes a process and can 
 be seperated into four parts:
 
 \begin{itemize}
 \item The Stack: \\
 
-The stack contains a data such as method parameters, local variables and return adresses. The stack is use for temporary data.
+The stack contains primarly local variables but also data such as function parameters and function return adresses. The data on the stack is often just used temporarily.
 \item The Heap: \\
 
-The heap contains Memory that is dynamically allocated during the run time of the process.
+The heap contains memory that is dynamically allocated during the run time of the process.
 \item The Data: \\
 
 The data is the section containing the static and global variables.
 \item The Text: \\
 
-The text contains the current activity, this is represented by the value of the program counter it also contains the contents of the processor's registers.
+The text segment contains CPU instructions for the process, this is represented by the value of the program counter it also contains the contents of the processor's registers.
 
 \end{itemize}
 
-Further iformation on these four sections can be found within the memory chapter. \footnote{Processes, from: Tutorialspoint, \today \\ https://www.tutorialspoint.com/operating_system/os_processes.htm }
+Further iformation on these four sections can be found within the memory chapter. \footnote{Processes, from: Tutorialspoint, \today \\ \url{https://www.tutorialspoint.com/operating_system/os_processes.htm} }
 
 
 \subsection{Daemons and Init}
 
-Daemons are computer programs that run in the background of an operating system. Users do not have direct
-access to daemon processes and have no control over them. The implementation for daemons will differ from
+Daemons are computer programs that run in the background of an operating system. Regular users (i.e. users without \textit{Administrator rights} a.k.a \textit{root privileges} on unix-derivatives)
+do not have direct access to daemon processes and have no control over them. The implementation for daemons will differ from
 operating system platforms. For Microsoft Windows NT systems, the programs that serve the same functions as 
-daemons are called Windows services. In most cases they do not interact with user input and are started 
-during the boot. From Windows 2000 on the services can be manually started and stopped via the control panel. \footnote{Services, from: Microsoft, \today \\ https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2003/cc783643(v=ws.10)?redirectedfrom=MSDN}
-In Unix-like systems daemon processes usually end with the letter "d" for example the crond daemon is 
+daemons are called \textit{Windows services}. In most cases they do not interact with user input and are started 
+during the boot directly by the kernel. Since Windows 2000, the services can be manually started and stopped via the control panel\footnote{Services, from: Microsoft, \today \\ \url{https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2003/cc783643(v=ws.10)?redirectedfrom=MSDN}}.
+In Unix-like systems, daemon processes usually end with the letter "d" for example the crond daemon is 
 a job scheduler for background processes. In Unix systems there is also a special daemon from which all
 other daemons spawn the init daemon. The init daemon is the first process to be started at system boot 
-and then places the sytem in single user mode or spawns a shell to read the system's startup files. \footnote{Verma: Unix, (2006) P. 84 \\ https://books.google.ch/books?id=JhS-TkW0tOYC&pg=PA84&redir_esc=y#v=onepage&q&f=false}
+and then places the sytem in single user mode or spawns a shell to read the system's startup files. \footnote{Verma: Unix, (2006) P. 84 \\ \url{https://books.google.ch/books?id=JhS-TkW0tOYC&pg=PA84&redir_esc=y#v=onepage&q&f=false}}
 
 
 
 \subsection{Executables}
 
+Executables are files containing instructions and data for computers. When these files are \textit{run}, they
+become procesess. Running a executable means that the contents of the file are loaded into memory. Executables
+are associated with a format that describes how exactly the contents must be loaded. The loading itself
+is done by the \textit{program loader}. It is a crucial component in operating systems. The program loader
+maps the individual sections, primarily \texttt{.text} and \texttt{.data}, of an executable into memory according to the layout and position
+specified in the executable. 
+
 \subsubsection{Binary executables}
 
-The executable files used on DOS since the 90\' and its descendants (like Windows) use a format called the MZ
-executable. The MZ file format has been upgraded multiple times over the course of history. Its latest revision
-is called the Portable Executable (PE) and is merely built on top of the MZ format. The extension used for
-MZ and PE is typically **.exe** to identify *binary executables* i.e. instructions and data for the
-processor. Windows supports most DOS legacy formats due to backwards compatibility. These includes formats
-such as **.COM**. The default command line interpreter on Windows CMD is the graphical version of the
-text-only DOS command line interpreter and is used to start programs and navigate the system. A program
-name can be typed in to the prompt and DOS would execute it. Because the developers of DOS noticed that
-typing out the file extension for every program is annoying, they made typing the extension obsolete.
-The text editor on DOS was *EDLIN.EXE* but starting the program was done by typing `EDLIN` into the command
-prompt. After typing the name of the program into the prompt, the interpreter checks wether the program name
-is associated with a **.exe** or a **.com** file and if so, the program would be run and the user was able
-to interact with the program until it quits, upon which the user will be prompted again. 
+
 
 \subsubsection{Scripts}
 
 There is also a different type of executables, namely *scripts*. Scripts are written in a human readable
 scripting language. They rely on software to interprete the instructions at run time in contrast of
 hardware (such as the CPU). The interpreting software is a program that contains instructions for
-the CPU. Windows uses the **.bat** or **.cmd** extension for scripts written for `cmd.exe` and for
-the newer PowerShell scripts with extension **.ps1** it will use `powershell.exe`. The command line
-interpreter will 
+the CPU. Windows uses the \textbf{.bat} or \textbf{.cmd} extension for scripts written for the interpreter \texttt{cmd.exe} and for
+the newer PowerShell scripts with extension \textbf{.ps1} it will use the interpreter called \texttt{powershell.exe}.
+
 
 \subsubsection{Executables on unix-like systems}
 
 Unix-like operating systems differ greatly from Windows NT ones. They rarely rely on extensions to
 identify executables but rather *file signatures*. Binary executables unix systems with the exception of MacOS
-contain the `\x7fELF` signature. 
-
-# **MORE IN CHAPTER FILES !!!!**
-
-A special type of file signature can be found on
-scripts. Even though they are made of plain ASCII characters the author of the file creates the
-signature by him or herself. In scripts for Unix-like operating systems the format is as follows:
-`#!/path/to/the/script/interpreter -parameters\n` followed by instructions in the scripting language that can
-be interpreted by the interpreter specified in the path. The *shebang* ("#!") is the script signature
-and tells the kernel that the program is not in a binary format such as ELF (Linux) or Mach-O
-(MacOS Darwin), the unix-like counterparts to Windows *.exe* (PE). When the executable is invoked,
+contain the \texttt{\textbackslash x7fELF} file signature and are in the ELF-format. A special type of file signature can be found on
+scripts. Even though they are made of plain ASCII characters, the author of the file creates the
+signature by him or herself. In scripts for Unix-like operating systems, the format is as follows: \\
+\texttt{\#!/path/to/the/script/interpreter -parameters\textbackslash n} followed by instructions in the scripting language that can
+be interpreted by the interpreter specified in the path. The \textit{shebang} (\textbf{\#!}) is the script signature
+and tells the kernel that the program is not in a binary format such as Mach-O (MacOS Darwin) or ELF (Linux et al.),
+the unix-like counterparts to Windows \textbf{.exe} (PE). When the executable is invoked,
 the kernel will first invoke the interpreter, which is a binary executable and pass the name of the script
 to the interpreter.
 
@@ -163,12 +149,12 @@ to the interpreter.
 
 
 
-stuff:
-[^proc1]: https://medium.com/@imdadahad/a-quick-introduction-to-processes-in-computer-science-271f01c780da
-[^proc2]: https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/4_Threads.html 
-[^proc3]: https://www.tutorialspoint.com/operating_system/os_processes.htm
-[^proc4]: https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2003/cc783643(v=ws.10)?redirectedfrom=MSDN
-[^proc5]: https://books.google.ch/books?id=JhS-TkW0tOYC&pg=PA84&redir_esc=y#v=onepage&q&f=false
+%stuff:
+%[^proc1]: https://medium.com/@imdadahad/a-quick-introduction-to-processes-in-computer-science-271f01c780da
+%[^proc2]: https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/4_Threads.html 
+%[^proc3]: https://www.tutorialspoint.com/operating_system/os_processes.htm
+%[^proc4]: https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2003/cc783643(v=ws.10)?redirectedfrom=MSDN
+%[^proc5]: https://books.google.ch/books?id=JhS-TkW0tOYC&pg=PA84&redir_esc=y#v=onepage&q&f=false
 
 
 

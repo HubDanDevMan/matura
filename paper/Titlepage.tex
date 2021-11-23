@@ -1,6 +1,8 @@
 \documentclass{article}
 \usepackage{graphicx}
 \usepackage{listings}
+\usepackage{float}
+\usepackage{url}
 \usepackage{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
@@ -49,10 +51,10 @@
 \input{Booting.tex}
 \include{"The CPU.tex"}
 %\include{Interrupts.tex}
-%\include{Files.tex}
-\input{Filesystems.tex}
+\include{Files.tex}
+\include{Filesystems.tex}
 %\include{Processes.tex}
-%\include{Userinterfaces.tex}
-%\include{Sources.tex}
+\include{Userinterfaces.tex}
+\input{Sources.tex}
 
 \end{document}

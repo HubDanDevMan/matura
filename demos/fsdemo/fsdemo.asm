@@ -217,18 +217,14 @@ __prog:
 
 mov edi, 0
 call LBAtoCHS
-
-pusha
-mov ah, 0x0e
-mov al, "Y"
-int 0x10
-popa
-
+; ecx = C
 push esi
 push edi
+; print C
 mov eax, ecx
 mov edi, chexbuf
 call formatHex
+
 pop eax
 mov edi, hhexbuf
 call formatHex

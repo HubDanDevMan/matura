@@ -6,8 +6,7 @@ file is stored on a storage medium such as a hard disk and is \textit{remembered
 instructed to delete it. Traditional files can contain an arbitrary amount of data only limited by disk
 space and filesystem support.
 
-
-\section{File signatures}
+\subsection{File signatures}
 
 Magic numbers are more or less arbritarily chosen
 numberic or textual constanst used across most of computer science but in the context of files
@@ -20,16 +19,17 @@ the file name (metadata). The only difference is that extensions differ from the
 
 \begin{table}
 \centering
-\begin{tabular}{| c | c |}
-File type & Signature \backslash \backslash 
+	\begin{tabular}[H]{| c | c |}
+File type & Signature \\
 \hline
- JPEG & ÿØÿÛ \backslash \backslash 
- MP3 & ÿû \backslash \backslash 
- ZIP & PK\backslash x03\backslash x04 \backslash \backslash 
+ JPEG & ÿØÿÛ \\ 
+ MP3 & ÿû \\
+ ZIP & PK\textbackslash{}x03\textbackslash{}x04 \\ 
  PDF & \%PDF-
 \end{tabular}
-	\caption{A list of common file formats and their signatures\footnote{ File signatures, from: Wikipedia, retrieved \today.}}
+	\caption{A list of common file formats and their signatures}\footnote{ File signatures, from: Wikipedia, retrieved \today.}
 \end{table}
+
 \raggedright
 \bigskip
 
@@ -55,7 +55,7 @@ are identified in some operating systems by their \textit{extension} or their \t
 a small appendix to the file name. It is of format \texttt{filename.extension}. The Windows NT family of operating
 systems relies heavily on extensions to differentiate between executables and regular files. 
 
-\section{Pseudofiles}
+\subsection{Pseudofiles}
 
 Because files are organized and structured in hierarchical filesystem, some operating systems use special
 files that are actually \textit{interfaces} to \textit{device drivers}. In practice this means that a special file can
@@ -63,7 +63,7 @@ refer to a file that when \texttt{read} and \texttt{write} operations are perfor
 read and write commands and performs the operations not to a regular file but rather to a device. In unix-like
 OSes there a myriad of device files located in the \texttt{/dev} directory. Hard disks are named in \texttt{sd*} where \texttt{*}
 is an alphabetical character in order that the OS detected the device. \texttt{/dev/sda} is the first hard disk,
-\texttt{/dev/sdb} is the second and so forth. Accessing hard disks through \texttt{/dev/sd*} allows *raw* access to the
+\texttt{/dev/sdb} is the second and so forth. Accessing hard disks through \texttt{/dev/sd*} allows \textit{raw} access to the
 device instead of the traditional file system interface where files are stored according to the filesystem
 structure. There are other special files in \texttt{/dev}such as \texttt{/dev/mem} that allows access to the whole system
 memory. Additionally there are input devices such as \texttt{/dev/input/mouse*} where \texttt{*} is the number in which the
@@ -81,13 +81,13 @@ it seem more random. Every \texttt{read} operation alters the content in Urandom
 different data. This pseudo device interface makes it very practical to get random numbers.
 Windows also has device files and pseudo device files but they are not necessarily located in a directory, depending
 on the system configuration. The Windows 10 device file structure can be accessed with help of the \textit{WinObj} tool which
-implements the \texttt{\backslash \backslash ?\backslash Device} folder\texttt{windev}. WinObj used the WindowsNT native API internally but allows access to device interfaces
-via file paths. For example, a raw hard disk partition can be accessed by writing to \texttt{\backslash \backslash .\Device\backslash Harddisk*\backslash partition#}
+implements the \texttt{\textbackslash \textbackslash ?\textbackslash Device} folder\texttt{windev}. WinObj used the WindowsNT native API internally but allows access to device interfaces
+via file paths. For example, a raw hard disk partition can be accessed by writing to \texttt{\textbackslash \textbackslash .\textbackslash Device\textbackslash Harddisk*\textbackslash partition\#}
 with \texttt{*} being the number of the disk in which it was detected at startup and \texttt{\#} referring to the partition number.
 Many special files in unix-like operating systems also exist in Windows, although named differently. Compatibility layers
-such as \texttt{zerodrv}implement drivers for unix-like equivalent special device files \texttt{\backslash \backslash ?\Device/zero} and \texttt{\backslash \backslash ?\Devices\backslash null}
+such as \texttt{zerodrv} implement drivers for unix-like equivalent special device files \texttt{\textbackslash \textbackslash ?\textbackslash Device/zero} and \texttt{\textbackslash \textbackslash ?\textbackslash Devices\textbackslash null}
 on Windows\footnote{ User1686: /dev/sda in Windows, retrieved \today.}.
 
 
 \subsubsection{Character devices}
-\subsub{Block devices}
+\subsubsection{Block devices}

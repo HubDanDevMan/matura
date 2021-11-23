@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.25)  22 NOV 2021 03:56
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (MiKTeX 21.3) (preloaded format=pdflatex 2021.5.25)  23 NOV 2021 05:02
 entering extended mode
 **./Titlepage.tex
 (Titlepage.tex
@@ -78,6 +78,18 @@ File: listings.cfg 2020/03/24 1.8d listings configuration
 ))
 Package: listings 2020/03/24 1.8d (Carsten Heinz)
 
+(C:\Users\ElPeruano69\AppData\Local\Programs\MiKTeX\tex/latex/float\float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count195
+\float@exts=\toks17
+\float@box=\box49
+\@float@everytoks=\toks18
+\@floatcapt=\box50
+)
+(C:\Users\ElPeruano69\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty
+\Urlmuskip=\muskip16
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
 (C:\Users\ElPeruano69\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry
 .sty
 Package: geometry 2020/01/02 v5.9 Page Geometry
@@ -89,9 +101,9 @@ Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 (C:\Users\ElPeruano69\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty
 Package: iftex 2020/03/06 v1.0d TeX engine tests
 ))
-\Gm@cnth=\count195
-\Gm@cntv=\count196
-\c@Gm@tempcnt=\count197
+\Gm@cnth=\count196
+\Gm@cntv=\count197
+\c@Gm@tempcnt=\count198
 \Gm@bindingoffset=\dimen145
 \Gm@wd@mp=\dimen146
 \Gm@odd@mp=\dimen147
@@ -100,16 +112,21 @@ Package: iftex 2020/03/06 v1.0d TeX engine tests
 \Gm@layoutheight=\dimen150
 \Gm@layouthoffset=\dimen151
 \Gm@layoutvoffset=\dimen152
-\Gm@dimlist=\toks17
+\Gm@dimlist=\toks19
 
 (C:\Users\ElPeruano69\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry
 .cfg))
+(C:\Users\ElPeruano69\AppData\Local\Programs\MiKTeX\tex/latex/base\inputenc.sty
+Package: inputenc 2020/08/01 v1.3d Input encoding file
+\inpenc@prehook=\toks20
+\inpenc@posthook=\toks21
+)
 (C:\Users\ElPeruano69\AppData\Local\Programs\MiKTeX\tex/generic/babel\babel.sty
 Package: babel 2021/05/16 3.59 The Babel package
 
 (C:\Users\ElPeruano69\AppData\Local\Programs\MiKTeX\tex/generic/babel\babel.def
 File: babel.def 2021/05/16 3.59 Babel common definitions
-\babel@savecnt=\count198
+\babel@savecnt=\count199
 \U@D=\dimen153
 \l@unhyphenated=\language79
 
@@ -117,7 +134,7 @@ File: babel.def 2021/05/16 3.59 Babel common definitions
 def)
 \bbl@readstream=\read2
 )
-\bbl@dirlevel=\count199
+\bbl@dirlevel=\count266
 
 *************************************
 * Local config file bblopts.cfg used
@@ -150,9 +167,9 @@ Package: everysel 2021/01/20 v2.1 EverySelectfont Package (MS)
 (C:\Users\ElPeruano69\AppData\Local\Programs\MiKTeX\tex/latex/footmisc\footmisc
 .sty
 Package: footmisc 2011/06/06 v5.5b a miscellany of footnote facilities
-\FN@temptoken=\toks18
+\FN@temptoken=\toks22
 \footnotemargin=\dimen154
-\c@pp@next@reset=\count266
+\c@pp@next@reset=\count267
 Package footmisc Info: Declaring symbol style bringhurst on input line 855.
 Package footmisc Info: Declaring symbol style chicago on input line 863.
 Package footmisc Info: Declaring symbol style wiley on input line 872.
@@ -180,40 +197,44 @@ Package footmisc Info: Declaring symbol style lamport*-robust on input line 924
 (C:\Users\ElPeruano69\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backe
 nd-pdftex.def
 File: l3backend-pdftex.def 2021-05-07 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count267
-\l__pdf_internal_box=\box49
-) (Titlepage.aux (The CPU.aux))
+\l__color_backend_stack_int=\count268
+\l__pdf_internal_box=\box51
+) (Titlepage.aux (The CPU.aux) (Files.aux) (Filesystems.aux)
+
+LaTeX Warning: Label `processes' multiply defined.
+
+)
 \openout1 = `Titlepage.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
 
 (C:\Users\ElPeruano69\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-
 pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count268
+\scratchcounter=\count269
 \scratchdimen=\dimen155
-\scratchbox=\box50
-\nofMPsegments=\count269
-\nofMParguments=\count270
-\everyMPshowfont=\toks19
-\MPscratchCnt=\count271
+\scratchbox=\box52
+\nofMPsegments=\count270
+\nofMParguments=\count271
+\everyMPshowfont=\toks23
+\MPscratchCnt=\count272
 \MPscratchDim=\dimen156
-\MPnumerator=\count272
-\makeMPintoPDFobject=\count273
-\everyMPtoPDFconversion=\toks20
+\MPnumerator=\count273
+\makeMPintoPDFobject=\count274
+\everyMPtoPDFconversion=\toks24
 )
 (C:\Users\ElPeruano69\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epst
 opdf-base.sty
@@ -225,7 +246,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 -sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-\c@lstlisting=\count274
+\c@lstlisting=\count275
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -261,34 +282,34 @@ File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package ragged2e Info: ABD: executing \RaggedRight on input line 20.
+Package ragged2e Info: ABD: executing \RaggedRight on input line 23.
 ABD: EverySelectfont initializing macros
-LaTeX Info: Redefining \selectfont on input line 20.
+LaTeX Info: Redefining \selectfont on input line 23.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 21.
+(Font)              <12> on input line 24.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 21.
+(Font)              <8> on input line 24.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 21.
+(Font)              <6> on input line 24.
 <../assets//ostp.png, id=1, 564.60938pt x 807.015pt>
 File: ../assets//ostp.png Graphic file (type png)
 <use ../assets//ostp.png>
-Package pdftex.def Info: ../assets//ostp.png  used on input line 26.
+Package pdftex.def Info: ../assets//ostp.png  used on input line 29.
 (pdftex.def)             Requested size: 200.75073pt x 286.94179pt.
  [1
 
 {C:/Users/ElPeruano69/AppData/Local/MiKTeX/pdftex/config/pdftex.map} <../assets
-//ostp.png>] (Titlepage.toc)
+//ostp.png>] (Titlepage.toc
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 3.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 3.
+)
 \tf@toc=\write3
 \openout3 = `Titlepage.toc'.
 
 
-[2] (Booting.tex
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 51.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 51.
- [1]) [2]
+[2] (Booting.tex [1]) [2]
 \openout2 = `"The CPU.aux"'.
 
  (The CPU.tex
@@ -399,83 +420,120 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
 
 [4] [5] [6]
 
-LaTeX Warning: Command \textless invalid in math mode on input line 282.
+LaTeX Warning: Command \textless invalid in math mode on input line 283.
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 282.
+LaTeX Warning: Command \textless invalid in math mode on input line 283.
 
 
-LaTeX Warning: Command \textgreater invalid in math mode on input line 282.
+LaTeX Warning: Command \textgreater invalid in math mode on input line 283.
 
 
-LaTeX Warning: Command \textgreater invalid in math mode on input line 282.
+LaTeX Warning: Command \textgreater invalid in math mode on input line 283.
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 282.
+LaTeX Warning: Command \textless invalid in math mode on input line 283.
 
 
-LaTeX Warning: Command \textless invalid in math mode on input line 282.
+LaTeX Warning: Command \textless invalid in math mode on input line 283.
 
 
-LaTeX Warning: Command \textgreater invalid in math mode on input line 282.
+LaTeX Warning: Command \textgreater invalid in math mode on input line 283.
 
 
-LaTeX Warning: Command \textgreater invalid in math mode on input line 282.
+LaTeX Warning: Command \textgreater invalid in math mode on input line 283.
 
-) [7] (Filesystems.tex
+) [7]
+\openout2 = `Files.aux'.
 
-LaTeX Warning: Citation `proc2' on page 8 undefined on input line 30.
+ (Files.tex
+LaTeX Font Info:    Trying to load font information for OMS+cmtt on input line 
+84.
+LaTeX Font Info:    No file OMScmtt.fd. on input line 84.
+
+
+LaTeX Font Warning: Font shape `OMS/cmtt/m/n' undefined
+(Font)              using `OMS/cmsy/m/n' instead
+(Font)              for symbol `textbackslash' on input line 84.
 
 [8
 
 
+
+]) [9]
+\openout2 = `Filesystems.aux'.
+
+ (Filesystems.tex [10
+
+
+
 ]
-<../assets//filesystems.png, id=45, 1693.82813pt x 1199.23032pt>
+<../assets//filesystems.png, id=55, 1693.82813pt x 1199.23032pt>
 File: ../assets//filesystems.png Graphic file (type png)
 <use ../assets//filesystems.png>
-Package pdftex.def Info: ../assets//filesystems.png  used on input line 99.
+Package pdftex.def Info: ../assets//filesystems.png  used on input line 100.
 (pdftex.def)             Requested size: 351.31378pt x 248.7167pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[9]
-<../assets//disklayout.png, id=49, 752.8125pt x 150.5625pt>
+[11]
+
+LaTeX Font Warning: Font shape `OMS/cmtt/m/it' undefined
+(Font)              using `OMS/cmtt/m/n' instead
+(Font)              for symbol `textbackslash' on input line 121.
+
+<../assets//disklayout.png, id=61, 752.8125pt x 150.5625pt>
 File: ../assets//disklayout.png Graphic file (type png)
 <use ../assets//disklayout.png>
 Package pdftex.def Info: ../assets//disklayout.png  used on input line 130.
 (pdftex.def)             Requested size: 351.31378pt x 70.26353pt.
- [10 <../assets//filesystems.png> <../assets//disklayout.png>] [11])
-[12] (Titlepage.aux (The CPU.aux))
-
-LaTeX Warning: There were undefined references.
+[12 <../assets//filesystems.png> <../assets//disklayout.png>]) [13] [14]
+\openout2 = `Userinterfaces.aux'.
 
 
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+(Userinterfaces.tex
 
- ) 
+! Package inputenc Error: Invalid UTF-8 byte sequence.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.32 composits the windows, namely a \textit√
+                                             ∂window manager}. The window ma...
+
+? x
+ 
 Here is how much of TeX's memory you used:
- 4430 strings out of 479163
- 66130 string characters out of 2851136
- 394697 words of memory out of 3000000
- 22002 multiletter control sequences out of 15000+600000
- 408366 words of font info for 43 fonts, out of 8000000 for 9000
+ 4646 strings out of 479163
+ 69412 string characters out of 2851136
+ 399338 words of memory out of 3000000
+ 22195 multiletter control sequences out of 15000+600000
+ 408870 words of font info for 46 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,14n,62p,366b,1240s stack positions out of 5000i,500n,10000p,200000b,80000s
- <C:\Users\ElPeruano69\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi60
-0\tcrm1000.pk><C:/Users/ElPeruano69/AppData/Local/Programs/MiKTeX/fonts/type1/p
-ublic/amsfonts/cm/cmbx10.pfb><C:/Users/ElPeruano69/AppData/Local/Programs/MiKTe
-X/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/ElPeruano69/AppData/Local
-/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/ElPeruano6
-9/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Us
+ 55i,14n,62p,367b,1240s stack positions out of 5000i,500n,10000p,200000b,80000s
+ <C:\Users\ElPeruano69\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\
+tcrm1000.pk><C:/Users/ElPeruano69/AppData/Local/Programs/MiKTeX/fonts/type1/pub
+lic/amsfonts/cm/cmbx10.pfb><C:/Users/ElPeruano69/AppData/Local/Programs/MiKTeX/
+fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/ElPeruano69/AppData/Local/P
+rograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmitt10.pfb><C:/Users/ElPeruano69
+/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Us
 ers/ElPeruano69/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cm
-r12.pfb><C:/Users/ElPeruano69/AppData/Local/Programs/MiKTeX/fonts/type1/public/
-amsfonts/cm/cmr17.pfb><C:/Users/ElPeruano69/AppData/Local/Programs/MiKTeX/fonts
-/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/ElPeruano69/AppData/Local/Progra
-ms/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on Titlepage.pdf (14 pages, 239024 bytes).
+r10.pfb><C:/Users/ElPeruano69/AppData/Local/Programs/MiKTeX/fonts/type1/public/
+amsfonts/cm/cmr12.pfb><C:/Users/ElPeruano69/AppData/Local/Programs/MiKTeX/fonts
+/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/ElPeruano69/AppData/Local/Program
+s/MiKTeX/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/ElPeruano69/AppData/
+Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/ElPerua
+no69/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/
+Users/ElPeruano69/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
+cmsy10.pfb><C:/Users/ElPeruano69/AppData/Local/Programs/MiKTeX/fonts/type1/publ
+ic/amsfonts/cm/cmti10.pfb><C:/Users/ElPeruano69/AppData/Local/Programs/MiKTeX/f
+onts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/ElPeruano69/AppData/Local/Pr
+ograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
+Output written on Titlepage.pdf (16 pages, 315957 bytes).
 PDF statistics:
- 92 PDF objects out of 1000 (max. 8388607)
+ 122 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  16 words of extra memory for PDF output out of 10000 (max. 10000000)
 
