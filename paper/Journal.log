@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.8) (preloaded format=pdflatex 2021.11.23)  23 NOV 2021 23:09
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.8) (preloaded format=pdflatex 2021.11.23)  23 NOV 2021 23:33
 entering extended mode
 **./Journal.tex
 (Journal.tex
@@ -187,8 +187,7 @@ tex.def
 File: l3backend-pdftex.def 2021-08-04 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count271
 \l__pdf_internal_box=\box56
-)
-No file Journal.aux.
+) (Journal.aux)
 \openout1 = `Journal.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 24.
@@ -282,28 +281,37 @@ Package pdftex.def Info: ../assets//ostp.png  used on input line 30.
 [1
 
 {C:/Users/YMora/AppData/Local/MiKTeX/pdftex/config/pdftex.map} <../assets//ostp
-.png>]
-No file Journal.toc.
+.png>] (Journal.toc)
 \tf@toc=\write3
 \openout3 = `Journal.toc'.
 
-[2] (Journal.aux) ) 
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 84.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 84.
+ [1] [2] [3] [4] (Journal.aux) ) 
 Here is how much of TeX's memory you used:
- 4433 strings out of 478927
- 69238 string characters out of 2852534
- 383438 words of memory out of 3000000
- 22264 multiletter control sequences out of 15000+600000
- 407070 words of font info for 39 fonts, out of 8000000 for 9000
+ 4451 strings out of 478927
+ 69523 string characters out of 2852534
+ 394358 words of memory out of 3000000
+ 22274 multiletter control sequences out of 15000+600000
+ 408534 words of font info for 44 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 57i,6n,66p,204b,264s stack positions out of 5000i,500n,10000p,200000b,80000s
-<C:/Users/YMora/AppData/Local/Programs/MiKTeX/fonts/type1/pu
-blic/amsfonts/cm/cmbx12.pfb><C:/Users/YMora/AppData/Local/Programs/MiKTeX/fonts
-/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/YMora/AppData/Local/Programs/MiKT
-eX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/YMora/AppData/Local/Progr
-ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb>
-Output written on Journal.pdf (2 pages, 77549 bytes).
+ 57i,6n,66p,209b,264s stack positions out of 5000i,500n,10000p,200000b,80000s
+ <C:\Users\YMora\AppData\Local\MiKTeX\fonts/pk/
+ljfour/jknappen/ec/dpi600\tcrm1000.pk><C:/Users/YMora/AppData/Local/Programs/Mi
+KTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/YMora/AppData/Local/Pr
+ograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/YMora/AppData
+/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/YMora
+/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Use
+rs/YMora/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb
+><C:/Users/YMora/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/c
+mr7.pfb><C:/Users/YMora/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
+ts/cm/cmti10.pfb><C:/Users/YMora/AppData/Local/Programs/MiKTeX/fonts/type1/publ
+ic/amsfonts/cm/cmtt10.pfb>
+Output written on Journal.pdf (5 pages, 152099 bytes).
 PDF statistics:
- 32 PDF objects out of 1000 (max. 8388607)
+ 66 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
