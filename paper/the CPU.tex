@@ -1,12 +1,12 @@
 \section{The CPU}
 
-The Processor (Central Processing Unit) is often refered to as the brain of a computer. On the
+The Processor (Central Processing Unit) is often reffered to as the brain of a computer. On the
 lowest level, it is made of circuits with thousands or up to billions of transistors. In
 essence, a CPU reads and writes data to memory and performs operations on it based on the
 instructions it receives. There are many different architectures and processor families but
 this chapter will explain the most basic inner workings of a processor with a hypothetical
-model. We will upgrade our CPU on the run to introduce new features and instructions, but
-start off with a simple CPU that has 4 components:
+model. We will go more into detail while we are progressing through this chapter and introduce new 
+features and instructions. But for now we will start off with a simple CPU that has 4 components:
 
 \begin{itemize}
 	\item A Programm Counter (PC)
@@ -17,45 +17,45 @@ start off with a simple CPU that has 4 components:
 
 The PC is a register that holds the address of the next instruction located in RAM.
 First, it is important to understand what a register is. A register is a circuit
-that can hold a binary value. The size of register is given in bits or in bytes. Our
+that can hold a binary value. The size of registers is given in bits or in bytes. Our
 registers are 8 bits wide, meaning they can hold any value between 0 and 255. 
-Registers can be read and written to and will retain their value until they are
+Registers can be read from and written to and will retain their value until they are
 overwritten again. They are located on the CPU and most CPU operations are done \textit{on}
 data in regsiters. \newline
 Secondly, it is important to understand that RAM can be addressed by means of \textit{numeric
-values}, these values are also called a \textit{memory address} and when the address is stored
+values}, these values are also called \textit{memory addresses} and when an address is stored
 in a register, it is called a \textit{pointer}. So the PC is a pointer to the next instruction
 in memory. \newline
-Now, the next question arises, what exactly is random access memory? RAM is made of many fields 
+Now, the next question arises, what random access memory is exactly. RAM is made of many fields 
 that can store one byte of data. They are similar to registers, in the sense that they hold data, a numeric
 value between 0 and 255, until they are overwritten again. In RAM, there is a large number of
 those fields while there may only be a few registers present. RAM takes the form of its
 own separate hardware, namely RAM sticks. RAM is used by the CPU while it is running, but
-once the computer is turned off, all the data present in RAM and in registers is deleted.
+once the computer is turned off, all the data present in RAM and in registers gets deleted.
 One key feature of RAM is that it truly is random access, meaning there is no particular order
 in which data has to be stored or retrieved. Each one of those fields has an address and
 these fields can contain normal data or also instructions for the CPU itself.\newline
 The accumulator register is just a register that the CPU uses for temporary storage, before
-it is either stored in memory or overwritten. Many operations also just work on registers,
+it is either stored in memory or overwritten. Many operations work exclusively on registers,
 if we for example add two numbers, one number has to be stored in a register but the other
-value can be stored in memory. In our hypothetical CPU there is only one register, namely
+value can be stored in memory. There is only one register in our hypothetical CPU, namely
 the accumulator.\newline
 The next component is the ALU which is a complex circuit that performs binary operations.
-These operations range from arithmetic operations to bitwise operations of. All these
+These operations range from arithmetic operations to bitwise operations. All these
 operations are circuits etched in the ALU and a instruction that uses
-the ALU will execute as follow:
-
-- Operands are loaded into the ALUs own registers.
-- Instruction triggers the correct arithmetic circuits to perform the operation on the registers in the ALU.
-- Result is then stored into the destination, our CPU defaults to storing it in the accumulator.
-
+the ALU executes as follow:
+\begin{enumerate}
+\item Operands are loaded into the ALUs own registers.
+\item Instruction triggers the correct arithmetic circuits to perform the operation on the registers in the ALU.
+\item Result is then stored into the destination, our CPU defaults to storing it in the accumulator.
+\end{enumerate}
 The ALU can be very complicated, depending on which arithmetic operations it supports. Common
 ones are addition, subtraction, division, multiplication as well as binary operations like
-xoring, anding and bitshifts. Our CPU will receive an ALU upgrade a bit later in this chapter.
+xoring, anding and bitshifts. Our CPU will receive an ALU upgrade a bit later into this chapter.
 
 
 
-Now that we have a basic understanding of the component, let's look at a possible instruction set
+Now that we have a basic understanding of the component, let us look at a possible instruction set
 (= All instructions a processor can understand and execute):
 
 \begin{center}
@@ -70,25 +70,25 @@ Now that we have a basic understanding of the component, let's look at a possibl
 \end{center}
 
 
-These instructions seems rather weird, haven't we all heard from a young age that
-computers work with 1s and 0s? That is obviously true, but a binary instruction
+These instructions seem rather weird, we have all heard that
+computers work with 1s and 0s. That is obviously true, but a binary instruction
 can also be represented in a human readable form. This human readable form of the
 most basic CPU instructions is called \textit{assembly language}. The table also features
 a column named encoding. Encoding refers the numeric value that the instruction has
 and is represented here as a hexadecimal number. In memory, the instruction is 
 stored in its binary representation.
 
-Lets look at a instruction located in memory. It is encodes it as follows: `0b00001111 0b00000101`
-which in hex is 0x0F 0x05 and in human readable consists of the mnemonic
-`LOAD` and the operand `5`.
+Let us look at an instruction located in memory. It encodes it as follows: \texttt{0b00001111 0b00000101}
+which is 0x0F 0x05 in hexadecimal and in human readable consists of the mnemonic
+\texttt{LOAD} and the operand \texttt{5}.
 
 Forward on, we will only use the hex representation and the human readable representation
 because the binary one is cumbersome. Most instruction encodings are also numbers that were
-chosen pretty randomly with the only requirement being that the encodings don't collide.
-If both `LOAD` and `STORE` were encoded as `0F` the CPU would not know which operation to
+chosen pretty randomly with the only requirement being that the encodings do not collide.
+If both \texttt{LOAD} and \texttt{STORE} were encoded as \texttt{0F} the CPU would not know which operation to
 perform.
 
-So in our case, \\x0F is the instruction that tells the CPU to `LOAD` a number in the accumulator.
+So in our case, \\x0F is the instruction that tells the CPU to \texttt{LOAD} a number in the accumulator.
 and the \\x05 is the number we want it to hold. When our CPU has finished executing the first
 instruction the accumulator holds the right value and the PC is incremented automatically to point
 to the next instruction, which is then fetched from memory. Here, the next instruction is the
@@ -101,9 +101,9 @@ following:
 The $0x7C$ instruction triggers the ALU to perform an addition with the accumulator and
 the value that followed the $0x7C$ instruction, namely the $0x03$, which means that the value
 in the accumulator will be updated to 8. The PC is incremented again and the next instruction is
-fetched from memory: $0xE1\ 0x00$ which disassembles into `STORE 0`. This instruction stores the 8 
+fetched from memory: $0xE1\ 0x00$ which disassembles into \texttt{STORE 0}. This instruction stores the number 8 
 that is in the accumulator into the memory location $0x00$. This might be surprising, but 0 is a
-valid memory address. That small field in RAM now holds the data which is saved for later.
+valid memory address. That small field in RAM now holds the data, saving it for later.
 
 So far we have familiarized ourselves with a cycle called the \textit{fetch, decode, execute cycle}. It 
 describes the steps taken for an instruction to be run by the CPU. Fetching is done by retrieving
@@ -113,17 +113,18 @@ and memory was very limited in the early days. \footnote{CPU, from: Learncompute
 \subsection{Memory}
 
 Memory refers to a system or device that is able to store data for immediate use. Compared to permanent 
-storage memory offers a faster access to data at the cost of very limited storage capacity. At the 
+storage, memory offers faster access to data at the cost of very limited storage capacity. At the 
 beginning of computer science memory storage was very ineffective. Thousands of small vacuum tubes 
 were needed for simple decimal calculations. There are several different memory storage mediums and memory 
 types, each with their own benefits and drawbacks. The use of memory is determined by the purpose of
-the data in memory. There are three different segments of a computers memory. The fastest segment is cache
-memory, followed by primary memory and lastly secondary memory. While secondary memory is the slowest segment it is
-also usually the one with the highest memory size. Peripheral storage devices such as hard disks, cds, dvds and floppy disks
-are part of secondary memory. The data in secondary memory is only accessible through I/O ports making 
-it slower than the other segments. Primary memory refers to the memory that can be accessed by the CPU. Main memory, 
+the data in memory. There are three different types of computer memory. The fastest type is cache
+memory, followed by primary memory and lastly secondary memory. Cache memory is technically part of primary memory but 
+in this chapter we will seperate these into two types for simplicity's sake. While secondary memory is the slowest type it is
+also usually the one with the highest memory capacity. Peripheral storage devices such as hard disks, CDs, DVDs and floppy disks
+are a part of secondary memory. The data in secondary memory is only accessible through \textbf{I/O} ports making 
+it slower than the other types. Primary memory refers to the memory that can be accessed by the CPU. Main memory, 
 cache memory and CPU registers are all part of primary memory. However, the fastest types of memory 
-are also the most expensive types and the ones with the smallest data capacity. Memory nowadays is 
+are also the most expensive types and the ones with the smallest capacity. Memory nowadays is 
 implemented as semiconductor memory. The data is stored in memory cells, where each can hold one bit 
 of data. Semiconductor memory is seperated into two types of memory:
 
@@ -137,61 +138,67 @@ space on the RAM sticks but is more difficult to control and needs to be regular
 the data stored. SRAM on the other hand does not lose the data as long as it is powered and is simpler for interfacing
 and control but uses six transistors per bit. Using only SRAM would be much more expensive and unnecessary for 
 certain tasks, where the hardware cannot send a response within nanoseconds. DRAM is mostly used for desktop system memory. 
-In contrast, SRAM is used for cache memory. The cache is seperated into two to three levels. 
-L1 is the first level of cache memory and is located on the cores of the CPU and not the RAM like DRAM. The 
+In contrast, SRAM is used for cache memory. The CPU decides where in primary memory data is stored. The cache is seperated into two to three levels. 
+\begin{itemize}
+\item L1 is the first level of cache memory and is located on the cores of the CPU and not the RAM like DRAM. The 
 size of a level 1 cache can range between only 2 KB and 64 KB. Processor calculations can be as fast as nanoseconds, which
-is why the data in memory needs to be accessible in such a short time. L2 is the second level of cache memory
+is why the data in memory needs to be accessible in such a short time. 
+\item L2 is the second level of cache memory
 and it is present inside or outside of the CPU. The size of memory ranges from 256 KB to 512 KB.
-Level 2 is not as fast as level 1 but is still faster than primary memory thanks to a high-speed bus
-that connects the cache to one or two cores of the CPU. L3 is the third level cache which is always outside
+Level 2 is not as fast as level 1 but still faster than primary memory thanks to a high-speed bus
+that connects the cache to one or two cores of the CPU. 
+\item L3 is the third level cache which is only present in modern CPUs and always outside
 of the processor. All cores share access to level 3 caches which enhances performance of level 1 and
 level 2 cache. The size of memory is between 1 MB and 8 MB.
+\end{itemize}
 
 \subsubsection{Non-volatile memory}
 
 Non-volatile memory can retain the stored data without a supply of power. ROM (read-only memory) is a well-known
-example of non-volatile memory storage, as well as peripheral storage devices such as hard disks, floppy disks, cds and 
-dvds. Non-volatile memory usually handles secondary storage and long-term storage. This type of memory is once again
+example of non-volatile memory storage, as well as peripheral storage devices such as hard disks, floppy disks, CDs and 
+DVDs. Non-volatile memory usually handles secondary storage and long-term storage, which is explained in more detail
+under the chapter \textbf{Filesystems}. This type of memory is once again
 divided into two categories:
-
--Electrically addressed systems such as ROM, which are generally fast but are expensive and
+\begin{itemize}
+\item Electrically addressed systems such as ROM, which are generally fast but are expensive and
 have a limited capacity. 
+\item Mechanically addressed systems, which are cheaper per bit but slower. 
+\end{itemize}
 
--Mechanically addressed systems are cheaper per bit but are slower. 
-tubes were needed for simple decimal calculations. \footnote{Memory, from: Javapoint, \today \\ https://www.javatpoint.com/volatile-memory}
+\footnote{Memory, from: Javapoint, \today \\ https://www.javatpoint.com/volatile-memory}
 
 
 \subsection{Jumps and subroutines}
 
-Let's assume that a program should run forever. Our primitive CPU lacks such a feature because it
+Let us assume that a program should run forever. Our primitive CPU lacks such a feature because it
 would require an infinite amount of RAM and the PC is a \textit{register} that can only address 255 
 instructions. The PC also points to the \textit{next instruction}. What if our CPU allowed operations on
 the PC register just like it does with the accumulator? Depicted below is an example of a 
 dissasembly. The numbers on the left side display the address of the memory that is being
 disassembled and on the right is the instruction mnemonic.
-```
+\begin{lstlisting}
 0x0 -> LOAD 0
 0x2 -> ADD 5
 0x4 -> JMP 2
-```
+\end{lstlisting}
 The first instruction should be familiar to most readers. Shortly after starting the program the 
-`LOAD` instruction is executed and the PC incrememted. The second instruction should also be mundane.
+\texttt{LOAD} instruction is executed and the PC incrememted. The second instruction should also be mundane.
 The CPU executes the instruction and again increments the PC by 2. There is a new instruction in our 
-instruction set. `JMP` is similar to `LOAD` but instead of
+instruction set. \texttt{JMP} is similar to \texttt{LOAD} but instead of
 moving a value to the accumulator it moves it to the PC. Because PC holds the value 2, the
-proccessor will fetch the next instruction from address 2. The CPU will execute the instructiom
-`ADD 2` and prepare itself for the next instruction by fetching it. This would be the instruction
+proccessor will fetch the next instruction from address 2. The CPU will execute the instruction
+\texttt{ADD 5} and prepare itself for the next instruction by fetching it. This would be the instruction
 at address 4. The processor would run the instruction and end up executing the 2 instructions
-(`ADD 5` and `JMP 2`) over and over again. This short program will run forever, adding 5 to the
+(\texttt{ADD 5} and \texttt{JMP 2}) over and over again. This short program will run forever, adding 5 to the
 accumulator until it \textit{overflows}. This means that the result that should be present in a register
 is altered because the result can not be represented in the register size. In practice this means
-that a 8-bit register can hold maximum value of 255. Whenever a mathematical opertion results in a 
+that a 8-bit register can hold maximum value of 255. Whenever a mathematical operation results in a 
 number greater than 255, such as 0b11111111 + 1 then the value will be 0 inside the register instead
 of 256, which requires more than 8 bits.
 
 \subsection{Conditional branching}
 
-If we want a program to run forever, jumps are more than enough. Readers familiar with programming languages should know about `if` and `else` statements. They are used in programming to express
+If we want a program to run forever, jumps are more than enough. Readers familiar with programming languages should know about \texttt{if} and \texttt{else} statements. They are used in programming to express
 under what condition a certain code block should be run. They are translated to CPU instructions
 in the following format:
 \center{
@@ -224,13 +231,13 @@ done:
 \newline
 \bigskip
 \raggedright
-The relevant instructions are `cmp` and `jne`. A processor that supports conditional branching needs
+The relevant instructions are \texttt{cmp} and \texttt{jne}. A processor that supports conditional branching needs
 another register, specificly a \textit{status register}. A status register contains bits that each signify
-a single condition. Our status reguster is 2 bits wide and those bits are the \textit{Carry Flag} and
-the \textit{Zero Flag}. These flags are extremely crucial to conditional branching. The `if` statement
+a single condition. Our status register is 2 bits wide and those bits are the \textit{Carry Flag} and
+the \textit{Zero Flag}. These flags are extremely crucial to conditional branching. The \texttt{if} statement
 in the programming language is followed by a \textit{condition}, such as a \textit{comparison}. A comparison
-can be $x smaller than 3$ or $y equal to 0$. They result in a either true or false value. In 
-CPU language, the `cmp` instruction performs a subtraction between two values, in our case between
+can be $x smaller than 3$ or $y equal to 0$. They result in either a true or a false value. In 
+CPU language, the \texttt{cmp} instruction performs a subtraction between two values, in our case between
 the accumulator and the value 7. The result of the subtraction is not stored in the accumulator
 but in the status register. The result is not the numeric value that results from the subtraction 
 but rather the status. If the compared values are equal, the subtraction results in in zero and the
@@ -242,19 +249,19 @@ the Carry Flag and the Zero Flag are set to 0 . \footnote{Jumps, from: Infoscins
 
 \subsection{Negative numbers and two's complement}
 
-Undrstanding how computers represent positive integers is not very abstracted to the way humans
+Understanding how computers represent positive integers is not very abstracted to the way humans
 represent numbers, with the exception of a representation in \textit{base 2} instead of \textit{base 10}. Humans
 denote negative numbers with a minus in front of the numeric character resulting in such a notation: 
 -6 or -3. One might think that combining the \textit{absolute value} of a number together with a \textit{sign-bit}
 should suffice for a CPU express negative numbers. Integers -9 and 9 would look like 0b10001001 and
 0b10001001 respectively. It is certainly a valid option and engineers have produced
-CPUs that internally use this type of binary representation for integers. However, this is not the 
+CPUs that use this type of binary representation for integers. However, this is not the 
 internal integer representation used in processors today. There is a weird issue that can occur after
-a mathematical operations resulting in zero. Instead of there being one zero there are actually two 
+a mathematical operation results in zero. Instead of there being one zero there are actually two 
 zeros now; 0 and -0. This is why modern processors use a different notation. Instead of only using a
 single sign-bit, all the bits are flipped and act as “extended” sign bits and then 1 is subtracted 
 from the number. This means that 0b11111111 is -1 and 0b10000000 is -128. This also voids the issue 
-of multiple zeroes and means that a 8 bit register can contain the numbers between -128 and 127. 
+of multiple zeros and means that a 8 bit register can contain the numbers between -128 and 127. 
 A programer can also declare that he wishes to use an \textit{unsigned value}. The compiler will generate
 machine code that treats the value as purely positive, no matter the sign bits. \footnote{Negative Numbers, from: Binaryhakka, \today \\ https://binaryhakka.blogspot.com/2020/03/assembly-language-negative-numbers.html}
 
@@ -263,24 +270,25 @@ machine code that treats the value as purely positive, no matter the sign bits. 
 \subsection{Modern processors}
 
 So far our CPU is capable of basic arithmetic operations, conditional branching and working with
-both signed and unsigned data i.e. integers. This is more or less all what CPUs had to do to get work
+both signed and unsigned data i.e. integers. This is more or less all that CPUs had to do to get work
 done in the early days of computing. With the creation of \textit{integrated circuits}, CPUs were mass 
-produced and became a lot cheaper. This meant that a computer system hwas made of a CPU and some
-other, smaller and cheaper co-processors. To this day these co-processors come soldered on the
+produced and became a lot cheaper. This meant that a computer system was made of a CPU and some
+other, smaller and cheaper co-processors. To this day these coprocessors come soldered on the
 motherboard and relieve the CPU (note the \textbf{Central} \textit{Processing Unit}) from some work. Before we
 follow up un $what$ the CPU and co-processors do together we must understand $how$ they work together.
 These processors must be able to communicate with each other. This happens either through
-\textit{memory mapped I/O} or through \textbf{I/O pins}. Every processor needs RAM to get its instructions and
-store and retrieve data from. In some systems, multiple processors share the same RAM and these 
-processors comunicate with each other over certain memory regions. The processors would read and 
-write to those memory regions and communicate with each other, but it is important that all processors
+\textit{memory mapped I/O} or through \textbf{I/O pins}. RAM is essential to the processor for getting its 
+instructions, and storing and retrieving data. In some systems, multiple processors share the same RAM and these 
+processors communicate with each other over certain memory regions. The processors would read and 
+write to those memory regions and communicate with each other. But it is important that all processors
 know what the address of said memory areas is and that there are no \textit{data races} that cause memory
-corruption because multiple processors read or write simultaniously to the same memory address. 
-Memory mapped I/O is used in CPU cores. Every core in a CPU can be seen as an individual processor
+corruption because of multiple processors reading or writing to the same memory address simultaneously. 
+Memory mapped \textbf{I/O} is used in CPU cores. Every core in a CPU can be seen as an individual processor
 and all these cores share the same RAM i.e. they communicate with each other over memory. 
-Many processors on a motherboard do not necessarily share RAM and memory mapped I/O is not an option.
-I/O pins are a fantastic way for comminucations between both processors and hardware.For this, a
-processor must have new instructions, namely $in\ \textless pin\ number\textgreater$ and $out\ \textless pin number\textgreater$. These two 
+Some of the coprocessors, located on the motherboard, do not share RAM with the processor and memory mapped 
+\textbf{I/O} is not an option. \textbf{I/O} pins are a fantastic way for communication between both 
+processors and the rest of the hardware. For this, a processor must have new instructions, namely 
+$in\ \textless pin\ number\textgreater$ and $out\ \textless pin number\textgreater$. These two 
 commands \textit{send the data} in the accumulator to the specified pin serially and \textit{read a byte} from the 
 specified pin number. Most readers should have seen a CPU and noticed the hundreds of pins that are
 sticking out of the CPU. Some of those pins are reserved for $\textbf{V}_\textit{in}$ and ground
