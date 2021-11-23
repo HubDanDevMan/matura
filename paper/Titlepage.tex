@@ -1,5 +1,6 @@
 \documentclass{article}
 \usepackage{graphicx}
+\usepackage{array}
 \usepackage{listings}
 \usepackage{float}
 \usepackage{url}
@@ -47,14 +48,18 @@
 
 \raggedright
 
+\input{Introduction.tex}
 \input{Workprocess.tex}
+\input{Productus.tex}
+\include{Reflection.tex}
+\include{Explanations.tex}
 \input{Booting.tex}
-\include{"The CPU.tex"}
-\include{Interrupts.tex}
-\include{Files.tex}
-\include{Filesystems.tex}
-\include{Processes.tex}
-\include{Userinterfaces.tex}
+\input{"The CPU.tex"}
+\input{Interrupts.tex}
+\input{Files.tex}
+\input{Filesystems.tex}
+\input{Processes.tex}
+\input{Userinterfaces.tex}
 \input{Sources.tex}
 
 \end{document}
