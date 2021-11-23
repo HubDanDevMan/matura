@@ -5,7 +5,7 @@
 ;|____/|_| |_|\___|_|_|
 jmp main
 %include "keyboard/keyboard.asm"
-%include "library.asm
+%include "library.asm"
 %include "shell/commands.asm"
 
 
@@ -15,7 +15,7 @@ mov edi, %2
 call compareString
 cmp eax, 0
 je %3
-%macro
+%endmacro
 
 enter:
 ;main loop
@@ -149,76 +149,26 @@ print_buffer:
 
 
 ;function that clears the screen with a loop that inserts spaces
-clear_screen:
-	mov edi, 0xb8000
-	mov ecx, 0
-	mov al, " "
-	.clear_screen_loop:
-	mov [edi], al
-	inc ecx
-	inc edi
-	inc edi
-	cmp ecx, 1920
-	je .return
-	jmp .clear_screen_loop
-	.return:
-	mov ecx, 0
-	mov eax, 0
-	ret
+;clear_screen:
+;	mov edi, 0xb8000
+;	mov ecx, 0
+;	mov al, " "
+;	.clear_screen_loop:
+;	mov [edi], al
+;	inc ecx
+;	inc edi
+;	inc edi
+;	cmp ecx, 1920
+;	je .return
+;	jmp .clear_screen_loop
+;	.return:
+;	mov ecx, 0
+;	mov eax, 0
+;	ret
 
 buffer_compare:
 	ShellCmp buffer,buffer_shutdown, shutdown
-
+	ret
 
 
 END_PADDING
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-;
