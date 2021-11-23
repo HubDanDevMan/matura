@@ -1,5 +1,4 @@
-%include "firststage.asm"
-jmp __prog:
+jmp __prog
 struc inode_t
 fname: resb 16
 size: resw 1
@@ -35,11 +34,11 @@ strncpy:
 	je .done
 	dec ecx
 	jz .done
-	mov byte [edi]
+	mov byte [edi], al
 	inc esi
 	inc edi
 	jmp strncpy
-	.done
+	.done:
 	ret
 
 ; The following functions are used for mapping a LBA (Logical Block Addressing)
@@ -82,23 +81,33 @@ LBAtoCHS:
 	mov ebx, SPT		; SPT
 	shl ebx, 4		; equal to * HPC
 	mov eax, edi
+	xor edx, edx
 	div ebx			; divide LBA by previous result
 	mov esi, eax		; store C in esi
+
+	; ESI clobbered
 
 	; Get head value
 	mov eax, edi		; copy LBA number
 	mov ecx, SPT 
+	xor edx, edx
 	div ecx			; int div LBA//SPT
 	mov ecx, HPC
+	xor edx, edx
 	div ecx			; modulo HPC
-	mov ecx, edx		; store modulo result in ecx
 	
+	; save edx(H)
+	push edx
+
 	; Get Sector number
-	mov eax, edi		; copy LBA
+	mov eax, edx		; copy LBA (Now in edx)
 	mov edi, SPT
+
+	xor edx, edx
 	div edi			; LBA mod SPT
 	inc edx			; + 1
 
+	pop ecx
 	xchg edx, ecx		; swap regs
 
 	; esi = C		; assumed C < 1024
@@ -111,24 +120,46 @@ LBAtoCHS:
 	jg .invalidCHSFormat
 	cmp ecx, 64
 	jge .invalidCHSFormat
-
-	; isolate cylinder number with bitmask
-	mov ax, 0b0000_0011_0000_0000
-	and ax, si ; ax contains bit 8 and 9 of cylinder in bit 6 and 7
-	shr ax, 2	; fix bit position
-	add cl, al	; cl[0:5] contains S and  cl[6:7] has top C bits
-
-	mov ch, sil	; move low eight bits of C in sil to ch
-
-	shl dx, 8	; effectively mov dl (H) to dh and clear dl 
-
-	xor eax, eax		; return SUCCESS
+	
+	
 	ret
 
 	.invalidCHSFormat:
 		mov eax, -1	; return ERROR
 		ret
 
+;maps (esi,edx,ecx) tuple to correct position in ch, cl and dh
+mapCHS:
+	; isolate cylinder number with bitmask
+	mov ax, 0b0000_0011_0000_0000
+	and ax, si ; ax contains bit 8 and 9 of cylinder in bit 6 and 7
+	shr ax, 2	; fix bit position
+	add cl, al	; cl[0:5] contains S and  cl[6:7] has top C bits
+
+	mov bx, si	; move low eight bits of C in sil to ch
+	mov ch, bl
+
+	shl dx, 8	; effectively mov dl (H) to dh and clear dl 
+
+	xor eax, eax		; return SUCCESS
+	ret
+
+; moves the packed CHS address in cx and dh into esi(c),edx(h),ecx(s)
+unmapCHS:
+	; cx
+	mov eax, 0b0000_0000_1100_0000
+	and eax, ecx
+	shl eax, 2
+	mov al, cl
+	mov esi, eax
+
+	; sector
+	mov cl, ch
+
+	; head
+	shr dx, 8	; shift head number in dh to dl and clear dh
+
+	ret
 
 ; CHS values are in cx and dx
 ; returns LBA in EAX
@@ -148,8 +179,9 @@ toLBA:
 	shr bh, 6		; shift bits 14 and 15 of bx to 8 and 9
 
 	; HEAD
-	mov dil, dh		; copy head number to edi
-	
+	mov di, dx		; copy head number to edi
+	and di, 0xff00
+
 	; SECTOR
 	mov esi, ecx
 	and esi, 0b0011_1111 	; mask only bits 0-5 of esi
@@ -165,7 +197,7 @@ toLBA:
 	add eax, esi		; add S
 	dec eax			; decrement by 1
 
-	cmp eax, 		; check 
+	;cmp eax, 		; check 
 	jb .noErr
 	xor eax, eax		; return -1
 	dec eax
@@ -178,10 +210,33 @@ __prog:
 ; populate superblock
 
 
+; test LBA|CHS conversion
+	; EBX = C
+	; EDI = H
+	; ESI = S
 
+mov edi, 0
+call LBAtoCHS
+; ecx = C
+push esi
+push edi
+; print C
+mov eax, ecx
+mov edi, chexbuf
+call formatHex
 
+pop eax
+mov edi, hhexbuf
+call formatHex
+pop eax
+mov edi, shexbuf
+call formatHex
 mov esi, strbuf
 call printBuf
+
+
+
+
 jmp $
 ; mov esi, <source>
 ; mov edi, <strbuf>
@@ -231,10 +286,13 @@ printBuf:
 	ret
 
 
-strbuf: times 200 db " "
+strbuf: db "Cylinders: 0x"
+chexbuf: times 67 db " "
+db "Heads: 0x"
+hhexbuf: times 71 db " "
+db "Sectors: 0x"
+shexbuf: times 70 db " "
 db 0
-align 8
-membuf: times 24*8 db 0
-	
-times 512*MAX_SECTORS-($-$$) db 0
+
+END_PADDING
 

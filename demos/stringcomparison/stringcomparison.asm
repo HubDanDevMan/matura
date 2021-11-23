@@ -57,19 +57,11 @@ compareString:
 	jne string_not_same 				;if not the same jumps to a message
 	cmp al, 0 					;checks for the end of the string
 	jne .loop 					;if not end of string continues loop
-
-	;this will later be changed for the respective function that the string comparison shall execute
-	mov edi, 0xb8000  				;prints if same a y
-	add edi, edx
-	mov esi, strequal	
-	call displayMSG
+	mov eax, 0
 	ret
 
 string_not_same: 			;prints if not same a n
-	mov edi, 0xb8000
-	add edi, edx 	
-	mov esi, strnotequal
-	call displayMSG
+	mov eax, -1
 	ret
 
 displayMSG:

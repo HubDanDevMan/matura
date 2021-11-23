@@ -62,14 +62,13 @@ je     0x403
 cmp    ax,0x11b 		;esc
 je     key_dark_grey
 jmp    keystroke_loop
-;this is the end of keystroke check, 0x2bb is most likely start of loop
 
-;from here on these are the actual functions for the keys, find each of them
-;these all seem to be the moving fuctions
+
+;these are the functions for moving around
 key_up:
-call   remove_cursor 			;this might be remove cursor
+call   remove_cursor 			;remove cursor fuction in makros
 call   key_up_draw
-call   add_cursor 			;this might be add cursor
+call   add_cursor 			;add cursor function in makros
 jmp    keystroke_loop
 
 key_down:
@@ -91,16 +90,15 @@ call   add_cursor
 jmp    keystroke_loop
 
 
-;ax gets pushed at the start find out what it does
-;ax might be cursor position dunno
 
+;fuction for printing numbers
 key_enter:
 pop    ax
 push   ax
 call   key_enter_draw
 jmp    keystroke_loop
 
-
+;functions for changing colours
 key_cycle:
 pop ax
 call color_change_cycle

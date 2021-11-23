@@ -57,7 +57,7 @@ noerr:
 
 strbuf: db "The OS will shutdown eventually...                                 ", 0
 errmsg: db "Shutdown was unsuccessful                                          ", 0
-%include "cpuid/printHex.asm"
+%include "library.asm"
 
 
 END_PADDING

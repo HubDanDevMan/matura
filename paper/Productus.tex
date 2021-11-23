@@ -1,0 +1,84 @@
+\section{Product}
+
+The main body of our project consists of a series of demo programs that work independently.
+These demos can be separated into the two sections core components and gadget programs.
+As the name implies, the core components play an integral part in making the operating
+system work. They are as follows:
+
+
+\begin{itemize}
+
+\item \textbf{Bootloader} \\
+This component is responsible for loading the kernel into memory. The kernel in FlamingOS is loosely
+comprised of the remaining components listed below.
+\item \textbf{Keyboard driver} \\
+The keyboard driver handles the input of the keyboard through \textbf{I/O} ports. The driver 
+sends a signal to a certain \textbf{I/O} port and then checks for a response containing a key
+scancode. Then the response of the keyboard gets translated via a lookup table to ascii characters
+or special keycodes.
+\item \textbf{Shell} \\
+The shell is a terminal that allows the user to send commands in the form of text via a command
+line. It does this by requesting key input from the keyboard driver and saving said input
+into a buffer. The command in the buffer can then be evaluated and appropriately executed.
+\item \textbf{Filesystem} \\
+The filesystem organizes and structures files. The filesystem is not hierarchical, meaning
+that it does not support multiple directories. It provides functions for reading and writing
+files and it uses a superblock to organise the files.
+\item \textbf{CPU identification} \\
+The CPU identification gives information on the CPU used by the computer. This is done via the 
+CPUID instruction and gives information such as its manufacturer, brand, CPU family, model and
+whether it is a 64 bit processor.
+\item \textbf{Library} \\
+The library is a collection of functions that are used across various programs. The instructions
+on the usage of these functions can be found in the file \texttt{library.asm} which is located
+in the \texttt{demos} directory. The library contains the following functions: 
+\begin{itemize}
+\item \texttt{formatHex}: Formats a numeric value to the corresponding hexadecimal ascii representation.
+\item \texttt{printBuff}: Print buffer functions that prints out a buffer onto the screen. 
+\item \texttt{shutdown}: Shuts down the PC. 
+\item \texttt{clear\_screen}: Wipes the entire screen blank.
+\item \texttt{getStringLength}: Returns the length of a string.
+\end{itemize}
+
+\item \textbf{Interrupt handlers} \\
+The interrupt handler takes care of exceptions such as division by zero, double fault
+and invalid opcode errors.
+
+
+\end{itemize}
+
+And of course there are also \textit{gadget programs}:
+
+\begin{itemize}
+
+\item Painting Program \\
+In the painting program the user can draw squares with four-bit colors. It has both a cursor and an indicator 
+that displays the currently selected color. There is only one brush size at the moment and the
+shape of the brush is a square.
+
+\item Hangman \\
+The program hangman is a game in which the player has to guess a word that was randomly chosen from a list. The program 
+reveals whether the player chose a correct character after every keyboard input. If the player guessed correctly
+the game continues, but the player gets one strike if a character that is not in the randomly selected word 
+was chosen. The game ends when either the player guesses all the characters in the word or three strikes have
+been accumulated.
+
+\item Texteditor \\
+The texteditor program allows the user to write and delete text via keyboard input and navigate through the written 
+text to correct mistakes.
+
+\end{itemize}
+
+
+
+There are also some other minor gadget programs not worth mentioning brcause they mostly consist of minor functions 
+that were needed for specific tasks. The entire project is licenced under the GNU general public licence version 
+3.0. This licence requires all modification and usage of our project to be under the same licence and 
+require authors to reveal the full source code of the licenced medium. The entirety of the project is located
+in a GitHub repository under the following link:
+
+\url{https://github.com/HubDanDevMan/matura.git}
+
+And the full licence text can be found under:
+
+\url{https://github.com/HubDanDevMan/matura/blob/master/LICENSE}

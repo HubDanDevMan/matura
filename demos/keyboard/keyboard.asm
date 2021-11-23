@@ -3,25 +3,42 @@ jmp _start
 TIME_OUT dw 65535 
 DELAY dw 65535
 ACK_RETRY db 4
-DATA_PORT db 0x60
-STATUS_REGISTER db 0x64
-COMMAND_PORT db 0x64
 SECOND_PORT db 0xd4
 ACK_FLAG: resb 1
+SHIFT_FLAG: resb 1
 COMMAND_BYTE: resb 1
 DATA_BYTE: resb 1
 KEY_LUT_1_CH:					;Key lookuptable scan code set 1
 	db " ", 0x01, "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "'", "^", 0x02, 0x03 	;0x01 = esc key ; 0x02 = backspace key ; 0x03 = tab key
-	db "q", "w", "e", "r", "t", "z", "u", "i", "o", "p", " ", " ", 0x04, " ", "a", "s"	;0x04 = enter key
-	db "d", "f", "g", "h", "j", "k", "l", " ", " ", " ", " ", " ", "y", "x", "c", "v", 
-	db "b", "n", "m", ",", ".", "-", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
-	db " ", " ", " ", " ", " ", " ", " ", " ", 0x05, " ", " ", 0x06, " ", 0x07, " ", " "	;0x05 = up key ; 0x06 = left key ; 0x07 = right key
-	db 0x08, " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "	;0x08 = down key
+	db "q", "w", "e", "r", "t", "z", "u", "i", "o", "p", " ", " ", 0x04, 0x06, "a", "s"	;0x04 = enter key
+	db "d", "f", "g", "h", "j", "k", "l", " ", " ", " ", 0x05, " ", "y", "x", "c", "v" 	;0x05 = shift key
+	db "b", "n", "m", ",", ".", "-", " ", " ", " ", " ", 0x06, " ", " ", " ", " ", " "	;0x06 = capsLock
+	db " ", " ", " ", " ", " ", " ", " ", " ", 0x07, " ", " ", 0x08, " ", 0x09, " ", " "	;0x07 = up key ; 0x08 = left key ; 0x09 = right key
+	db 0x10, " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "	;0x10 = down key
+	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
+	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
+	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
+	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
+	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", 0x11, " ", " ", " ", " ", " "	;0x11 = shift key released
 	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
 	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
 	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
 	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
 	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
+	db 0
+
+KEY_LUT_1_CH_shift:					;Key lookuptable scan code set 1 when shift/caps lock is pressed
+	db " ", 0x01, "+", """, "*", "ç", "%", "&", "/", "(", ")", "=", "'", "^", 0x02, 0x03 	;0x01 = esc key ; 0x02 = backspace key ; 0x03 = tab key
+	db "Q", "W", "E", "R", "T", "Z", "U", "I", "O", "P", " ", " ", 0x04, " ", "A", "S"	;0x04 = enter key
+	db "D", "F", "G", "H", "J", "K", "L", " ", " ", " ", 0x05, " ", "Y", "X", "C", "V", 	;0x05 = shift key
+	db "B", "N", "M", 0x3b, ":", "_", " ", " ", " ", " ", 0x06, " ", " ", " ", " ", " "	;0x3b = ascii for ; (; makes the rest of the line look like commentary) ; 0x06 = capsLock
+	db " ", " ", " ", " ", " ", " ", " ", " ", 0x07, " ", " ", 0x08, " ", 0x09, " ", " "	;0x07 = up key ; 0x08 = left key ; 0x09 = right key
+	db 0x10, " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "	;0x10 = down key
+	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
+	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
+	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
+	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
+	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", 0x11, " ", " ", " ", " ", " "	;0x11 = shift key released
 	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
 	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
 	db " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
@@ -67,8 +84,18 @@ getKey:
 	jnc .scanCodeLoop
 	xor eax, eax
 	in al, 0x60		;get scan code from data port
+	cmp al, 0xaa
+	je .upper_case
+	cmp al, 0x2a
+	je .upper_case
+	cmp al, 0x3a
+	je .upper_case
 	cmp al, 0x80		
 	ja .scanCodeLoop	;skip scan code when it's just a key that was released
+	
+	mov bl, [SHIFT_FLAG]
+	cmp bl, 0
+	jne .shift
 
 	mov ebx, KEY_LUT_1_CH	;move memory address of the lookup table to ebx
 	add ebx, eax		;the value of the scan code in eax equals the offset from the base memory address of the lookup table
@@ -82,28 +109,29 @@ getKey:
 	;
 	pop ebx
 	ret
-	;
-	;pusha
-	;mov cx, 8
-	;.get_top_nibble:
-	;rol eax, 4
-	;mov dl, al
-	;and dl, 0x0F	; clear higher nibble of dl
-	;add dl, 0x30
-	;cmp dl, "9"	; if the number is greater than Ascii 9 (0x39), it would turn it to a character, "A"=0x41 
-	;jle .noAdd
-	;add dl, 0x07 	; turns 9 to ascii "9" and 10 to ascii "A"
-	;.noAdd:
-	;mov byte [edi], dl
-	;add edi, 2
-	;loop .get_top_nibble
-	;popa
-	;
-	;
-	;mov dx, "t"
-	;mov byte [edi], dl
-	;add edi, 2
 
+	.shift:
+	sub eax, 12
+	mov ebx, KEY_LUT_1_CH_shift
+	add ebx, eax
+	mov al, byte [ebx]
+
+	;mov byte [edi], al
+	;add edi, 2
+	;jmp .scanCodeLoop
+
+	pop ebx
+	ret
+
+	.upper_case:
+	mov bl, [SHIFT_FLAG]
+	not bl
+	mov [SHIFT_FLAG], bl
+	;mov al, bl
+	;mov ah, 0x0e
+	;int 0x10
+	;xor ah, ah
+	jmp .scanCodeLoop
 
 sendCommand:				;move command byte into dl and if needed data byte into dh before calling the function
 	call pollingSend		;check if the input buffer is empty

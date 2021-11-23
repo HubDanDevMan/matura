@@ -1,14 +1,13 @@
 jmp _start
 
+%include "library.asm"
 %define LINE_WIDTH 80
 base: resq 1
 length: resq 1
 type: resd 1
 
 _start:
-xor ax, ax
-mov al, 0x02
-int 0x10
+call clear_screen
 
 xor esi, esi
 xor ebx, ebx
@@ -82,7 +81,7 @@ formatLoop:
 	mov cx, 160
 	.loopformat:
 	mov al, byte [esi]
-	call formatHex
+	call formatHex2
 	inc esi
 	inc edi
 	loop .loopformat
@@ -95,7 +94,7 @@ formatByte:
 	mov cx, 2
 	mov ah, byte[esi]
 	; copy top most bit to dl
-	get_top_nibble:
+	.get_top_nibble:
 	rol ax, 4
 	mov dl, al
 	and dl, 0x0F	; clear higher nibble of dl
@@ -104,14 +103,14 @@ formatByte:
 	cmp dl, "9"	; if the number is greater than Ascii 9 (0x39), it would turn it to a character, "A"=0x41 
 	jle noAdd
 	add dl, 0x07 	; turns 9 to ascii "9" and 10 to ascii "A"
-	noAdd:
+	.noAdd:
 	mov byte [esi], dl
-	loop get_top_nibble
+	loop .get_top_nibble
 	.return:
 	popa
 	ret
 
-formatHex:
+formatHex2:
 	mov dl, al
 	and dl, 0xF0
 	shr dl, 4

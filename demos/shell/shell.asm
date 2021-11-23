@@ -5,8 +5,17 @@
 ;|____/|_| |_|\___|_|_|
 jmp main
 %include "keyboard/keyboard.asm"
+%include "library.asm
+%include "shell/commands.asm"
 
 
+%macro  ShellCmp 3
+mov esi, %1
+mov edi, %2
+call compareString
+cmp eax, 0
+je %3
+%macro
 
 enter:
 ;main loop
@@ -29,7 +38,7 @@ xor al, al
 	call print_buffer
 	jmp .shell_loop
 	.key_enter:
-	;call buffer_compare
+	call buffer_compare
 	call buffer_wipe
 	call print_buffer
 	cmp dh, 21
@@ -157,7 +166,8 @@ clear_screen:
 	mov eax, 0
 	ret
 
-
+buffer_compare:
+	ShellCmp buffer,buffer_shutdown, shutdown
 
 
 

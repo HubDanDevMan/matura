@@ -1,6 +1,6 @@
 jmp _main
 
-%include "cpuid/printhex.asm"
+%include "library.asm"
 _main:
 
 

@@ -29,6 +29,4 @@ memset:
 	loop memset
 	ret
 
-align 512
-
-times 512*20 db 0
+END_PADDING

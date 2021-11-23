@@ -1,0 +1,194 @@
+\section{Processes}
+
+A process is defined as an instance of a computer program that is currently being executed.
+The operating system is ultimately in control of all the processes and 
+processes can be further categorized into what is called a \textit{process life cycle}. The process life cycle is
+a categorization of the different states a process or program can be in. A process life cycle can vary
+from one operating system to another and the names are also not standardized. The aforementioned 
+categorisation consists of 5 different stages:
+
+\begin{itemize}
+\item Start: \\
+	The original state in which a process is first initiated in. The kernel will assign a \textit{process identifier (PID)},
+	usually a number. The PID is used to differnetiate between multiple processes. In this stage, the kernel will load the
+	process instructions and data into memory.
+\item Ready: \\
+.	Processes will enter this state after the start state. The process is fully loaded in memory and is waiting for its \textit{time slice}.
+		A time slice is a moment of usually a few microseconds where the process is actualy being run on the CPU. The \texttt{READY} state
+		is also assigned to processes that already reached the running state but have not yet finished.
+\item Running:
+In this state the process has been assigned the CPU by the OS scheduler and executes its instructions. The process is currently in his time slice
+and will stay there until it gets interrupted. The kernel will program a timer, usually a coprocessor, that counts down from a value defined by
+		the kernel and will send an interrupt request to the kernel when the timer reaches 0. The kernel will run the timer interrupt handler
+		that reconfigures the timer and change the process. Changing the process is also called \textit{context switch} and it involves
+		saving the values in the registers, storing them in a dedicated area in RAM and changing the processes state from running to ready.
+		The process that is replacing the previous process will have its registers restored from RAM and its state changed to \texttt{RUNNING}.
+\item Waiting: \\
+This is the stage in which the process is waiting for a resource such as opening a file. A file must be loaded from disk and this can take a bit of time.
+During the stage of waiting, the process is unable to do other things and there is no point in the process occupying the CPU. This state is similar
+to the \texttt{READY} state but the deciding factor in which the process will resume execution is not a signal by the timer but rather another hardware
+signal, in the case of waiting for a file this signal is an interrupt from the hard disk that the content has been loaded into memory and ready. When
+the kernel notices the interrupt of the storage device, it will check which process requested the file or another resource and put the process back into
+the \texttt{RUNNING} state. Other examples of waiting for a resource are key input, mouse input and an internet packet.
+\item Exit/Terminate: \\
+This is the last state a process enters when it has finished with its execution. The processes instruction and data are then removed
+from main memory. The operating system will free potential resources that are held by a process such as open files or allocated memory on the
+heap\footnote{Processes, from: Medium, \today \\ https://medium.com/@imdadahad/a-quick-introduction-to-processes-in-computer-science-271f01c780da}.
+
+\end{itemize}
+
+\subsection{Binary executables}
+
+Executables are files containing instructions and data for computers. When these files are \textit{run}, they
+become procesess. Running a executable means that the contents of the file are loaded into memory. Executables
+are associated with a format that describes how exactly the contents must be loaded. The loading itself
+is done by the \textit{program loader}. It is a crucial component in operating systems. The program loader
+maps the individual sections, primarily \texttt{.text} and \texttt{.data}, of an executable into memory according to the layout and position
+specified in the executable. The format contains information about the executable itself, often also information on
+how it was compiled and for what platform it is compiled for. An ELF-executable for Linux might not work on OpenBSD,
+even though both are unix-like operating systems. They differ because an OS defines a \textit{calling convention} that
+specifies how functions are called and how parameters are passed to functions. If an executable calls a library function on
+an OS it wasn't compiled for, the parameters can get mixed up. This is a major disadvantage of binary executables. However,
+they are the fastest type of programs.
+
+
+\subsubsection{Scripts}
+
+There is also a different type of executables, namely \textit{scripts}. Scripts are written in a human readable
+scripting language. They rely on software to interprete the instructions at run time in contrast of
+hardware (such as the CPU). The interpreting software is a program that contains instructions for
+the CPU. Windows uses the \textbf{.bat} or \textbf{.cmd} extension for scripts written for the interpreter \texttt{cmd.exe} and for
+the newer PowerShell scripts with extension \textbf{.ps1} it will use the interpreter called \texttt{powershell.exe}.
+As long as a computer contains the correct interpreter for a script, the computer can run it effortlessly. This comes at
+the cost of slower execution speeds.
+
+\subsubsection{Executables on unix-like systems}
+
+Unix-like operating systems differ greatly from Windows NT ones. They rarely rely on extensions to
+identify executables but rather *file signatures*. Binary executables unix systems with the exception of MacOS
+contain the \texttt{\textbackslash x7fELF} file signature and are in the ELF-format. A special type of file signature can be found on
+unix scripts. Even though they are made of plain text characters, the author of the file creates the
+signature by him or herself. In scripts for Unix-like operating systems, the format is as follows: \\
+\texttt{\#!/path/to/the/script/interpreter -parameters\textbackslash n} followed by instructions in the scripting language that can
+be interpreted by the interpreter specified in the path. The \textit{shebang} (\textbf{\#!}) is the script signature
+and tells the kernel that the program is not in a binary format such as Mach-O (MacOS Darwin) or ELF (Linux et al.),
+the unix-like counterparts to Windows \textbf{.exe} (PE). When a script executable is started,
+the kernel will first invoke the interpreter, which is a binary executable and pass the name of the script
+to the interpreter.
+
+
+\subsection{Threads}
+
+Threads are the most basic unit of CPU utilisation, meaning that this is the smallest amount that the workload of a 
+process can be split. Threads consist of a stack, a set of registers and a program counter. Usually a process
+is tied to one thread, meaning that the CPU does not split the workload over multiple threads. However, in
+modern programming, multiple threads are used by one process to perform different tasks independent of each other
+simultaneously. This is very useful because this means that a task in a process will not block 
+other task. For example, a web browser can check for user input with one thread, load images with a second thread,
+check for grammar errors on a third thread and make backups on a fourth thread. Each thread has its own set of registers
+and a stack but all threads share the same files, code and data. Modern CPUs have multiple cores meaning that they have
+multiple processing units that allow multiple threads to do parallel processing because each thread is strictly
+related to one processing unit\footnote{ Multithreading on multiple cores, from: Askingalot, retrieved \today\\ \url{https://askinglot.com/does-multithreading-use-multiple-cores} }. This type of programming that uses threads to complete mutliple tasks
+in parallel is reffered to as multi-threading and this benefits four main categories:
+
+\begin{itemize}
+\item Sclalability: \\
+
+Multi-threading allows programmers to utilize multiple CPU cores for a single process as opposed to single
+thread processes which can only utilize a single CPU core. This scales well on servers that have processors
+with up to 32 cores.
+
+\item Responsiveness: \\
+
+When threads are still occupied with tasks in the process, multi-threading allows for another thread
+to still check for input and thus allowes rapid responce from the user. Threads can by started on an
+		\textit{as needed} basis, meaning if a process notices that it is very busy, it can start
+		a new thread to increase responsiveness.
+
+\item Execution speed: \\
+
+Multi-threaded processes can much faster than single thread processes. Managing and creating threads allows for
+		faster completion of tasks. However, \textbf{not all} processes benefit from multithreading. 
+
+\item Resource sharing: \\
+
+Threads share their recources amongst each other allowing for tasks to be completed in parallel in a
+<<<<<<< HEAD
+		single adress space. This is a great alternative to having separate processes and having \textit{inter-process communication (IPC)}
+		which is often slower than thread shared memory.
+		\footnote{Threads, from: Uic \today \\ \url{https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/4_Threads.html} }
+=======
+single adress space. \footnote{Threads, from: Uic \today \\ https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/4\_Threads.html }
+>>>>>>> 9b37b3399fe78f00180157655b6c875cbcf369ed
+
+\end{itemize}
+
+\subsection{Program}
+
+A program is a file containing a set of instructions. These instructions can be written in many different 
+programming languages such as: Python, C or C++. These are considered high level programming languages as 
+they have strong abstraction from the inner machinations of a computer. The CPU however cannot read these 
+instructions yet, they first need to be translated into something that the computer can use. This is done 
+via a compiler. The compiler translates a high level language to instructions and data. When the program is
+loaded into memory it becomes a process and the instructions and data in memory can be seperated into four parts:
+
+\begin{itemize}
+\item The Stack: \\
+
+The stack contains primarly local variables but also data such as function parameters and function return adresses. The data on the stack is often just used temporarily.
+\item The Heap: \\
+
+The heap is a memory area that is dynamically allocated at run time of the process.
+\item The Data: \\
+
+	The data is the section containing the initialized static and global variables. Strings such as \texttt{"Hello, World!"} are stored
+	in the data section.
+\item The Text: \\
+
+	The text segment contains CPU instructions for the process. The program counter (PC) points to this section because the instructions are
+		fetched from the position in memory which the PC points to. Immediate values are also stored in this section.
+		In instructions such as \texttt{mov \textless register\textgreater, 5} the immediate value is 5.
+\end{itemize}
+
+Further iformation on these four sections can be found within the memory chapter. \footnote{Processes, from: Tutorialspoint, \today \\ \url{https://www.tutorialspoint.com/operating_system/os_processes.htm} }
+
+
+\subsection{Daemons and Init}
+
+Daemons are computer programs that run in the background of an operating system. Regular users (i.e. users without \textit{Administrator rights} a.k.a \textit{root privileges} on unix-derivatives)
+do not have direct access to daemon processes and have no control over them. The implementation for daemons will differ between
+operating system platforms. For Microsoft Windows NT systems, the programs that serve the same functions as 
+unix daemons are called \textit{Windows services}. In most cases they do not interact with user input and are started 
+during the boot directly by the kernel.
+Daemons provide functionalities such interprocess communication, hardware management or logging. 
+Since Windows 2000, the services can be manually started and stopped via the control panel\footnote{Services, from: Microsoft, \today \\ \url{https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2003/cc783643(v=ws.10)?redirectedfrom=MSDN}}.
+In unix-like systems, daemon processes usually end with the letter "d" for example the crond daemon is 
+a job scheduler for background processes. In Unix systems, there is also a special daemon from which all
+other daemons spawn, namely the init daemon. The init daemon is the first process to be started at system boot 
+and depending on configuration places the system in single user mode or spawns a login shell for other users. \footnote{Verma: Unix, (2006) P. 84 \\ \url{https://books.google.ch/books?id=JhS-TkW0tOYC&pg=PA84&redir_esc=y#v=onepage&q&f=false}}
+
+
+
+
+
+
+
+
+%stuff:
+%[^proc1]: https://medium.com/@imdadahad/a-quick-introduction-to-processes-in-computer-science-271f01c780da
+%[^proc2]: https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/4_Threads.html 
+%[^proc3]: https://www.tutorialspoint.com/operating_system/os_processes.htm
+%[^proc4]: https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2003/cc783643(v=ws.10)?redirectedfrom=MSDN
+%[^proc5]: https://books.google.ch/books?id=JhS-TkW0tOYC&pg=PA84&redir_esc=y#v=onepage&q&f=false
+
+
+
+
+
+
+
+
+
+
+
+
