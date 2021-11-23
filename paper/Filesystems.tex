@@ -26,7 +26,7 @@ address $y$ or \texttt{WRITE} from RAM address $y$ to sector $x$. This command i
 specific I/O pins from the CPU to the storage device. The device then executes the command or returns
 an error if for example sector $x$ is not a valid sector. Remembering which files are located on
 which sector numbers is tedious for both humans and computers. This is where filesystems come to help.
-\footnote{Storage devices, from: Tech21, \today  \\ https://www.tech21century.com/different-types-of-storage-devices/}
+\footnote{Storage devices, from: Tech21, \today }
 
 \subsection{The superblock}
 
@@ -55,7 +55,7 @@ It is important to point out that Windows' NTFS (new technology file system) gro
 We are not going to cover NTFS because the official version is proprietary and therefore we have limited 
 information on the internal workings. While most mechanisms in NTFS are similar to
 unix filesystem mechanisms, they often have a different name. The superblock is called the \textit{Master
-File Table} and inode numbers are called \textit{FileID}s. \footnote{Superblocks, from: Linfo, \today  \url{http://linfo.org/superblock}}
+File Table} and inode numbers are called \textit{FileID}s. \footnote{Superblocks, from: Linfo, \today  }
 
 \subsection{Sector allocation}
 
@@ -80,7 +80,7 @@ sector allocator results in faster \texttt{read/write} speeds because it is easi
 represented in a bitmap than going through a linked list. The bitmap is also a lot faster, because a
 copy can be stored in RAM for faster editing. Lastly, there is the \textit{tree} but because it is used in
 many different forms, namely \textit{b}-tree or \textit{b+}-tree and alike, it will not be explained in this booklet.
-Nonetheless, it also keeps track of used and unused sectors. \footnote{Disk Sector, from: Stackoverflow, \today  \\ https://stackoverflow.com/questions/13799183/disk-sector-and-block-allocation-for-file}
+Nonetheless, it also keeps track of used and unused sectors. \footnote{Disk Sector, from: Stackoverflow, \today}
 
 
 \subsection{Understanding primitive filesystems}

@@ -96,7 +96,7 @@ makes the CPU jump to the address pointed to by the IVT's \textit{N}th entry. So
 at a fixed location. The earlier versions of x86 processors had the IVT at address 0x0. Every entry
 is four bytes long, meaning the address of the `int \textit{N}` handler is at adress `4 \* \textit{N}`. As an exmple,
 the `int 0x10` instruction makes the CPU jump to the address that is in the IVT's 0x10's address,
-i.e. the address 0x40. \footnote{Interrupts, from: Tutorialspoint, \today  \\ https://www.tutorialspoint.com/embedded\_systems/es\_interrupts.htm}
+i.e. the address 0x40. \footnote{Interrupts, from: Tutorialspoint, \today}
 
 \subsection{Interrupt requests lines}
 

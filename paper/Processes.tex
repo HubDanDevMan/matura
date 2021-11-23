@@ -33,7 +33,7 @@ the \texttt{RUNNING} state. Other examples of waiting for a resource are key inp
 \item Exit/Terminate: \\
 This is the last state a process enters when it has finished with its execution. The processes instruction and data are then removed
 from main memory. The operating system will free potential resources that are held by a process such as open files or allocated memory on the
-heap\footnote{Processes, from: Medium, \today \\ https://medium.com/@imdadahad/a-quick-introduction-to-processes-in-computer-science-271f01c780da}.
+heap.\footnote{Processes, from: Medium, \today}
 
 \end{itemize}
 
@@ -88,7 +88,7 @@ other task. For example, a web browser can check for user input with one thread,
 check for grammar errors on a third thread and make backups on a fourth thread. Each thread has its own set of registers
 and a stack but all threads share the same files, code and data. Modern CPUs have multiple cores meaning that they have
 multiple processing units that allow multiple threads to do parallel processing because each thread is strictly
-related to one processing unit\footnote{ Multithreading on multiple cores, from: Askingalot, retrieved \today\\ \url{https://askinglot.com/does-multithreading-use-multiple-cores} }. This type of programming that uses threads to complete mutliple tasks
+related to one processing unit\footnote{ Multithreading on multiple cores, from: Askingalot, retrieved \today}. This type of programming that uses threads to complete mutliple tasks
 in parallel is reffered to as multi-threading and this benefits four main categories:
 
 \begin{itemize}
@@ -116,9 +116,9 @@ Threads share their recources amongst each other allowing for tasks to be comple
 <<<<<<< HEAD
 		single adress space. This is a great alternative to having separate processes and having \textit{inter-process communication (IPC)}
 		which is often slower than thread shared memory.
-		\footnote{Threads, from: Uic \today \\ \url{https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/4_Threads.html} }
+		\footnote{Threads, from: Uic \today }
 =======
-single adress space. \footnote{Threads, from: Uic \today \\ https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/4\_Threads.html }
+single adress space. \footnote{Threads, from: Uic \today}
 >>>>>>> 9b37b3399fe78f00180157655b6c875cbcf369ed
 
 \end{itemize}
@@ -150,7 +150,7 @@ The heap is a memory area that is dynamically allocated at run time of the proce
 		In instructions such as \texttt{mov \textless register\textgreater, 5} the immediate value is 5.
 \end{itemize}
 
-Further iformation on these four sections can be found within the memory chapter. \footnote{Processes, from: Tutorialspoint, \today \\ \url{https://www.tutorialspoint.com/operating_system/os_processes.htm} }
+Further iformation on these four sections can be found within the memory chapter. \footnote{Processes, from: Tutorialspoint, \today }
 
 
 \subsection{Daemons and Init}
@@ -161,11 +161,11 @@ operating system platforms. For Microsoft Windows NT systems, the programs that 
 unix daemons are called \textit{Windows services}. In most cases they do not interact with user input and are started 
 during the boot directly by the kernel.
 Daemons provide functionalities such interprocess communication, hardware management or logging. 
-Since Windows 2000, the services can be manually started and stopped via the control panel\footnote{Services, from: Microsoft, \today \\ \url{https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2003/cc783643(v=ws.10)?redirectedfrom=MSDN}}.
+Since Windows 2000, the services can be manually started and stopped via the control panel\footnote{Services, from: Microsoft, \today }.
 In unix-like systems, daemon processes usually end with the letter "d" for example the crond daemon is 
 a job scheduler for background processes. In Unix systems, there is also a special daemon from which all
 other daemons spawn, namely the init daemon. The init daemon is the first process to be started at system boot 
-and depending on configuration places the system in single user mode or spawns a login shell for other users. \footnote{Verma: Unix, (2006) P. 84 \\ \url{https://books.google.ch/books?id=JhS-TkW0tOYC&pg=PA84&redir_esc=y#v=onepage&q&f=false}}
+and depending on configuration places the system in single user mode or spawns a login shell for other users. \footnote{Verma: Unix, (2006) P. 84 }
 
 
 
