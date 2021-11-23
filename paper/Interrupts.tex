@@ -82,13 +82,13 @@ Processors must know the \textit{address of a function} in order to call them. I
 tables (IVTs) are a method to associate interrupts to interrupt handlers. It is essentially an
 \textit{array of function pointers}. Interrupts are generally numbered and these numbers are used to look up 
 the address of the interrupt handlers. For example, software interrupts are invoked with the `int 
-\<NUMBER\>` instruction. This number is the \textit{interrupt number} and it is used by the CPU to determine 
+\textless NUMBER\textgreater` instruction. This number is the \textit{interrupt number} and it is used by the CPU to determine 
 the address of the handler. The interrupt number is used as an array index. The instruction `int \textit{N}` 
 makes the CPU jump to the address pointed to by the IVT's \textit{N}th entry. Some architectures have the IVT
 at a fixed location. The earlier versions of x86 processors had the IVT at address 0x0. Every entry
 is four bytes long, meaning the address of the `int \textit{N}` handler is at adress `4 \* \textit{N}`. As an exmple,
 the `int 0x10` instruction makes the CPU jump to the address that is in the IVT's 0x10's address,
-i.e. the address 0x40. \footnote{Interrupts, from: Tutorialspoint, \today  \\ https://www.tutorialspoint.com/embedded_systems/es_interrupts.htm}
+i.e. the address 0x40. \footnote{Interrupts, from: Tutorialspoint, \today  \\ https://www.tutorialspoint.com/embedded\_systems/es\_interrupts.htm}
 
 \subsection{Interrupt requests lines}
 
