@@ -89,7 +89,7 @@ getStringLength:
 
 	ret
 ;__________________________________________________________________________________________________________________________________________________________________________
-;this is a makro that compares two strings
+;this is a macro that compares two strings
 
 ;StrCmp pointer1, pointer2
 %macro StrCmp 2
@@ -115,6 +115,24 @@ compareString:
 
 string_not_same: 			;prints if not same a n
 	mov eax, -1
+	ret
+
+;__________________________________________________________________________________________________________________________________________________________________________
+
+; mov esi, source
+; mov edi, dest
+; mov ecx, count
+strncpy:
+	mov al, byte [esi]
+	cmp al, 0
+	je .done
+	dec ecx
+	jz .done
+	mov byte [edi], al
+	inc esi
+	inc edi
+	jmp strncpy
+	.done:
 	ret
 
 
