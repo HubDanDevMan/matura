@@ -55,7 +55,7 @@ It is important to point out that Windows' NTFS (new technology file system) gro
 We are not going to cover NTFS because the official version is proprietary and therefore we have limited 
 information on the internal workings. While most mechanisms in NTFS are similar to
 unix filesystem mechanisms, they often have a different name. The superblock is called the \textit{Master
-File Table} and inode numbers are called \textit{FileID}s. \footnote{Superblocks, from: Linfo, \today  }
+File Table} and inode numbers are called \textit{FileID}s. \footnote{Superblocks, from: Linfo, \today }
 
 \subsection{Sector allocation}
 
@@ -80,7 +80,7 @@ sector allocator results in faster \texttt{read/write} speeds because it is easi
 represented in a bitmap than going through a linked list. The bitmap is also a lot faster, because a
 copy can be stored in RAM for faster editing. Lastly, there is the \textit{tree} but because it is used in
 many different forms, namely \textit{b}-tree or \textit{b+}-tree and alike, it will not be explained in this booklet.
-Nonetheless, it also keeps track of used and unused sectors. \footnote{Disk Sector, from: Stackoverflow, \today}
+Nonetheless, it also keeps track of used and unused sectors. \footnote{Disk Sector, from: Stackoverflow, \today }
 
 
 \subsection{Understanding primitive filesystems}
