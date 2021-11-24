@@ -71,8 +71,8 @@ LBAtoCHS:
 	; 255 heads
 	; 1024 cylinders
 	
-	;C = LBA ÷ (HPC × SPT)
-    	;H = (LBA ÷ SPT) mod HPC
+	;C = LBA // (HPC × SPT) 	; // = integer division, stored in EAX, 
+    	;H = (LBA // SPT) mod HPC	; % = modulo, stored in EDX
     	;S = (LBA mod SPT) + 1
 	;;;; Div returns mod result in edx and integer division
 	;;;; result in eax
@@ -87,17 +87,19 @@ LBAtoCHS:
 
 	; ESI clobbered
 
+	; returns 63 for some reason??
 	; Get head value
 	mov eax, edi		; copy LBA number
 	mov ecx, SPT 
-	xor edx, edx
+	xor edx, edx		; clear edx
 	div ecx			; int div LBA//SPT
+	; eax
 	mov ecx, HPC
 	xor edx, edx
 	div ecx			; modulo HPC
 	
 	; save edx(H)
-	push edx
+	push edx		
 
 	; Get Sector number
 	mov eax, edx		; copy LBA (Now in edx)
@@ -107,7 +109,9 @@ LBAtoCHS:
 	div edi			; LBA mod SPT
 	inc edx			; + 1
 
+
 	pop ecx
+
 	xchg edx, ecx		; swap regs
 
 	; esi = C		; assumed C < 1024
@@ -211,17 +215,17 @@ __prog:
 
 
 ; test LBA|CHS conversion
-	; EBX = C
-	; EDI = H
-	; ESI = S
+	; esi = C
+	; edx = H
+	; ecx = S
 
 mov edi, 0
 call LBAtoCHS
 ; ecx = C
-push esi
-push edi
+push ecx
+push edx
 ; print C
-mov eax, ecx
+mov eax, esi
 mov edi, chexbuf
 call formatHex
 
