@@ -81,30 +81,24 @@ or text user interfaces (TUIs) and a \textit{shell}. A shell is a
 program that reads text-only commands and performs the requested commands. It
 is called \textit{shell} because it is the outer layer of an operating system. Users
 interact with said outer layer and there are many different implementations
-of shells. Summarized, an operating system is made out of a kernel and many programs working on top of the kernel that provide an user experience. \footnote{Bellevue Linux Users Group: Kernel Definition, \today \\l}
+of shells. Summarized, an operating system is made out of a kernel and many programs working on top of the kernel that provide an user experience. \footnote{Bellevue Linux Users Group: Kernel Definition, \today \\}
 
 
-hard disk and a
-file. The Kernel will ensure that the hard disk can be read from and written
-to by programs just like it will also manage the reading and writing of a
-file. There are hundreds of different hard disk drives and they all work a
-bit differently. If every program had its own 
 
 \subsection{UEFI}
 
-UEFI or Unified Extesible Firmare Interface is a specification for x86, Arm, x86-64, and Itanium platforms. It's purpose is to define a
+UEFI or Unified Extesible Firmare Interface is a specification for x86, Arm, x86-64, and Itanium platforms. Its purpose is to define a
 software interface between the operating system and the platform firmware. It provides the standard environment for booting an 
-operating system and running pre-boot applications. It was originally developed during the 1990's by Intel to use developing firmware
-on Itanium platforms. The interface defined by the UEFI specification includes data tables containing platform information, boot and runtime services that are availableto the operating system loader and the operating system.There are  severaltechnical advatages that
+operating system and running pre-boot applications. It was originally developed during the 1990's by Intel to simplify firmware development
+on Itanium platforms. The interface defined by the UEFI specification includes data tables containing platform information, boot and runtime
+services that are available to the operating system's bootloader and the operating system itself
+\footnote{ The UEFI specification, from: UEFI forum, retrieved \today}. There are several technical advantages that
 the UEFI provides over the traditional BIOS system: 
 
 \begin{itemize}
-
 \item Flexible pre-OS environment with networking capability, multiple languages and GUI
 \item Ability to boot disks containg partitions larger than 2 TB with GUID Partition Table
 \item 32-bit and 64-bit pre OS environment
 \item C language programming
 \item Backward and forward compatability \footnote{UEFI, from: Osdev, \today}
-
 \end{itemize}
-
