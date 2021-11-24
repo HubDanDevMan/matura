@@ -1,6 +1,6 @@
 \section{The CPU}
 
-The Processor (Central Processing Unit) is often reffered to as the brain of a computer. On the
+The Processor (Central Processing Unit) is often referred to as the brain of a computer. On the
 lowest level, it is made of circuits with thousands or up to billions of transistors. In
 essence, a CPU reads and writes data to memory and performs operations on it based on the
 instructions it receives. There are many different architectures and processor families but
@@ -62,7 +62,7 @@ Now that we have a basic understanding of the component, let us look at a possib
 	\begin{tabular} { | c | c | c | }
 	        Instruction name & Argument & Encoding \\
 	        \hline
-	        LOAD & \textless NUMBER\textgreater & 0x0F $\textless XX\textgreater$  \\
+	        LOAD & $\textless NUMBER\textgreater$ & 0x0F $\textless XX\textgreater$  \\
 	        LOADADDR & $\textless ADDRESS\textgreater$ & 0x0E $\textless XX\textgreater$  \\
 	        ADD & $\textless NUMBER\textgreater$ & 0x7C $\textless XX\textgreater$  \\
 	        STORE & $\textless ADDRESS\textgreater$ & 0xE1 $\textless XX\textgreater$ 
@@ -162,10 +162,9 @@ divided into two categories:
 \begin{itemize}
 \item Electrically addressed systems such as ROM, which are generally fast but are expensive and
 have a limited capacity. 
-\item Mechanically addressed systems, which are cheaper per bit but slower. 
+\item Mechanically addressed systems, which are cheaper per bit but slower. \footnote{Memory, from: Javapoint, \today }
 \end{itemize}
 
-\footnote{Memory, from: Javapoint, \today}
 
 
 \subsection{Jumps and subroutines}
@@ -263,7 +262,7 @@ single sign-bit, all the bits are flipped and act as “extended” sign bits an
 from the number. This means that 0b11111111 is -1 and 0b10000000 is -128. This also voids the issue 
 of multiple zeros and means that a 8 bit register can contain the numbers between -128 and 127. 
 A programer can also declare that he wishes to use an \textit{unsigned value}. The compiler will generate
-machine code that treats the value as purely positive, no matter the sign bits. \footnote{Negative Numbers, from: Binaryhakka, \todayl}
+machine code that treats the value as purely positive, no matter the sign bits. \footnote{Negative Numbers, from: Binaryhakka, \today }
 
 
 
