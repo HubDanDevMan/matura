@@ -8,32 +8,32 @@ from one operating system to another and the names are also not standardized. Th
 categorisation consists of 5 different stages:
 
 \begin{itemize}
-\item Start: \\
+\item \texttt{Start}: \\
 	The original state in which a process is first initiated in. The kernel will assign a \textit{process identifier (PID)},
 	usually a number. The PID is used to differnetiate between multiple processes. In this stage, the kernel will load the
 	process instructions and data into memory.
-\item Ready: \\
+\item \texttt{Ready}: \\
 .	Processes will enter this state after the start state. The process is fully loaded in memory and is waiting for its \textit{time slice}.
 		A time slice is a moment of usually a few microseconds where the process is actualy being run on the CPU. The \texttt{READY} state
 		is also assigned to processes that already reached the running state but have not yet finished.
-\item Running:
+\item \texttt{Running}: \\
 In this state the process has been assigned the CPU by the OS scheduler and executes its instructions. The process is currently in his time slice
 and will stay there until it gets interrupted. The kernel will program a timer, usually a coprocessor, that counts down from a value defined by
 		the kernel and will send an interrupt request to the kernel when the timer reaches 0. The kernel will run the timer interrupt handler
 		that reconfigures the timer and change the process. Changing the process is also called \textit{context switch} and it involves
 		saving the values in the registers, storing them in a dedicated area in RAM and changing the processes state from running to ready.
 		The process that is replacing the previous process will have its registers restored from RAM and its state changed to \texttt{RUNNING}.
-\item Waiting: \\
+\item \texttt{Waiting}: \\
 This is the stage in which the process is waiting for a resource such as opening a file. A file must be loaded from disk and this can take a bit of time.
 During the stage of waiting, the process is unable to do other things and there is no point in the process occupying the CPU. This state is similar
 to the \texttt{READY} state but the deciding factor in which the process will resume execution is not a signal by the timer but rather another hardware
 signal, in the case of waiting for a file this signal is an interrupt from the hard disk that the content has been loaded into memory and ready. When
 the kernel notices the interrupt of the storage device, it will check which process requested the file or another resource and put the process back into
 the \texttt{RUNNING} state. Other examples of waiting for a resource are key input, mouse input and an internet packet.
-\item Exit/Terminate: \\
+\item \texttt{Exit/Terminate}: \\
 This is the last state a process enters when it has finished with its execution. The processes instruction and data are then removed
 from main memory. The operating system will free potential resources that are held by a process such as open files or allocated memory on the
-heap.\footnote{Processes, from: Medium, \today}
+heap\footnote{Processes, from: Medium, \today }.
 
 \end{itemize}
 
@@ -88,11 +88,11 @@ other task. For example, a web browser can check for user input with one thread,
 check for grammar errors on a third thread and make backups on a fourth thread. Each thread has its own set of registers
 and a stack but all threads share the same files, code and data. Modern CPUs have multiple cores meaning that they have
 multiple processing units that allow multiple threads to do parallel processing because each thread is strictly
-related to one processing unit\footnote{ Multithreading on multiple cores, from: Askingalot, retrieved \today}. This type of programming that uses threads to complete mutliple tasks
+related to one processing unit\footnote{ Multithreading on multiple cores, from: Askingalot, retrieved \today }. This type of programming that uses threads to complete multiple tasks
 in parallel is reffered to as multi-threading and this benefits four main categories:
 
 \begin{itemize}
-\item Sclalability: \\
+\item Scalability: \\
 
 Multi-threading allows programmers to utilize multiple CPU cores for a single process as opposed to single
 thread processes which can only utilize a single CPU core. This scales well on servers that have processors
@@ -113,13 +113,13 @@ Multi-threaded processes can much faster than single thread processes. Managing 
 \item Resource sharing: \\
 
 Threads share their recources amongst each other allowing for tasks to be completed in parallel in a
-<<<<<<< HEAD
+
 		single adress space. This is a great alternative to having separate processes and having \textit{inter-process communication (IPC)}
 		which is often slower than thread shared memory.
 		\footnote{Threads, from: Uic \today }
-=======
-single adress space. \footnote{Threads, from: Uic \today}
->>>>>>> 9b37b3399fe78f00180157655b6c875cbcf369ed
+
+single adress space. \footnote{Threads, from: Uic \today }
+
 
 \end{itemize}
 
@@ -166,23 +166,6 @@ In unix-like systems, daemon processes usually end with the letter "d" for examp
 a job scheduler for background processes. In Unix systems, there is also a special daemon from which all
 other daemons spawn, namely the init daemon. The init daemon is the first process to be started at system boot 
 and depending on configuration places the system in single user mode or spawns a login shell for other users. \footnote{Verma: Unix, (2006) P. 84 }
-
-
-
-
-
-
-
-
-%stuff:
-%[^proc1]: https://medium.com/@imdadahad/a-quick-introduction-to-processes-in-computer-science-271f01c780da
-%[^proc2]: https://www.cs.uic.edu/~jbell/CourseNotes/OperatingSystems/4_Threads.html 
-%[^proc3]: https://www.tutorialspoint.com/operating_system/os_processes.htm
-%[^proc4]: https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2003/cc783643(v=ws.10)?redirectedfrom=MSDN
-%[^proc5]: https://books.google.ch/books?id=JhS-TkW0tOYC&pg=PA84&redir_esc=y#v=onepage&q&f=false
-
-
-
 
 
 
