@@ -1,8 +1,8 @@
 \section{User interfaces}
 
 Most definitely, every reader has interacted with a computer before. But most likely there was no
-direct interaction between the user and the kernel. Not only is it tedious to interact with the kernel but
-it is also extremely time consuming. This is where user interfaces (UIs) come to help.
+direct interaction with the kernel. Not only is it tedious to interact with the kernel but also
+extremely time consuming. This is where user interfaces (UIs) come to help.
 
 \subsection{The shell}
 
@@ -12,7 +12,7 @@ with a desktop and a taskbar where programs can be started by clicking on the ic
 graphical windows that can be moved around with a mouse or a trackpad. Fortunately for users GUIs
 hide away a lot of the complexity of the OS. Users might think that their browser such as Chrome or
 Firefox is the only program that is running when they click their browsers icon in the taskbar. But
-in actuallity many other programs are already running before users even get to see their desktops taskbar,
+actually many other programs are already running before users even get to see their desktops taskbar,
 let alone their login screen. Traditionally computers were accessed using a \textit{command line interface}
 (CLI) that only provide monospaced character output, sometimes even only in monochrome, meaning one
 color on black background. CLIs don't use a lot of system resources. This is due to the fundamental
@@ -20,7 +20,7 @@ difference in architecture between GUIs and CLIs.
 
 \subsection{Windowing systems and GUIs}
 
-GUIs are made of programs that facilitate windows, icons, menus and pointing of the cursor. One of 
+GUIs are made of programs that facilitate windows, icons, menus and pointing with a cursor. One of 
 its components is a program called the \textit{display server}. It is responsible for the communication between
 all the programs that have a graphical output. This communication occurs through a \textit{display server protocol}
 and the programs communicating with the display server are its clients. In windowing systems every
@@ -33,7 +33,11 @@ composits the windows, namely a \textit{window manager}. The window manager, as 
 draws the windows and their borders and may add effects such as transparency or gaussian blur. It will
 factor in the Z-order which is the ordering of windows from back to front and draw the windows in to a 
 frame buffer accordingly. As a last step it will also draw the cursor at the cursor position.
-\includegraphics{displayserver.png}
+\begin{figure}
+\begin{centering}
+\includegraphics[width=15cm]{displayserver.png}
+\end{centering}
+\end{figure}
 
 \subsubsection{Rendering}
 Every program is responsible for rendering its own window buffer. This includes but is not limited to:
@@ -145,7 +149,7 @@ However, it was quickly overtaken by a new protocol due to its unencrypted natur
 SSH works similar to telnet in a sense of accessing a remote computer. A user can log in to a different
 computer running a textit{SSH server} by using a \textit{SSH client}. Unlike telnet, SSH encrypts all internet traffic,
 which is crucial when sending passwords over a network. SSH has become a standard today and is widely used to
-manage server computers on both local and wide-area networks. \footnote{Secure shell from: CMU, \today}
+manage server computers on both local and wide-area networks. \footnote{Secure shell from: CMU, \today }
 
 \subsubsection{Remote Desktop}
 
@@ -153,4 +157,4 @@ Many programs (such as web browsers) exist only in \textit{graphical mode} and d
 However, remote access can also be served in a graphical format. The protocol differs greatly from SSH because
 it must additionaly support mouse input and screen output. On the host machine, the display server redirects
 the framebuffer output to the client. The client consistently sends keystrokes and mouse events to the display
-server. Example of such protocols is the \textit{Remote Desktop Protocol (RDP}.
+server. Example of such protocols is the \textit{Remote Desktop Protocol (RDP)}.
