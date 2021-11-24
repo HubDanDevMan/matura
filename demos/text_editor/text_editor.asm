@@ -2,7 +2,8 @@ jmp main
 
 %include "keyboard/keyboard.asm"
 %include "library.asm"
-%define BUFFER_LENGTH 255
+%define BUFFER_LENGTH 0x200
+cursor: resb 1
 
 main:
 call clear_screen
@@ -10,6 +11,8 @@ call clear_screen
 mov esi, buffer					;move the memory address of the beginning of the buffer into esi
 
 key_loop:
+	
+
 	call getKey				;get key
 
 	cmp al, 0x01				;esc key sets the text editor into command mode
@@ -33,6 +36,7 @@ key_loop:
 	mov byte [esi], al			;move input at cursor location into the buffer
 	call printBuffer			;prints buffer
 	inc esi
+	mov [cursor], esi
 	jmp key_loop				;repeat
 
 	
