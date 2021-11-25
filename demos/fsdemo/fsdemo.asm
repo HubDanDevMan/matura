@@ -1,4 +1,8 @@
 jmp __prog
+
+%include "library.asm"
+
+
 struc inode_t
 fname: resb 16
 size: resw 1
@@ -24,22 +28,6 @@ SUPERBLOCK: resb 32 * INODE_SIZE
 	add edi, SUPERBLOCK
 	add edi, %1
 %endmacro
-
-; mov esi, source
-; mov edi, dest
-; mov ecx, count
-strncpy:
-	mov al, byte [esi]
-	cmp al, 0
-	je .done
-	dec ecx
-	jz .done
-	mov byte [edi], al
-	inc esi
-	inc edi
-	jmp strncpy
-	.done:
-	ret
 
 ; The following functions are used for mapping a LBA (Logical Block Addressing)
 ; to CHS Addressing and vice versa
@@ -87,7 +75,6 @@ LBAtoCHS:
 
 	; ESI clobbered
 
-	; returns 63 for some reason??
 	; Get head value
 	mov eax, edi		; copy LBA number
 	mov ecx, SPT 
@@ -102,7 +89,7 @@ LBAtoCHS:
 	push edx		
 
 	; Get Sector number
-	mov eax, edx		; copy LBA (Now in edx)
+	mov eax, edi		; copy LBA 
 	mov edi, SPT
 
 	xor edx, edx
@@ -146,6 +133,20 @@ mapCHS:
 	shl dx, 8	; effectively mov dl (H) to dh and clear dl 
 
 	xor eax, eax		; return SUCCESS
+
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+	nop
+
+
 	ret
 
 ; moves the packed CHS address in cx and dh into esi(c),edx(h),ecx(s)
@@ -185,6 +186,7 @@ toLBA:
 	; HEAD
 	mov di, dx		; copy head number to edi
 	and di, 0xff00
+	shr di, 8
 
 	; SECTOR
 	mov esi, ecx
@@ -202,7 +204,7 @@ toLBA:
 	dec eax			; decrement by 1
 
 	;cmp eax, 		; check 
-	jb .noErr
+	jmp .noErr
 	xor eax, eax		; return -1
 	dec eax
 	.noErr:
@@ -219,12 +221,12 @@ __prog:
 	; edx = H
 	; ecx = S
 
-mov edi, 0
+mov edi, 16127
 call LBAtoCHS
-; ecx = C
+
 push ecx
 push edx
-; print C
+
 mov eax, esi
 mov edi, chexbuf
 call formatHex
@@ -232,11 +234,34 @@ call formatHex
 pop eax
 mov edi, hhexbuf
 call formatHex
+
 pop eax
 mov edi, shexbuf
 call formatHex
+
+
+
+
+
+;maps (esi,edx,ecx) tuple to correct position in ch, cl and dh
+
+mov esi, 0xf
+mov edx, 0xf
+mov ecx, 0x3f
+
+call mapCHS
+call toLBA
+
+
+mov edi, lbabuff
+call formatHex
+
+
+
 mov esi, strbuf
-call printBuf
+call printBuff
+
+
 
 
 
@@ -257,45 +282,15 @@ hexdump:
 	loop hexdump
 	ret
 
-formatHex:
-	mov dl, al
-	and dl, 0xF0
-	shr dl, 4
-	cmp dl, 0xa
-	jl .noAdd
-	add dl, 0x07
-	.noAdd:
-	add dl, 0x30
-	mov byte [edi], dl
-	and al, 0x0F 
-	cmp al, 0x0a
-	jl .noAdd2
-	add al, 0x07
-	.noAdd2:
-	add al, 0x30
-	inc edi
-	mov byte [edi], al
-	ret
-
-; mov esi, strbuf
-printBuf:
-	mov edi, 0xb8000
-	.repprint:
-	mov dl, byte[esi]
-	mov byte [edi], dl
-	inc esi
-	add edi, 2
-	cmp byte [esi], 0
-	jne .repprint
-	ret
-
-
+	
 strbuf: db "Cylinders: 0x"
 chexbuf: times 67 db " "
 db "Heads: 0x"
 hhexbuf: times 71 db " "
 db "Sectors: 0x"
 shexbuf: times 70 db " "
+db "LBA: 0x"
+lbabuff: times 60 db " "
 db 0
 
 END_PADDING
