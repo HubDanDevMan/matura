@@ -14,7 +14,7 @@ mov edi, 0xb8001
 
 key_loop:
 	
-	mov byte [edi], 0x30
+	mov byte [edi], 0xf0
 
 	call getKey				;get key
 
@@ -40,8 +40,8 @@ key_loop:
 	call printBuffer			;prints buffer
 	inc esi
 
-	;mov byte [edi], 0x00
-	;add edi, 2
+	mov byte [edi], 0x0f
+	add edi, 2
 
 	
 	jmp key_loop				;repeat
@@ -54,8 +54,8 @@ key_loop:
 	call shiftBufferLeft			;move all characters right of the deleted characters one to the left
 	call printBuffer
 
-	mov dl, 2
-	sub [cursor], dl
+	mov byte [edi], 0x0f
+	sub edi, 2
 	
 	jmp key_loop
 
@@ -66,19 +66,36 @@ key_loop:
 	
 	
 	enter:
+	mov eax, edi
+	sub eax, 0xb8000
+	mov ebx, 2*LINE_WIDTH
+	div bx
+	add ax, 1
+	and eax, 0x0000ffff
+	mul bx
+	add eax, 0xb800
+	
+	mov byte [edi], 0x0f
+	mov edi, eax
+	
+
 	call shiftBufferRight
 	mov byte [esi], 0x0a
 	call clear_screen
 	call printBuffer
 	inc esi
 
-	mov eax, [cursor]
-	mov ebx, 2*LINE_WIDTH
-	div bx
-	add ax, 1
-	and eax, 0x0000ffff
-	mul bx
-	mov [cursor], ax
+	;mov eax, edi
+	;sub eax, 0xb8000
+	;mov ebx, 2*LINE_WIDTH
+	;div bx
+	;add ax, 1
+	;and eax, 0x0000ffff
+	;mul bx
+	
+	;mov byte [edi], 0x0f
+	;add edi, eax
+	
 	
 	jmp key_loop
 	
@@ -93,6 +110,9 @@ key_loop:
 	je key_loop
 	dec esi
 	
+	mov byte [edi], 0x0f
+	sub edi, 2
+
 	jmp key_loop
 	
 	
@@ -101,6 +121,9 @@ key_loop:
 	je key_loop			;prevents the cursor from moving to far to the right
 	inc esi
 	
+	mov byte [edi], 0x0f
+	add edi, 2
+
 	jmp key_loop
 
 	
