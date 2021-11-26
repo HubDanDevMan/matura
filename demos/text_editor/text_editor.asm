@@ -3,6 +3,7 @@ jmp main
 %include "keyboard/keyboard.asm"
 %include "library.asm"
 %define BUFFER_LENGTH 0x200
+%define LINE_WIDTH 80
 cursor: resb 1
 
 main:
@@ -36,7 +37,8 @@ key_loop:
 	mov byte [esi], al			;move input at cursor location into the buffer
 	call printBuffer			;prints buffer
 	inc esi
-	mov [cursor], esi
+	;mov [cursor], esi
+	
 	jmp key_loop				;repeat
 
 	
@@ -46,30 +48,48 @@ key_loop:
 	dec esi
 	call shiftBufferLeft			;move all characters right of the deleted characters one to the left
 	call printBuffer
+	
 	jmp key_loop
 
+	
 	tab:
+	
 	jmp key_loop
+	
 	
 	enter:
+	call shiftBufferRight
+	mov byte [esi], 0x0a
+	call clear_screen
+	call printBuffer
+	inc esi
+	
 	jmp key_loop
 	
+
 	up:
+	
 	jmp key_loop
+	
 	
 	left:
 	cmp esi, buffer			;checks if the cursor is already at the beginning of the text
 	je key_loop
 	dec esi
+	
 	jmp key_loop
+	
 	
 	right:
 	cmp byte [esi], 0		;checks if the cursor is already at the end of the text
 	je key_loop			;prevents the cursor from moving to far to the right
 	inc esi
+	
 	jmp key_loop
 
+	
 	down:
+	
 	jmp key_loop
 
 
@@ -113,6 +133,27 @@ printBuffer:				;prints entire buffer again
 
 	.printLoop:
 	mov al, byte [esi]		;print character in buffer to screen
+	cmp al, 0x0a
+	jne .noNewLine
+	; newline in buffer
+
+	xor eax, eax
+	xor edx, edx
+	sub edi, 0xb8000
+	mov eax, edi
+	add edi, 0xb8000
+	mov ebx, 2*LINE_WIDTH
+	div bx
+	and edx, 0x0000ffff
+	mov eax, 2*LINE_WIDTH
+	sub eax, edx
+	;mov ebx, 2
+	;mul bx
+	add edi, eax
+	inc esi
+	jmp .printLoop
+	
+	.noNewLine:
 	mov byte [edi], al
 	inc esi
 	add edi, 2
