@@ -10,9 +10,11 @@ main:
 call clear_screen
 
 mov esi, buffer					;move the memory address of the beginning of the buffer into esi
+mov edi, 0xb8001
 
 key_loop:
 	
+	mov byte [edi], 0x30
 
 	call getKey				;get key
 
@@ -37,7 +39,10 @@ key_loop:
 	mov byte [esi], al			;move input at cursor location into the buffer
 	call printBuffer			;prints buffer
 	inc esi
-	;mov [cursor], esi
+
+	;mov byte [edi], 0x00
+	;add edi, 2
+
 	
 	jmp key_loop				;repeat
 
@@ -48,6 +53,9 @@ key_loop:
 	dec esi
 	call shiftBufferLeft			;move all characters right of the deleted characters one to the left
 	call printBuffer
+
+	mov dl, 2
+	sub [cursor], dl
 	
 	jmp key_loop
 
@@ -63,6 +71,14 @@ key_loop:
 	call clear_screen
 	call printBuffer
 	inc esi
+
+	mov eax, [cursor]
+	mov ebx, 2*LINE_WIDTH
+	div bx
+	add ax, 1
+	and eax, 0x0000ffff
+	mul bx
+	mov [cursor], ax
 	
 	jmp key_loop
 	
@@ -147,8 +163,6 @@ printBuffer:				;prints entire buffer again
 	and edx, 0x0000ffff
 	mov eax, 2*LINE_WIDTH
 	sub eax, edx
-	;mov ebx, 2
-	;mul bx
 	add edi, eax
 	inc esi
 	jmp .printLoop
@@ -165,6 +179,7 @@ nop
 nop
 nop
 	.continue:
+	
 
 	pop esi
 	pop edi
@@ -239,9 +254,6 @@ shiftBufferLeft:
 
 	ret
 
-
-shutdownTextEditor:
-	call shutdown
 
 
 buffer: times BUFFER_LENGTH db 0
