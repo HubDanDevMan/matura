@@ -121,9 +121,6 @@ LBAtoCHS:
 
 ;maps (esi,edx,ecx) tuple to correct position in ch, cl and dh
 mapCHS:
-	; mov esi, 0xf
-	; mov edx, 0xf  	
-	; mov ecx, 0x3f 	
 
 	mov ax, 0b0000_0011_0000_0000 ; isolate cylinder number with bitmask 
 	and ax, si ; ax contains bit 8 and 9 of cylinder in bit 6 and 7
@@ -143,21 +140,18 @@ mapCHS:
  unmapCHS:
  	; set bitmask for ecx 
 
-	; mov esi, 0xf 
-	; mov edx, 0xf 
-	; mov ecx, 0x3f
+	xor esi, esi
 
 	; Cylinder ch + cl[6-7]
- 	mov eax, 0b0000_0000_1100_0000
+ 	mov eax, 0b0000_0000_0000_0000_0000_0000_1100_0000
 	and eax, ecx
 	shl eax, 2
 	mov al, ch
 	mov esi, eax
 
-	; sector
-	mov cl, ch
-	and cl, 0b0011_1111	; bitmask bit 0-5
-
+	; sector 
+	and ecx, 0b0000_0000_00000_0000_0000_0000_0011_1111	; bitmask bit 0-5
+	
 	; head
 	shr dx, 8	; shift head number in dh to dl and clear dh
 	xor dh, dh
@@ -242,7 +236,7 @@ call formatHex
 
 ;maps (esi,edx,ecx) tuple to correct position in ch, cl and dh
 
-mov esi, 0xf
+mov esi, 0x13
 mov edx, 0xf
 mov ecx, 0x3f
 
@@ -250,44 +244,12 @@ call mapCHS
 ;call toLBA
 
 
-nop
-nop
-nop
 call unmapCHS
-nop
-nop
-nop
-
-cmp esi, 0x0f
-jne esigood
-mov ah, 0x0e
-mov al, "0"
-int 0x10
-esigood:
-cmp edx, 0x0f
-jne edxgood
-mov ah, 0x0e
-mov al, "1"
-int 0x10
-edxgood:
-cmp ecx, 0x3f
-jne ecxgood
-xor bx, bx
-mov ah, 0x0e
-mov al, "2"
-int 0x10
-ecxgood:
-
-mov ah, 0x0e
-mov al, "Y"
-int 0x10
-;mov edi, lbabuff
-;call formatHex
 
 
 
-;mov esi, strbuf
-;call printBuff
+mov esi, strbuf
+call printBuff
 
 
 
