@@ -56,6 +56,8 @@ key_loop:
 
 	mov byte [edi], 0x0f
 	sub edi, 2
+
+
 	
 	jmp key_loop
 
@@ -66,36 +68,32 @@ key_loop:
 	
 	
 	enter:
-	mov eax, edi
-	sub eax, 0xb8000
-	mov ebx, 2*LINE_WIDTH
-	div bx
-	add ax, 1
-	and eax, 0x0000ffff
-	mul bx
-	add eax, 0xb800
-	
 	mov byte [edi], 0x0f
-	mov edi, eax
-	
+	xor edx, edx
 
-	call shiftBufferRight
-	mov byte [esi], 0x0a
-	call clear_screen
-	call printBuffer
+	mov eax, edi				
+	sub eax, 0xb8000			;get position of cursor
+	mov bx, 2*LINE_WIDTH
+	div bx					;get line of cursor
+	inc ax
+	and eax, 0x0000ffff
+
+	mov bx, 2*LINE_WIDTH
+	mul bx					;multiply line (+1) with LINE_WIDTH to get the position of the next line
+	add eax, 0xb8000		
+	
+	mov edi, eax				;cursor moved to next line
+	inc edi
+	
+	call shiftBufferRight			;make space for 0x0a
+	mov byte [esi], 0x0a			;marks new line for the printBuffer function
+
+	push edi
+	call clear_screen			
+	pop edi
+
+	call printBuffer			
 	inc esi
-
-	;mov eax, edi
-	;sub eax, 0xb8000
-	;mov ebx, 2*LINE_WIDTH
-	;div bx
-	;add ax, 1
-	;and eax, 0x0000ffff
-	;mul bx
-	
-	;mov byte [edi], 0x0f
-	;add edi, eax
-	
 	
 	jmp key_loop
 	
@@ -109,7 +107,13 @@ key_loop:
 	cmp esi, buffer			;checks if the cursor is already at the beginning of the text
 	je key_loop
 	dec esi
+	cmp byte [esi], 0x0a
+	jne .noNewLineCursor
+
 	
+
+
+	.noNewLineCursor:
 	mov byte [edi], 0x0f
 	sub edi, 2
 
@@ -212,6 +216,7 @@ nop
 
 shiftBufferRight:
 
+	push esi
 	xor ecx, ecx
 	dec cx				;sets cx and esi to minus one so that the first loop doesnt affect them (in case that there are no characters on the right) 
 	dec esi
@@ -243,6 +248,8 @@ shiftBufferRight:
 	dec esi				;only go one space back where the new character can be printed
 
 	.continue:
+
+	pop esi
 
 	ret
 
@@ -277,6 +284,25 @@ shiftBufferLeft:
 
 	ret
 
+EformatHex:
+	pusha
+	mov cx, 8
+	; copy top most bit to dl
+	.get_top_nibble:
+	rol eax, 4
+	mov dl, al
+	and dl, 0x0F	; clear higher nibble of dl
+	; convert to hex representation in ASCII
+	add dl, 0x30
+	cmp dl, "9"	; if the number is greater than Ascii 9 (0x39), it would turn it to a character, "A"=0x41 
+	jle .noAdd
+	add dl, 0x07 	; turns 9 to ascii "9" and 10 to ascii "A"
+	.noAdd:
+	mov byte [edi], dl
+	add edi, 2
+	loop .get_top_nibble
+	popa
+	ret
 
 
 buffer: times BUFFER_LENGTH db 0
