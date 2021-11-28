@@ -55,7 +55,7 @@ shutdown:
 clear_screen:
 	mov edi, 0xb8000
 	mov ecx, 0
-	mov al, " "
+	mov al, 0
 	.clear_screen_loop:
 	mov [edi], al
 	inc ecx

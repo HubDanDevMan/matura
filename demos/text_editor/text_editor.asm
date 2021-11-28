@@ -51,21 +51,49 @@ key_loop:
 	cmp esi, buffer
 	je key_loop
 	dec esi
+	mov byte [edi], 0x0f
+
+	cmp byte [esi], 0x0a
+	jne .noNewLineBackspace
+
+	cmp byte [esi-1], 0x0a
+	je .multipleEnter
+
+	dec edi
+	.findCursorBackspace:
+	sub edi, 2
+	;cmp byte [edi], " "
+	;je .findCursorBackspace
+	cmp byte [edi], 0
+	je .findCursorBackspace
+
+	add edi, 3
+
 	call shiftBufferLeft			;move all characters right of the deleted characters one to the left
 	call printBuffer
-
-	mov byte [edi], 0x0f
-	sub edi, 2
-
-
 	
 	jmp key_loop
 
+	.multipleEnter:
+	sub edi, 158
+
+	.noNewLineBackspace:
+	sub edi, 2
+
+	call shiftBufferLeft			;move all characters right of the deleted characters one to the left
+	call printBuffer
+
+	jmp key_loop
+
 	
+
+
 	tab:
 	
 	jmp key_loop
 	
+
+
 	
 	enter:
 	mov byte [edi], 0x0f
@@ -98,34 +126,72 @@ key_loop:
 	jmp key_loop
 	
 
+
+
 	up:
 	
 	jmp key_loop
-	
-	
+
+
+
+
 	left:
 	cmp esi, buffer			;checks if the cursor is already at the beginning of the text
 	je key_loop
 	dec esi
-	cmp byte [esi], 0x0a
-	jne .noNewLineCursor
-
-	
-
-
-	.noNewLineCursor:
 	mov byte [edi], 0x0f
+
+	cmp byte [esi], 0x0a
+	jne .noNewLineLeft
+	cmp byte [esi-1], 0x0a
+	je .multipleEnterLeft
+
+	dec edi
+	.findCursorLeft:
+	sub edi, 2
+	;cmp byte [edi], " "
+	;je .findCursorLeft
+	cmp byte [edi], 0
+	je .findCursorLeft
+
+	add edi, 3
+	jmp key_loop
+
+	.multipleEnterLeft:
+	sub edi, 158
+
+	.noNewLineLeft:
 	sub edi, 2
 
 	jmp key_loop
-	
+
+
+
 	
 	right:
 	cmp byte [esi], 0		;checks if the cursor is already at the end of the text
 	je key_loop			;prevents the cursor from moving to far to the right
+	mov byte [edi], 0x0f
+	cmp byte [esi], 0x0a
+	jne .noNewLineRight
+
+	inc esi
+	xor dx, dx
+	mov eax, edi
+	sub eax, 0xb8000
+	mov bx, 2*LINE_WIDTH
+	div bx
+	inc ax
+	mul bx
+	add eax, 0xb8000
+	mov edi, eax
+	inc edi
+
+	jmp key_loop
+
+	.noNewLineRight:
 	inc esi
 	
-	mov byte [edi], 0x0f
 	add edi, 2
 
 	jmp key_loop
@@ -229,6 +295,8 @@ shiftBufferRight:
 	cmp cx, 0 			;if there are no characters on the right side dont shitft them
 	je .continue
 	dec esi
+	cmp cx, 1
+	je .lastShift
 
 	.shiftLoop:
 	mov dl, byte [esi]	
@@ -256,7 +324,7 @@ shiftBufferRight:
 
 shiftBufferLeft:
 
-	push edi
+	push edi			;push edi because of clear_screen
 	push esi
 
 	.shiftLoopLeft:
@@ -282,26 +350,6 @@ shiftBufferLeft:
 	pop esi
 	pop edi
 
-	ret
-
-EformatHex:
-	pusha
-	mov cx, 8
-	; copy top most bit to dl
-	.get_top_nibble:
-	rol eax, 4
-	mov dl, al
-	and dl, 0x0F	; clear higher nibble of dl
-	; convert to hex representation in ASCII
-	add dl, 0x30
-	cmp dl, "9"	; if the number is greater than Ascii 9 (0x39), it would turn it to a character, "A"=0x41 
-	jle .noAdd
-	add dl, 0x07 	; turns 9 to ascii "9" and 10 to ascii "A"
-	.noAdd:
-	mov byte [edi], dl
-	add edi, 2
-	loop .get_top_nibble
-	popa
 	ret
 
 
