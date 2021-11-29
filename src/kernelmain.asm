@@ -10,7 +10,7 @@
 
 ; sets up interrupts and exception handling
 %include "src/interrupts.asm"
-
+%include "src/filesystem.asm"
 
 
 jmp skip_includes
@@ -19,8 +19,8 @@ jmp skip_includes
 ; explicitly.
 
 ; allows kernel code to call string formatting functions
-%include "src/formats.asm"
-
+;%include "src/formats.asm"
+%include "./demos/library.asm"		; library functions
 
 
 skip_includes:
@@ -30,7 +30,7 @@ skip_includes:
 
 
 mov esi, startupgreet
-call printStringBuf
+call printBuff
 
 
 
