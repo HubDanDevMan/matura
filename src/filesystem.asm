@@ -95,8 +95,90 @@ align 512, db 0xff	; rest sectors are free
 ; SB_CACHE(3, size) will get us the size of Inode 3
 %define SB_CACHE(_inode, x) SUPERBLOCK_START + _inode*18 + Inode. %+ x
 
+;esi = buffer location, data source address
+;edi = filename string pointer
+;ecx = file size in bytes !!! MUST BE ACCURATE !!!
+writeFile:
+	; store data in variables
+	jmp skipVars
+	resd fname, db 0
+	resd filesrcbuff, db 0
+	resd fsize, db 0
+	skipVars:
+	mov [fname], esi
+	mov [filesrcbuff], edi
+	mov [fsize], ecx
+	; find inode and check if file exists
+	; esi already contains filename
+	call findInodeByName
+	cmp eax, -1
+	jne .fileExist
+	; get free inode
+	call findFreeInode
+	.fileExists:
+	; eax = free inode or inode of existing file
+	mov ebx, SB_CACHE
+	shl eax, 5		; multiply by 32 to point to inode in superblock
+	add ebx, SB_CACHE	; EBX points to the
+	mov edx, [ebx + FILENAME_MAX_LENGTH]
+	; edx contains old file size or 0
+	or edx, edx
+	jnz .fileNotEmpty
+	; File is empty
+	; allocate sectors
+	mov ecx, dword [fsize]
+	call findBitChainIndex
+	; eax contains sector start address
+	; mark bitmap slice for new file as EMPTY
+	; check if enough space exists
+	cmp eax, -1		; set flags according to value in eax
+	jne .enoughSpace
+	; report error and return
+	iret			; returns with eax = -1
 
+	.enoughSpace:
 
+	push eax		; store eax
+	mov ebx, SB_CACHE
+	; calculate byte offset
+	xor edx, edx		; clear edx
+	mov edi, 8
+	div edi
+	.continueMarkBytes:
+	or eax, eax
+	jz .noBytes
+	mov [ebx+eax], 0xff	; mark bytes as USED
+	dec eax
+	jnz .continueMarkBytes
+	.noBytes:
+	
+; mark bits as EMPTY
+	inc eax			; make eax + ebx point to the byte in the bitmap that must only be set partially, is this necessary??????
+	mov cl, dl		; set up counter with remainder of div
+	mov edx, 0b1000_0000	; mask
+
+	mov eax, [fsize]	; get file size
+	xor edx, edx
+	mov edi, 8
+	div edi
+	.continueMarkBits:
+	or cl, cl
+	jz .noBits
+	or [ebx + eax + 1], dl
+	shr dl, 1		; set bit position to left and remask 
+	dec cl
+	jmp .continueMarkBits
+	.noBits:
+	; bits marked, writing possible
+
+	.fileNotEmpty:
+	; find sectors, check first if truncation is possible
+	
+	; no truncation possible
+
+	; write buffer to the disk
+readFile:
+	
 LBAtoCHS:
 ; SECTORS START AT 1, NOT 0
 	; 63 sectors per track
