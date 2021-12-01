@@ -62,8 +62,6 @@ key_loop:
 	dec edi
 	.findCursorBackspace:
 	sub edi, 2
-	;cmp byte [edi], " "
-	;je .findCursorBackspace
 	cmp byte [edi], 0
 	je .findCursorBackspace
 
@@ -129,7 +127,44 @@ key_loop:
 
 
 	up:
+	cmp edi, 0xb80a0
+	jb key_loop
 	
+	mov byte [edi], 0x0f
+	xor cx, cx
+	.searchForNewLineUp:
+	cmp byte [esi], 0x0a
+	je .newLineUp
+	dec esi
+
+	inc cx
+	cmp cx, 80
+	je noNewLineUp
+
+	jmp .searchForNewLineUp
+	
+	.newLineUp:
+	
+	;
+	;
+	;
+	;
+	;
+
+	sub edi, 158
+	dec edi
+	
+	moveCursorUp:
+	sub edi, 2
+	cmp byte [edi], 0
+	jne moveCursorUp
+
+	jmp key_loop
+	
+
+	noNewLineUp:
+	sub edi, 2*LINE_WIDTH
+
 	jmp key_loop
 
 
@@ -149,8 +184,6 @@ key_loop:
 	dec edi
 	.findCursorLeft:
 	sub edi, 2
-	;cmp byte [edi], " "
-	;je .findCursorLeft
 	cmp byte [edi], 0
 	je .findCursorLeft
 
@@ -191,7 +224,6 @@ key_loop:
 
 	.noNewLineRight:
 	inc esi
-	
 	add edi, 2
 
 	jmp key_loop
