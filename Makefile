@@ -1,5 +1,5 @@
 AS=nasm
-ASMFLAGS=-fbin -w+all -O1 -d MAX_SECTORS=8
+ASMFLAGS=-fbin -w+all -O1 -d MAX_SECTORS=32
 SRCDIR=src
 IF=kernelmain.asm
 OF=flamingos.bin

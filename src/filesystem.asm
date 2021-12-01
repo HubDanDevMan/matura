@@ -66,7 +66,8 @@ mov dl, 0x80 		; disk
 mov ebx, BM_CACHE
 
 
-
+; setup interrupt handlers for FILE_READ interrupt 0x50
+AddToIVT 0x50,readFile
 
 ; Inode layout
 
@@ -85,6 +86,11 @@ jmp FSsetupDone
 ; Create Superblock and superblock cache
 align 512, db 0x90		; map superblock to disk sector boundaries
 SB_CACHE: resb FILES_IN_SUPERBLOCK * INODE_SIZE
+db "file01.txt",0,0,0,0,0,0,0,0,0,0,0,0,0,0 
+; Size
+dd 0x00000001
+; LBA
+dd 10
 
 ;; Currently, SUPERBLOCK is 2 sectors in size
 align 1024, db 0
@@ -100,19 +106,19 @@ align 512, db 0xff	; rest sectors are free
 ;ecx = file size in bytes !!! MUST BE ACCURATE !!!
 writeFile:
 	; store data in variables
-	jmp skipVars
-	resd fname, db 0
-	resd filesrcbuff, db 0
-	resd fsize, db 0
-	skipVars:
-	mov [fname], esi
-	mov [filesrcbuff], edi
-	mov [fsize], ecx
+	jmp .skipVars
+	.fname: resd 1
+	.filesrcbuff: resd 1
+	.fsize: resd 1
+	.skipVars:
+	mov [.fname], esi
+	mov [.filesrcbuff], edi
+	mov [.fsize], ecx
 	; find inode and check if file exists
 	; esi already contains filename
 	call findInodeByName
 	cmp eax, -1
-	jne .fileExist
+	jne .fileExists
 	; get free inode
 	call findFreeInode
 	.fileExists:
@@ -126,7 +132,7 @@ writeFile:
 	jnz .fileNotEmpty
 	; File is empty
 	; allocate sectors
-	mov ecx, dword [fsize]
+	mov ecx, dword [.fsize]
 	call findBitChainIndex
 	; eax contains sector start address
 	; mark bitmap slice for new file as EMPTY
@@ -147,7 +153,7 @@ writeFile:
 	.continueMarkBytes:
 	or eax, eax
 	jz .noBytes
-	mov [ebx+eax], 0xff	; mark bytes as USED
+	mov byte [ebx + eax], 0xff	; mark bytes as USED
 	dec eax
 	jnz .continueMarkBytes
 	.noBytes:
@@ -157,7 +163,7 @@ writeFile:
 	mov cl, dl		; set up counter with remainder of div
 	mov edx, 0b1000_0000	; mask
 
-	mov eax, [fsize]	; get file size
+	mov eax, [.fsize]	; get file size
 	xor edx, edx
 	mov edi, 8
 	div edi
@@ -177,8 +183,59 @@ writeFile:
 	; no truncation possible
 
 	; write buffer to the disk
+
+; esi = filename
+; edi = buffer
 readFile:
+	push edi
+	call findInodeByName
+
+	cmp eax, -1
+	jne .fileExists
+	iret
+	.fileExists:
+	mov esi, SB_CACHE
+	shl eax, 5
+	add esi, eax				; esi points to inode
 	
+
+	mov eax, [esi + FILENAME_MAX_LENGTH]
+	; calculate the  required sectors to write
+	xor edx, edx				; clear edx for disision
+	mov ebx, 512				; divide file size by number of sectors
+	div ebx
+	; sector count in eax
+	; remainder in edx
+	or edx, edx
+	je .noRemainder
+	inc eax					; add one to the sector write count
+	.noRemainder:
+	push eax
+	; EDX = LBA address
+	mov edi, [esi + FILENAME_MAX_LENGTH + FILE_DISK_LOCATION_SIZE]
+	call LBAtoCHS
+	cmp eax, -1
+	jne .validCHS
+	iret
+	.validCHS:
+	; if here, chs is set in registers
+	xor ax, ax
+	mov es, ax
+	pop ebx					; points to buffer
+	; write sector size to al
+	pop eax					; assuming less than 256 sequential sectors
+	mov ah, 0x2
+	mov dl, 0x80				; set disk number
+	int 0x13				; perform disk IO operation
+	jnc .success
+	mov eax, -1
+	iret
+	.success:
+	xor eax, eax
+	iret
+
+
+; mov edi, LBA
 LBAtoCHS:
 ; SECTORS START AT 1, NOT 0
 	; 63 sectors per track
