@@ -74,6 +74,7 @@ clear_screen:
 ;this function moves the length of a buffer (until it finds a zero) into cx
 ;move buffer (containing the string) into esi
 getStringLength:
+	;push cx
 	xor cx, cx
 
 	.loop:
@@ -85,7 +86,7 @@ getStringLength:
 	
 	.done:
 
-	pop cx
+	;pop cx
 
 	ret
 ;__________________________________________________________________________________________________________________________________________________________________________
